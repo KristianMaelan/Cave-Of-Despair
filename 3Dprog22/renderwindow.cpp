@@ -274,6 +274,10 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mMainWindow->close();       //Shuts down the whole program
     }
 
+    if (event->key() == Qt::Key_W)
+    {
+        mMainWindow->close();
+    }
     //You get the keyboard input like this
 //    if(event->key() == Qt::Key_A)
 //    {
