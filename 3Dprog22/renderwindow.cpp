@@ -103,7 +103,7 @@ void RenderWindow::init()
     //NB: hardcoded path to files! You have to change this if you change directories for the project.
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
-    mShaderProgram = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
+    mShaderProgram = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag"); // Joakim - Må vi endre denne?
 
 
     // Get the matrixUniform location from the shader
@@ -145,8 +145,14 @@ void RenderWindow::render()
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
-        (*it)->draw();
+        //(*it)->draw();
     }
+
+    // Joakim - test for å se om dette kan hjelpe, tegner x og y akse
+    //mObjects[300]->draw();
+    // Joakim - drawing cube
+    cube1.draw();
+
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
     mContext->swapBuffers(this);

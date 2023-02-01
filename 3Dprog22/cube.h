@@ -10,6 +10,9 @@ private:
 public:
     Cube();
     ~Cube() override;
+
+    void rotation();
+
     void init(GLint matrixUniform) override;
     void draw() override;
 };

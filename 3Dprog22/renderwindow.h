@@ -7,6 +7,7 @@
 #include <QElapsedTimer>
 #include <vector>
 #include "visualobject.h"
+#include "cube.h"
 
 class QOpenGLContext;
 class Shader;
@@ -68,6 +69,10 @@ private:
     void startOpenGLDebugger();
 
     std::vector<VisualObject*> mObjects;
+
+    // Joakim - definition for drawing cube
+    Cube cube1;
+
 
 protected:
     //The QWindow that we inherit from have these functions to capture
