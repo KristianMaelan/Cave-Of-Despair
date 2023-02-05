@@ -1,7 +1,8 @@
 #include "trianglesurface.h"
 
 TriangleSurface::TriangleSurface()
-{
+{    
+
     Vertex v0{0.0,0.0,0.0, 1,0,0};    mVertices.push_back(v0);
     Vertex v1(0.5,0.0,0.0, 0,1,0);    mVertices.push_back(v1);
     Vertex v2{0.5,0.5,0.0, 0,0,1};    mVertices.push_back(v2);
