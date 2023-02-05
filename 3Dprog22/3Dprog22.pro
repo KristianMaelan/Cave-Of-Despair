@@ -8,6 +8,7 @@ TARGET      = 3D-programmering
 SOURCES += main.cpp \
     cube.cpp \
     grapher.cpp \
+    interaction.cpp \
     logger.cpp \
     mainwindow.cpp \
     renderwindow.cpp \
@@ -20,6 +21,7 @@ SOURCES += main.cpp \
 HEADERS += \
     cube.h \
     grapher.h \
+    interaction.h \
     logger.h \
     mainwindow.h \
     renderwindow.h \

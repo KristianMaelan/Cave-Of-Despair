@@ -7,6 +7,8 @@
 #include <QElapsedTimer>
 #include <vector>
 #include "visualobject.h"
+#include "interaction.h"
+#include "cube.h"
 
 class QOpenGLContext;
 class Shader;
@@ -34,6 +36,12 @@ private slots:
 
 private:
     void init();            //initialize things we need before rendering
+
+
+    std::vector<VisualObject*> mObjects;
+
+    VisualObject* InteractiveObject;    // new object for interaction possibilities WIP
+    VisualObject* Comp1Cube;
 
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
     bool mInitialized{false};
@@ -66,8 +74,6 @@ private:
 
     ///Starts QOpenGLDebugLogger if possible
     void startOpenGLDebugger();
-
-    std::vector<VisualObject*> mObjects;
 
 protected:
     //The QWindow that we inherit from have these functions to capture

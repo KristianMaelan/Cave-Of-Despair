@@ -40,7 +40,16 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mRenderTimer = new QTimer(this);
 
     mObjects.push_back(new XYZ());
-    mObjects.push_back(new TriangleSurface());
+   //mObjects.push_back(new TriangleSurface());
+
+    // interaction with object
+    mObjects.push_back(new Interaction());
+    /*InteractiveObject = new Interaction;
+    mObjects.push_back(InteractiveObject);*/
+
+    // Askelad-cube
+    /*Comp1Cube = new Cube;
+    mObjects.push_back(Comp1Cube);*/
 }
 
 RenderWindow::~RenderWindow()
