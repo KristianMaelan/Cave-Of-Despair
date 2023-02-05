@@ -36,4 +36,5 @@ FORMS += \
 
 DISTFILES += \
     plainshader.frag \
-    plainshader.vert
+    plainshader.vert \
+    tempReadMeFile

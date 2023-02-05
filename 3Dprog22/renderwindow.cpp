@@ -44,12 +44,15 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // interaction with object
     //mObjects.push_back(new Interaction());
-    InteractiveObject = new Interaction;
-    mObjects.push_back(InteractiveObject);
+    // InteractiveObject = new Interaction;
+    // mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
     // Comp1Cube = new Cube;
-    mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
+    // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
+
+    // from tempReadMe, needs to be changed depending
+    mObjects.push_back(new TriangleSurface("C:/Users/saray/ADS_ExamFilesLocal/Comulsory-1/3Dprog22/tempReadMeFile.txt"));
 }
 
 RenderWindow::~RenderWindow()

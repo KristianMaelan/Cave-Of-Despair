@@ -13,8 +13,33 @@ TriangleSurface::TriangleSurface()
     mMatrix.setToIdentity();
 }
 
+TriangleSurface::TriangleSurface(std::string fileName)
+{
+    readFile(fileName);
+    mMatrix.setToIdentity();
+}
+
 TriangleSurface::~TriangleSurface()
 {
+
+}
+
+void TriangleSurface::readFile(std::string fileName)
+{
+    std::ifstream inn;
+    inn.open(fileName.c_str());
+
+    if (inn.is_open()) {
+        int n;
+        Vertex vertex;
+        inn >> n;
+        mVertices.reserve(n);
+        for (int i=0; i<n; i++) {
+             inn >> vertex;
+             mVertices.push_back(vertex);
+        }
+        inn.close();
+    }
 
 }
 // Parameternavnet er byttet ut fra leksjonen
