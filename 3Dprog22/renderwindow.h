@@ -34,6 +34,8 @@ private slots:
     void render();          //the actual render - function
 
 private:
+    VisualObject* cuberino;
+
     void init();            //initialize things we need before rendering
 
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
@@ -71,7 +73,7 @@ private:
     std::vector<VisualObject*> mObjects;
 
     // Joakim - definition for drawing cube
-    Cube cube1;
+    Cube cube1{};
 
 
 protected:

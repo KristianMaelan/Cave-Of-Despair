@@ -15,6 +15,7 @@
 #include "logger.h"
 #include "xyz.h"
 #include "trianglesurface.h"
+#include "cube.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -40,7 +41,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mRenderTimer = new QTimer(this);
 
     mObjects.push_back(new XYZ());
-    mObjects.push_back(new TriangleSurface());
+    // mObjects.push_back(new TriangleSurface());
+    cuberino = new Cube(0.5,0.5,0.5,1,0.5,0.5);
+    mObjects.push_back(cuberino);
 }
 
 RenderWindow::~RenderWindow()
@@ -145,13 +148,8 @@ void RenderWindow::render()
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
-        //(*it)->draw();
+        (*it)->draw();
     }
-
-    // Joakim - test for å se om dette kan hjelpe, tegner x og y akse
-    //mObjects[300]->draw();
-    // Joakim - drawing cube
-    cube1.draw();
 
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
@@ -284,6 +282,37 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         mMainWindow->close();
     }
+
+    if (event->key() == Qt::Key_D)
+    {
+        cuberino->move(0.0f, 0.0f, -0.1f); // Moves away from camera
+    }
+
+    if (event->key() == Qt::Key_U)
+    {
+        cuberino->move(0.0f, 0.0f, 0.1f); // Moves towards camera
+    }
+
+    if (event->key() == Qt::Key_Up)
+    {
+        cuberino->move(0.0f, 0.1f, 0.0f);
+    }
+
+    if (event->key() == Qt::Key_Down)
+    {
+        cuberino->move(0.0f, -0.1f, 0.0f);
+    }
+
+    if (event->key() == Qt::Key_Left)
+    {
+        cuberino->move(-0.1f, 0.0f, 0.0f);
+    }
+
+    if (event->key() == Qt::Key_Right)
+    {
+        cuberino->move(0.1f, 0.0f, 0.0f);
+    }
+
     //You get the keyboard input like this
 //    if(event->key() == Qt::Key_A)
 //    {

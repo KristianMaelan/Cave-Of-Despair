@@ -1,111 +1,138 @@
 #include "cube.h"
+#include "qevent.h"
 
 #include <iostream>
 
 Cube::Cube()
 {
-    // Joakim - Test1
-    /*
-    static const GLfloat g_vertex_buffer_data[] = {
-        -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f, // triangle 1 : end
-        1.0f, 1.0f,-1.0f, // triangle 2 : begin
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f, // triangle 2 : end
-
-        1.0f,-1.0f, 1.0f,   //3
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-
-        1.0f, 1.0f,-1.0f,   //4
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-
-        -1.0f,-1.0f,-1.0f,  //5
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-
-        1.0f,-1.0f, 1.0f,   //6
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-
-        -1.0f, 1.0f, 1.0f,  //7
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-
-        1.0f, 1.0f, 1.0f,   //8
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-
-        1.0f,-1.0f,-1.0f,   //9
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-
-        1.0f, 1.0f, 1.0f,   //10
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-
-        1.0f, 1.0f, 1.0f,   //11
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-
-        1.0f, 1.0f, 1.0f,   //12
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
-    };
-    */
+    // Joakim - Test3_Fungerer
 
     float x = 1.0f, y = 1.0f, z = 1.0f, r = 1.0f, g = 0.0f, b = 0.0f;
-    // Joakim - Test2       6 kvadrater : 12 triangler
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});  // Triangle 1 : begin
-    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
-    mVertices.push_back(Vertex{-x, y, z, r, g, b});    // Triangle 1 : end
-    mVertices.push_back(Vertex{x, y, -z, r, g, b});    // Triangle 2 : begin
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // Triangle 2 : end
-    mVertices.push_back(Vertex{x, -y, z, r, g, b});    // Triangle 3 : begin
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{x, -y, -z, r, g, b});   // Triangle 3 : end
-    mVertices.push_back(Vertex{x, y, -z, r, g, b});    // Triangle 4 : begin
+    // Front plane
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 1st
     mVertices.push_back(Vertex{x, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});  // Triangle 4 : end
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});  // Triangle 5 : begin
-    mVertices.push_back(Vertex{-x, y, z, r, g, b});
-    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // Triangle 5 : end
-    mVertices.push_back(Vertex{x, -y, z, r, g, b});    // Triangle 6 : begin
-    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
-    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});  // Triangle 6 : end
-    mVertices.push_back(Vertex{-x, y, z, r, g, b});    // Triangle 7 : begin
-    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
-    mVertices.push_back(Vertex{x, -y, z, r, g, b});    // Triangle 7 : end
-    mVertices.push_back(Vertex{x, y, z, r, g, b});     // Triangle 8 : begin
-    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{x, y, -z, r, g, b});    // Triangle 8 : end
-    mVertices.push_back(Vertex{x, -y, -z, r, g, b});   // Triangle 9 : begin
-    mVertices.push_back(Vertex{x, y, z, r, g, b});
-    mVertices.push_back(Vertex{x, -y, z, r, g, b});    // Triangle 9 : end
-    mVertices.push_back(Vertex{x, y, z, r, g, b});     // Triangle 10 : begin
     mVertices.push_back(Vertex{x, y, -z, r, g, b});
-    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // Triangle 10 : end
-    mVertices.push_back(Vertex{x, y, z, r, g, b});     // Triangle 11 : begin
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});     // 2nd
     mVertices.push_back(Vertex{-x, y, -z, r, g, b});
-    mVertices.push_back(Vertex{-x, y, z, r, g, b});    // Triangle 11 : end
-    mVertices.push_back(Vertex{x, y, z, r, g, b});     // Triangle 12 : begin
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Back plane
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});    // 3rd
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 4th
     mVertices.push_back(Vertex{-x, y, z, r, g, b});
-    mVertices.push_back(Vertex{x, -y, z, r, g, b});    // Triangle 12 : end
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+
+    // Left plane
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});     // 5th
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 6th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+
+    // Right plane
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 7th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});    // 8th
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+
+    // Bottom plane
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 9th
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});     // 10th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Top plane
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // 11th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});   //12th
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+
 
     mMatrix.setToIdentity();
+
+    //qDebug() << "Reee";
+
 }
+
+Cube::Cube(float x, float y, float z, float r, float g,float b)
+{
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 1st
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});     // 2nd
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Back plane
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});    // 3rd
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 4th
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+
+    // Left plane
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});     // 5th
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 6th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+
+    // Right plane
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 7th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});    // 8th
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+
+    // Bottom plane
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 9th
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});     // 10th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Top plane
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // 11th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});   //12th
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+
+
+    mMatrix.setToIdentity();
+
+}
+
 
 Cube::~Cube()
 {
 
 }
 
-void rotation()
+void Cube::rotation(QKeyEvent *event)
 {
+    qDebug() << "rotation called";
     //const float rSpeed = 10.0f;
+    if (event->key() == Qt::Key_Comma)
+    {
+        //mMatrix.rotate(-1, 1, 0, 0);
+        mMatrix.translate(-1.0f, 1.0f, 0.0f);
+        qDebug() << "comma pressed";
+    }
 
 
 }
@@ -145,6 +172,19 @@ void Cube::draw()
 {
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-    //glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
-    glDrawArrays(GL_TRIANGLES, 0, 12*3);
+    glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
+
+    // Konstant rotasjon av kuben.
+    //mMatrix.rotate(-1, 1, 0, 0);
 }
+
+void Cube::move(float dx, float dy, float dz)
+{
+    mx += dx;
+    my += dy;
+    mz += dz;
+
+    mMatrix.translate(mx, my, mz);
+}
+
+

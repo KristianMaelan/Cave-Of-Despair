@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include "cube.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,10 @@ int main(int argc, char *argv[])
     //Makes the Qt MainWindow and shows it.
     MainWindow w;
     w.show();
+
+   //Cube* cuberino = new Cube;
+
+   //cuberino->draw();
 
     return a.exec();
 }
