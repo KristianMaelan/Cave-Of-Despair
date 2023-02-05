@@ -3,8 +3,8 @@
 Interaction::Interaction() : moveX{0.0f}, moveY{0.0f}, moveZ{0.0f}
 {
     mVertices.push_back(Vertex{0,0,0,1,1,0});
-    mVertices.push_back(Vertex{0,0,0,1,1,0});
-    mVertices.push_back(Vertex{0,0,0,1,1,0});
+    mVertices.push_back(Vertex{1,0,0,1,1,0});
+    mVertices.push_back(Vertex{0,1,1,1,1,0});
 
     mMatrix.setToIdentity();
 }
@@ -54,5 +54,7 @@ void Interaction::move(float x, float y, float z)
     moveX += x;
     moveY += y;
     moveZ += z;
+
+    mMatrix.translate(moveX, moveY, moveZ);
 
 }

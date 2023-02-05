@@ -7,6 +7,60 @@ Cube::Cube()
 
 }
 
+Cube::Cube(float x, float y, float z, float r, float g,float b)
+{
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 1st
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});     // 2nd
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Back plane
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});    // 3rd
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 4th
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+
+    // Left plane
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});     // 5th
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 6th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+
+    // Right plane
+    mVertices.push_back(Vertex{x, y, z, r, g, b});      // 7th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});    // 8th
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+
+    // Bottom plane
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 9th
+    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});     // 10th
+    mVertices.push_back(Vertex{-x, -y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, -y, -z, r, g, b});
+
+    // Top plane
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});   // 11th
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});   //12th
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+
+
+    mMatrix.setToIdentity();
+
+}
+
 Cube::~Cube()
 {
 
@@ -47,5 +101,5 @@ void Cube::draw()
 {
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-    glDrawArrays(GL_LINES, 0, mVertices.size());
+    glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 }

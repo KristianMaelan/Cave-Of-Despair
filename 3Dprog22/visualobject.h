@@ -13,7 +13,7 @@ public:
    ~VisualObject();
    virtual void init(GLint matrixUniform)=0;
    virtual void draw()=0;
-   void move(float x, float y, float z);
+   virtual void move(float x, float y, float z);
 protected:
    std::vector<Vertex> mVertices;
    GLuint mVAO{0};

@@ -43,13 +43,13 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
    //mObjects.push_back(new TriangleSurface());
 
     // interaction with object
-    mObjects.push_back(new Interaction());
-    /*InteractiveObject = new Interaction;
-    mObjects.push_back(InteractiveObject);*/
+    //mObjects.push_back(new Interaction());
+    InteractiveObject = new Interaction;
+    mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
-    /*Comp1Cube = new Cube;
-    mObjects.push_back(Comp1Cube);*/
+    // Comp1Cube = new Cube;
+    mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 }
 
 RenderWindow::~RenderWindow()
@@ -285,15 +285,18 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_W)
     {
-        mMainWindow->close();
+        InteractiveObject->move(0.f, 0.1f, 0.0f);
     }
-    //You get the keyboard input like this
-//    if(event->key() == Qt::Key_A)
-//    {
-//        mMainWindow->statusBar()->showMessage(" AAAA");
-//    }
-//    if(event->key() == Qt::Key_S)
-//    {
-//        mMainWindow->statusBar()->showMessage(" SSSS");
-//    }
+    if (event->key() == Qt::Key_S)
+    {
+        InteractiveObject->move(0.0f, -0.1f, 0.0f);
+    }
+    if (event->key() == Qt::Key_A)
+    {
+        InteractiveObject->move(-0.1f, 0.f, 0.0f);
+    }
+    if (event->key() == Qt::Key_D)
+    {
+        InteractiveObject->move(0.1f, 0.0f, 0.0f);
+    }
 }

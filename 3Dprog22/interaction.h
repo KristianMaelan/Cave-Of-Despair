@@ -10,7 +10,7 @@ public:
     ~Interaction();
     void init(GLint matrixUniform) override;
     void draw() override;
-    void move(float x, float y, float z);
+    void move(float x, float y, float z) override;
 private:
     // position variables
     float moveX;
