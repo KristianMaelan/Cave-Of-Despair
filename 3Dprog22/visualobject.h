@@ -14,6 +14,10 @@ public:
    virtual void init(GLint matrixUniform)=0;
    virtual void draw()=0;
    virtual void move(float x, float y, float z);
+
+   bool checkCube{false};
+   bool checkGraph{false};
+   bool checkXYZ{false};
 protected:
    std::vector<Vertex> mVertices;
    GLuint mVAO{0};

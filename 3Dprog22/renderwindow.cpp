@@ -296,6 +296,38 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mMainWindow->close();       //Shuts down the whole program
     }
 
+    // Draw Cube
+    if (event->key() == Qt::Key_1)
+    {
+        Comp1Cube->checkCube = true;
+    }
+
+    // Draw Graph
+    if (event->key() == Qt::Key_2)
+    {
+        KristianGraf->checkGraph = true;
+    }
+
+    // Draw xyz
+    if (event->key() == Qt::Key_3)
+    {
+
+    }
+
+    // Undraw Cube
+    if (event->key() == Qt::Key_9)
+    {
+        Comp1Cube->checkCube = false;
+    }
+
+    // Draw Graph
+    if (event->key() == Qt::Key_8)
+    {
+        KristianGraf->checkGraph = false;
+    }
+
+
+    // Moving InteractiveObject
     /*
     if (event->key() == Qt::Key_W && InteractiveObject)
     {
@@ -315,6 +347,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     */
 
+    // Moving graph, not working
     /*
     if (event->key() == Qt::Key_W && KristianGraf)
     {
@@ -334,6 +367,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
     */
 
+    // Moving Cube
     if (event->key() == Qt::Key_Up && Comp1Cube)
     {
         Comp1Cube->move(0.f, 0.1f, 0.0f);
@@ -358,4 +392,5 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         mCamera.move(0.0f, -0.25f, 0.0f);
     }
+
 }
