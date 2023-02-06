@@ -6,6 +6,7 @@ CONFIG      += c++17
 TARGET      = 3D-programmering
 
 SOURCES += main.cpp \
+    camera.cpp \
     cube.cpp \
     grapher.cpp \
     interaction.cpp \
@@ -19,6 +20,7 @@ SOURCES += main.cpp \
     xyz.cpp
 
 HEADERS += \
+    camera.h \
     cube.h \
     grapher.h \
     interaction.h \

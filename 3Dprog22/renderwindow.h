@@ -9,6 +9,7 @@
 #include "visualobject.h"
 #include "interaction.h"
 #include "cube.h"
+#include "camera.h"
 
 class QOpenGLContext;
 class Shader;
@@ -37,24 +38,28 @@ private slots:
 private:
     void init();            //initialize things we need before rendering
 
-
     std::vector<VisualObject*> mObjects;
 
     VisualObject* InteractiveObject;    // new object for interaction possibilities WIP
     VisualObject* Comp1Cube;
 
+    // camera
+    Camera mCamera{};
+
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
     bool mInitialized{false};
 
     Shader *mShaderProgram{nullptr};    //holds pointer the GLSL shader program
-    GLint  mMatrixUniform;              //OpenGL reference to the Uniform in the shader program
     GLint  mPmatrixUniform;             // Leksjon 3
     GLint  mVmatrixUniform;             // Leksjon 3
+    GLint  mMatrixUniform;              //OpenGL reference to the Uniform in the shader program
+
+
 
     GLuint mVAO;                        //OpenGL reference to our VAO
     GLuint mVBO;                        //OpenGL reference to our VBO
 
-    //QMatrix4x4 *mMVPmatrix{nullptr};         //The matrix with the transform for the object we draw
+    QMatrix4x4 *mMVPmatrix{nullptr};         //The matrix with the transform for the object we draw
     QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3
     QMatrix4x4 *mVmatrix{nullptr};         // Leksjon 3
 

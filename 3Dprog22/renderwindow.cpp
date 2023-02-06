@@ -33,8 +33,18 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
         qDebug() << "Context could not be made - quitting this application";
     }
 
-    mPmatrix = new QMatrix4x4{};         // Leksjon 3
-    mVmatrix = new QMatrix4x4{};         // Leksjon 3
+    /*mMVPmatrix = new QMatrix4x4{};
+    mMVPmatrix->setToIdentity();
+
+    mPmatrix = new QMatrix4x4{};
+    mPmatrix->setToIdentity();
+
+    mVmatrix = new QMatrix4x4{};
+    mVmatrix->setToIdentity();*/
+
+
+    // mPmatrix = new QMatrix4x4{};         // Leksjon 3
+    // mVmatrix = new QMatrix4x4{};         // Leksjon 3
 
     //Make the gameloop timer:
     mRenderTimer = new QTimer(this);
@@ -121,9 +131,13 @@ void RenderWindow::init()
     // Get the matrixUniform location from the shader
     // This has to match the "matrix" variable name in the vertex shader
     // The uniform is used in the render() function to send the model matrix to the shader
-    mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
     mPmatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "pMatrix" );
     mVmatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "vMatrix" );
+    mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
+
+    mCamera.init(mPmatrixUniform, mVmatrixUniform);
+
+    // mCamera.init(mPmatrixUniform, mVmatrixUniform);
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
@@ -140,6 +154,13 @@ void RenderWindow::render()
 
     initializeOpenGLFunctions();    //must call this every frame it seems...
 
+    // Leksjon 3
+    // mPmatrix->setToIdentity();
+    // mVmatrix->setToIdentity();
+    // mPmatrix->perspective(60, 4.0/3.0, 0.1, 10.0);
+    mCamera.init(mPmatrixUniform, mVmatrixUniform);
+    mCamera.perspective(60, 4.0/3.0, 0.1, 10.0);
+
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -147,13 +168,12 @@ void RenderWindow::render()
     glUseProgram(mShaderProgram->getProgram() );
 
     // Leksjon 3
-    mPmatrix->setToIdentity();
-    mVmatrix->setToIdentity();
-    mPmatrix->perspective(60, 4.0/3.0, 0.1, 10.0);
-    mVmatrix->translate(0, 0, -5); // Flytter kamera
+    // mVmatrix->translate(0, 0, -5); // Flytter kamera
+    mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     // Må sende matrisedata til vertexshader
-    glUniformMatrix4fv( mPmatrixUniform, 1, GL_FALSE, mPmatrix->constData());
-    glUniformMatrix4fv( mVmatrixUniform, 1, GL_FALSE, mVmatrix->constData());
+    // glUniformMatrix4fv( mPmatrixUniform, 1, GL_FALSE, mPmatrix->constData());
+    // glUniformMatrix4fv( mVmatrixUniform, 1, GL_FALSE, mVmatrix->constData());
+    mCamera.update();
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
