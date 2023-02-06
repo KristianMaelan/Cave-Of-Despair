@@ -2,6 +2,7 @@
 #include "xyz.h"
 
 XYZ::XYZ() {
+<<<<<<< Updated upstream
    mVertices.push_back(Vertex{0,0,0,1,0,0}); // origo
    mVertices.push_back(Vertex{1,0,0,1,0,0}); // x
    mVertices.push_back(Vertex{-1,0,0,1,0,0});
@@ -12,6 +13,15 @@ XYZ::XYZ() {
    mVertices.push_back(Vertex{0,0,1,0,0,1}); // y
    mVertices.push_back(Vertex{0,0,-1,0,0,1});
    mMatrix.setToIdentity();
+=======
+//   mVertices.push_back(Vertex{0,0,0,1,0,0});
+//   mVertices.push_back(Vertex{1,0,0,1,0,0});
+//   mVertices.push_back(Vertex{0,0,0,0,1,0});
+//   mVertices.push_back(Vertex{0,1,0,0,1,0});
+//   mVertices.push_back(Vertex{0,0,0,0,0,1});
+//   mVertices.push_back(Vertex{0,0,1,0,0,1});
+//   mMatrix.setToIdentity();
+>>>>>>> Stashed changes
 }
 
 XYZ::~XYZ() {    }

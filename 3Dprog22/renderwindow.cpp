@@ -62,7 +62,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 
     // from tempReadMe, needs to be changed depending
-    mObjects.push_back(new TriangleSurface("C:/Users/saray/ADS_ExamFilesLocal/Comulsory-1/3Dprog22/tempReadMeFile.txt"));
+    mObjects.push_back(new TriangleSurface("../3Dprog22/info.txt"));
 }
 
 RenderWindow::~RenderWindow()
