@@ -33,19 +33,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
         qDebug() << "Context could not be made - quitting this application";
     }
 
-    /*mMVPmatrix = new QMatrix4x4{};
-    mMVPmatrix->setToIdentity();
-
-    mPmatrix = new QMatrix4x4{};
-    mPmatrix->setToIdentity();
-
-    mVmatrix = new QMatrix4x4{};
-    mVmatrix->setToIdentity();*/
-
-
-    // mPmatrix = new QMatrix4x4{};         // Leksjon 3
-    // mVmatrix = new QMatrix4x4{};         // Leksjon 3
-
     //Make the gameloop timer:
     mRenderTimer = new QTimer(this);
 
@@ -53,13 +40,15 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
    //mObjects.push_back(new TriangleSurface());
 
     // interaction with object
-    //mObjects.push_back(new Interaction());
-    // InteractiveObject = new Interaction;
-    // mObjects.push_back(InteractiveObject);
+    // mObjects.push_back(new Interaction());
+    InteractiveObject = new Interaction;
+    mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
     Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
     mObjects.push_back(Comp1Cube);
+    // Comp1Cube = new Cube;
+    // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 
     // from tempReadMe, needs to be changed depending
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
@@ -360,5 +349,13 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Right && Comp1Cube)
     {
         Comp1Cube->move(0.1f, 0.0f, 0.0f);
+    }
+    if (event->key() == Qt::Key_Y)
+    {
+        mCamera.move(0.0f, 0.25f, 0.0f);
+    }
+    if (event->key() == Qt::Key_G)
+    {
+        mCamera.move(0.0f, -0.25f, 0.0f);
     }
 }

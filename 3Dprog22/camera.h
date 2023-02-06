@@ -15,12 +15,20 @@ public:
     void lookAt(const QVector3D &eye, const QVector3D &at, const QVector3D &up);
     void update();
     void translate(float dx, float dy, float dz);
+    // move camera??
+    void move(float x, float y, float z);
 private:
     GLint  mPmatrixUniform;             // Leksjon 3
     GLint  mVmatrixUniform;             // Leksjon 3
     QVector3D mEye;
     QMatrix4x4 mPmatrix{ };         // Leksjon 3
     QMatrix4x4 mVmatrix{ };         // Leksjon 3
+
+    // move camera??
+    float degrees;
+    float moveX;
+    float moveY;
+    float moveZ;
 
 };
 

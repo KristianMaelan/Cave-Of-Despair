@@ -36,3 +36,14 @@ void Camera::update()
     glUniformMatrix4fv(mVmatrixUniform, 1, GL_FALSE, mVmatrix.constData());
 }
 
+void Camera::move(float x, float y, float z)
+{
+    degrees += x;
+    moveY += y;
+    moveZ += z;
+
+
+   mPmatrix.rotate(moveX, moveY, moveZ);
+
+}
+

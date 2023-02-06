@@ -92,6 +92,9 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;              //the only one we use now
     //    void keyReleaseEvent(QKeyEvent *event) override{}
     //    void wheelEvent(QWheelEvent *event) override{}
+
+    /*  move camera?? */
+
 };
 
 #endif // RENDERWINDOW_H
