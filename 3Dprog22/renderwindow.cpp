@@ -58,11 +58,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
-    // Comp1Cube = new Cube;
-    // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
+    Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
+    mObjects.push_back(Comp1Cube);
 
     // from tempReadMe, needs to be changed depending
-    mObjects.push_back(new TriangleSurface("../3Dprog22/info.txt"));
+    KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
+    mObjects.push_back(KristianGraf);
 }
 
 RenderWindow::~RenderWindow()
@@ -306,20 +307,58 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mMainWindow->close();       //Shuts down the whole program
     }
 
-    if (event->key() == Qt::Key_W)
+    /*
+    if (event->key() == Qt::Key_W && InteractiveObject)
     {
         InteractiveObject->move(0.f, 0.1f, 0.0f);
     }
-    if (event->key() == Qt::Key_S)
+    if (event->key() == Qt::Key_S && InteractiveObject)
     {
         InteractiveObject->move(0.0f, -0.1f, 0.0f);
     }
-    if (event->key() == Qt::Key_A)
+    if (event->key() == Qt::Key_A && InteractiveObject)
     {
         InteractiveObject->move(-0.1f, 0.f, 0.0f);
     }
-    if (event->key() == Qt::Key_D)
+    if (event->key() == Qt::Key_D && InteractiveObject)
     {
         InteractiveObject->move(0.1f, 0.0f, 0.0f);
+    }
+    */
+
+    /*
+    if (event->key() == Qt::Key_W && KristianGraf)
+    {
+        KristianGraf->move(0.f, 0.1f, 0.0f);
+    }
+    if (event->key() == Qt::Key_S && KristianGraf)
+    {
+        KristianGraf->move(0.0f, -0.1f, 0.0f);
+    }
+    if (event->key() == Qt::Key_A && KristianGraf)
+    {
+        KristianGraf->move(-0.1f, 0.f, 0.0f);
+    }
+    if (event->key() == Qt::Key_D && KristianGraf)
+    {
+        KristianGraf->move(0.1f, 0.0f, 0.0f);
+    }
+    */
+
+    if (event->key() == Qt::Key_Up && Comp1Cube)
+    {
+        Comp1Cube->move(0.f, 0.1f, 0.0f);
+    }
+    if (event->key() == Qt::Key_Down && Comp1Cube)
+    {
+        Comp1Cube->move(0.0f, -0.1f, 0.0f);
+    }
+    if (event->key() == Qt::Key_Left && Comp1Cube)
+    {
+        Comp1Cube->move(-0.1f, 0.f, 0.0f);
+    }
+    if (event->key() == Qt::Key_Right && Comp1Cube)
+    {
+        Comp1Cube->move(0.1f, 0.0f, 0.0f);
     }
 }

@@ -41,7 +41,8 @@ private:
     std::vector<VisualObject*> mObjects;
 
     VisualObject* InteractiveObject;    // new object for interaction possibilities WIP
-    VisualObject* Comp1Cube;
+    VisualObject* Comp1Cube;            // Movable cube
+    VisualObject* KristianGraf;         // TriangleSurface readFile
 
     // camera
     Camera mCamera{};

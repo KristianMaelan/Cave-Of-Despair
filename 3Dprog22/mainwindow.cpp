@@ -6,6 +6,7 @@
 
 #include "renderwindow.h"
 #include "logger.h"
+#include "visualobject.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
@@ -96,3 +97,12 @@ void MainWindow::on_fileExit_triggered()
     close();       //Shuts down the whole program
 }
 
+/*
+void MainWindow::on_drawCubeButton(bool checked)
+{
+    if (checked)
+    {
+
+    }
+}
+*/
