@@ -109,9 +109,5 @@ void Cube::draw()
 
 void Cube::move(float dx, float dy, float dz)
 {
-    mx += dx;
-    my += dy;
-    mz += dz;
-
-    mMatrix.translate(mx, my, mz);
+    mMatrix.translate(dx, dy, dz);
 }
