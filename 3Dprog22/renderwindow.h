@@ -32,6 +32,8 @@ public:
 
     bool mRotate{true};     //Check if triangle should rotate
 
+    //float cameraX = 5;
+
 private slots:
     void render();          //the actual render - function
 
@@ -43,6 +45,8 @@ private:
     VisualObject* InteractiveObject;    // new object for interaction possibilities WIP
     VisualObject* Comp1Cube;            // Movable cube
     VisualObject* KristianGraf;         // TriangleSurface readFile
+    VisualObject* scene1_House;         // Oblig2 scene1_House
+    VisualObject* scene1_Plan;          // Oblig2 scene1_Plan
 
     // camera
     Camera mCamera{};
@@ -60,9 +64,9 @@ private:
     GLuint mVAO;                        //OpenGL reference to our VAO
     GLuint mVBO;                        //OpenGL reference to our VBO
 
-    QMatrix4x4 *mMVPmatrix{nullptr};         //The matrix with the transform for the object we draw
-    QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3
-    QMatrix4x4 *mVmatrix{nullptr};         // Leksjon 3
+    //QMatrix4x4 *mMVPmatrix{nullptr};         //The matrix with the transform for the object we draw
+    //QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3
+    //QMatrix4x4 *mVmatrix{nullptr};         // Leksjon 3
 
     QTimer *mRenderTimer{nullptr};           //timer that drives the gameloop
     QElapsedTimer mTimeStart;               //time variable that reads the calculated FPS

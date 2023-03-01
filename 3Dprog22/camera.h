@@ -21,8 +21,10 @@ private:
     GLint  mPmatrixUniform;             // Leksjon 3
     GLint  mVmatrixUniform;             // Leksjon 3
     QVector3D mEye;
-    QMatrix4x4 mPmatrix{ };         // Leksjon 3
-    QMatrix4x4 mVmatrix{ };         // Leksjon 3
+    //QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3
+    //QMatrix4x4 *mVmatrix{nullptr};         // Leksjon 3
+    QMatrix4x4 mPmatrix{ };
+    QMatrix4x4 mVmatrix{ };
 
     // move camera??
     float degrees;

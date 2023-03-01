@@ -15,6 +15,8 @@
 #include "logger.h"
 #include "xyz.h"
 #include "trianglesurface.h"
+#include "house.h"
+#include "scene1_plan.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -53,6 +55,14 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // from tempReadMe, needs to be changed depending
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     mObjects.push_back(KristianGraf);
+
+    // House dimensions
+    scene1_House = new house(1, 1, 1, 0, 0, 0);
+    mObjects.push_back(scene1_House);
+
+    // Oblig2 - Scene1_Plan
+    scene1_Plan = new Scene1_plan();
+    mObjects.push_back(scene1_Plan);
 }
 
 RenderWindow::~RenderWindow()
@@ -139,6 +149,9 @@ void RenderWindow::init()
 // Called each frame - doing the rendering!!!
 void RenderWindow::render()
 {
+    mCamera.init(mPmatrixUniform, mVmatrixUniform);
+    mCamera.perspective(60, 4.0/3.0, 0.1, 20.0);
+
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
 
@@ -148,8 +161,7 @@ void RenderWindow::render()
     // mPmatrix->setToIdentity();
     // mVmatrix->setToIdentity();
     // mPmatrix->perspective(60, 4.0/3.0, 0.1, 10.0);
-    mCamera.init(mPmatrixUniform, mVmatrixUniform);
-    mCamera.perspective(60, 4.0/3.0, 0.1, 10.0);
+
 
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -157,12 +169,10 @@ void RenderWindow::render()
     //what shader to use
     glUseProgram(mShaderProgram->getProgram() );
 
-    // Leksjon 3
-    // mVmatrix->translate(0, 0, -5); // Flytter kamera
+    // Camera movement
+    //float x = 15;
+    mCamera.translate(0, 0, 15);
     mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
-    // Må sende matrisedata til vertexshader
-    // glUniformMatrix4fv( mPmatrixUniform, 1, GL_FALSE, mPmatrix->constData());
-    // glUniformMatrix4fv( mVmatrixUniform, 1, GL_FALSE, mVmatrix->constData());
     mCamera.update();
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
@@ -326,6 +336,16 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         KristianGraf->checkGraph = false;
     }
 
+    // Draw Scene1
+    if (event->key() == Qt::Key_Space)
+    {
+        scene1_House->checkScene1 = true;
+    }
+    // Undraw Scene1
+    if (event->key() == Qt::Key_V)
+    {
+        scene1_House->checkScene1 = false;
+    }
 
     // Moving InteractiveObject
     /*
@@ -384,13 +404,18 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         Comp1Cube->move(0.1f, 0.0f, 0.0f);
     }
-    if (event->key() == Qt::Key_Y)
+
+    // Moving camera
+    if (event->key() == Qt::Key_W)
     {
-        mCamera.move(0.0f, 0.25f, 0.0f);
+        qDebug() << "W pressed";
+        //mCamera.lookAt(QVector3D{0,0,1}, QVector3D{0,0,0}, QVector3D{0,0,0});
+        //mCamera.translate(10, 0, 0);
+        //mCamera.update();
     }
-    if (event->key() == Qt::Key_G)
+    if (event->key() == Qt::Key_S)
     {
-        mCamera.move(0.0f, -0.25f, 0.0f);
+
     }
 
 }

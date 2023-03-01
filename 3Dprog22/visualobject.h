@@ -18,6 +18,8 @@ public:
    bool checkCube{false};
    bool checkGraph{false};
    bool checkXYZ{false};
+   bool checkScene1{false};
+   bool checkScene2{false};
 protected:
    std::vector<Vertex> mVertices;
    GLuint mVAO{0};

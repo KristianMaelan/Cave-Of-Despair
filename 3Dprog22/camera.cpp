@@ -1,9 +1,9 @@
 #include "camera.h"
 
-Camera::Camera() // : mEye{0,0,-5}
+Camera::Camera() : mEye{0,0,-5}
 {
-    // mPmatrix->setToIdentity();
-    // mVmatrix->setToIdentity();
+    mPmatrix.setToIdentity();
+    mVmatrix.setToIdentity();
 }
 
 Camera::~Camera() { }
@@ -36,14 +36,22 @@ void Camera::update()
     glUniformMatrix4fv(mVmatrixUniform, 1, GL_FALSE, mVmatrix.constData());
 }
 
+void Camera::translate(float dx, float dy, float dz)
+{
+    mEye + QVector3D(dx, dy, dz);
+}
+
 void Camera::move(float x, float y, float z)
 {
+    /*
     degrees += x;
     moveY += y;
     moveZ += z;
 
 
    mPmatrix.rotate(moveX, moveY, moveZ);
+   */
 
+    //mMatrix.translate(x, y, z);
 }
 
