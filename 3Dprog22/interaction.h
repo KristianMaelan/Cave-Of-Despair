@@ -11,11 +11,13 @@ public:
     void init(GLint matrixUniform) override;
     void draw() override;
     void move(float x, float y, float z) override;
-private:
+// private:
     // position variables
     float moveX;
     float moveY;
     float moveZ;
+
+    float PlayerLocation[3];
 };
 
 #endif // INTERACTION_H

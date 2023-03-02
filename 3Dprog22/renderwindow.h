@@ -10,6 +10,7 @@
 #include "interaction.h"
 #include "cube.h"
 #include "camera.h"
+#include "trophy.h"
 
 class QOpenGLContext;
 class Shader;
@@ -48,6 +49,12 @@ private:
     VisualObject* scene1_House;         // Oblig2 scene1_House
     VisualObject* scene1_Plan;          // Oblig2 scene1_Plan
     VisualObject* scene1_PressurePlate; // Oblig2 scene1_PressurePlate
+
+    // programming 2
+    Trophy* trophyCube;           // pickup item (for oblig2)
+    std::vector<Trophy*> trophyList;
+
+    bool CollisionDetection(VisualObject* trophy, VisualObject* player);
 
     // camera
     Camera mCamera{};

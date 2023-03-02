@@ -9,15 +9,20 @@
 #include <QDebug>
 
 #include <string>
+#include <iostream>
 
 #include "shader.h"
 #include "mainwindow.h"
 #include "logger.h"
 #include "xyz.h"
 #include "trianglesurface.h"
+<<<<<<< Updated upstream
 #include "house.h"
 #include "scene1_plan.h"
 #include "pressureplate.h"
+=======
+#include "trophy.h"
+>>>>>>> Stashed changes
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -44,8 +49,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // interaction with object
     // mObjects.push_back(new Interaction());
-    InteractiveObject = new Interaction;
-    mObjects.push_back(InteractiveObject);
+    // InteractiveObject = new Interaction;
+    // mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
     Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
@@ -57,6 +62,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     mObjects.push_back(KristianGraf);
 
+<<<<<<< Updated upstream
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
     scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
@@ -69,6 +75,23 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // Oblig2 - Scene1_Plan
     scene1_Plan = new Scene1_plan();
     mObjects.push_back(scene1_Plan);
+=======
+    // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
+    double trophyX = 0.2;
+    double trophyY = 0.2;
+    double trophyZ = 0.2;
+
+    //for (int i = 0; i < 7; ++i)
+    //{
+        trophyCube = new Trophy(trophyX, trophyY, trophyZ);
+        trophyList.push_back(trophyCube);
+     // mObjects.push_back(trophyCube);
+      //  trophyX += 0.5f;
+      //  trophyY += 0.5f;
+      //  trophyZ += 0.5f;
+       std::cout << "we have new trophies\n";
+    //}
+>>>>>>> Stashed changes
 }
 
 RenderWindow::~RenderWindow()
@@ -149,7 +172,20 @@ void RenderWindow::init()
     {
         (*it)->init(mMatrixUniform);
     }
+    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
+    {
+        (*trophy_nr)->init(mMatrixUniform);
+        std::cout << "mMatrixUnifrom is initialised\n";
+    }
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
+}
+
+bool RenderWindow::CollisionDetection(VisualObject *Player_ToRender, VisualObject *Obj_toRender)
+{
+    bool CollidedWith_X = Player_ToRender->Coordinate_X + 0.5 >= Obj_toRender->Coordinate_X && Obj_toRender->Coordinate_X + 0.5 >= Player_ToRender->Coordinate_X;
+    bool CollidedWith_Y = Player_ToRender->Coordinate_Y + 0.5 >= Obj_toRender->Coordinate_Y && Obj_toRender->Coordinate_Y + 0.5 >= Player_ToRender->Coordinate_Y;
+
+    return CollidedWith_X && CollidedWith_Y;
 }
 
 // Called each frame - doing the rendering!!!
@@ -183,8 +219,23 @@ void RenderWindow::render()
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
-        (*it)->draw();
+       (*it)->draw();
     }
+
+    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr) {
+        if (!CollisionDetection(Comp1Cube, (*trophy_nr)))
+        {
+            (*trophy_nr)->draw();
+        }
+        else
+        {
+            (*trophy_nr)->DidItemGetPickedUp = true;
+            (*trophy_nr)->mVAO = 0;
+            (*trophy_nr)->mVBO = 0;
+            std::cout << "Trophy was picked up!\n";
+        }
+    }
+
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
     mContext->swapBuffers(this);
@@ -392,6 +443,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         KristianGraf->move(0.1f, 0.0f, 0.0f);
     }
     */
+    // I want to know the Player's location
 
     // Moving Cube
     if (event->key() == Qt::Key_Up && Comp1Cube)
@@ -423,5 +475,6 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
 
     }
+
 
 }

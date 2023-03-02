@@ -56,5 +56,4 @@ void Interaction::move(float x, float y, float z)
     moveZ += z;
 
     mMatrix.translate(moveX, moveY, moveZ);
-
 }

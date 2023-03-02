@@ -18,6 +18,7 @@ SOURCES += main.cpp \
     scene1_plan.cpp \
     shader.cpp \
     trianglesurface.cpp \
+    trophy.cpp \
     vertex.cpp \
     visualobject.cpp \
     xyz.cpp
@@ -35,6 +36,7 @@ HEADERS += \
     scene1_plan.h \
     shader.h \
     trianglesurface.h \
+    trophy.h \
     vertex.h \
     visualobject.h \
     xyz.h
