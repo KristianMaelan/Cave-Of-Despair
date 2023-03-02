@@ -16,25 +16,21 @@ public:
    virtual void draw()=0;
    virtual void move(float x, float y, float z);
 
-<<<<<<< Updated upstream
    QVector3D GetPos();
    void setPos(QVector3D inPos);
-=======
+
    float Coordinate_X;
    float Coordinate_Y;
    float Coordinate_Z;
->>>>>>> Stashed changes
 
    bool checkCube{false};
    bool checkGraph{false};
    bool checkXYZ{false};
-<<<<<<< Updated upstream
+
    bool checkScene1{false};
    bool checkScene2{false};
-protected:
-=======
-// protected:
->>>>>>> Stashed changes
+
+   // protected:
    std::vector<Vertex> mVertices;
    GLuint mVAO{0};
    GLuint mVBO{0};

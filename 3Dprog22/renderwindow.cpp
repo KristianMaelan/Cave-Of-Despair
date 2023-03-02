@@ -16,13 +16,10 @@
 #include "logger.h"
 #include "xyz.h"
 #include "trianglesurface.h"
-<<<<<<< Updated upstream
 #include "house.h"
 #include "scene1_plan.h"
 #include "pressureplate.h"
-=======
 #include "trophy.h"
->>>>>>> Stashed changes
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -62,7 +59,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     mObjects.push_back(KristianGraf);
 
-<<<<<<< Updated upstream
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
     scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
@@ -75,12 +71,13 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // Oblig2 - Scene1_Plan
     scene1_Plan = new Scene1_plan();
     mObjects.push_back(scene1_Plan);
-=======
+
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
     double trophyX = 0.2;
     double trophyY = 0.2;
     double trophyZ = 0.2;
 
+    // (2) UNCOMMENT WHEN YOU WANT ALL YOUR TROPHIES
     //for (int i = 0; i < 7; ++i)
     //{
         trophyCube = new Trophy(trophyX, trophyY, trophyZ);
@@ -91,7 +88,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
       //  trophyZ += 0.5f;
        std::cout << "we have new trophies\n";
     //}
->>>>>>> Stashed changes
+
 }
 
 RenderWindow::~RenderWindow()
