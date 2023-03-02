@@ -8,6 +8,7 @@ TARGET      = 3D-programmering
 SOURCES += main.cpp \
     camera.cpp \
     cube.cpp \
+    door.cpp \
     grapher.cpp \
     house.cpp \
     interaction.cpp \
@@ -27,6 +28,7 @@ SOURCES += main.cpp \
 HEADERS += \
     camera.h \
     cube.h \
+    door.h \
     grapher.h \
     house.h \
     interaction.h \

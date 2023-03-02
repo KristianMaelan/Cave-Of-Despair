@@ -15,11 +15,14 @@
 #include "mainwindow.h"
 #include "logger.h"
 #include "xyz.h"
+#include "cube.h"
+#include "interaction.h"
 #include "trianglesurface.h"
 #include "house.h"
 #include "scene1_plan.h"
 #include "pressureplate.h"
 #include "trophy.h"
+#include "door.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -89,6 +92,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
        std::cout << "we have new trophies\n";
     //}
 
+    // Oblig 2 - Scene1_Door
+    scene1_Door = new Door(1, 1, 1, 0, 0, 1);
+    mObjects.push_back(scene1_Door);
 }
 
 RenderWindow::~RenderWindow()

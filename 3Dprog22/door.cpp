@@ -1,34 +1,34 @@
-#include "pressureplate.h"
+#include "door.h"
 
-PressurePlate::PressurePlate(float x, float y, float z, float r, float g, float b)
+Door::Door(float x, float y, float z, float r, float g, float b)
 {
-    /*
-    mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
-    */
-
-    // Dynamisk
+    // Funker
     mVertices.push_back(Vertex{(-x * 0.4f), -y, -z, r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), -y, -z, r, g, b});
-    mVertices.push_back(Vertex{(-x * 0.4f), -y, (-z * 1.6f), r, g, b});
-    mVertices.push_back(Vertex{(-x * 0.4f), -y, (-z * 1.6f), r, g, b});
-    mVertices.push_back(Vertex{(x * 0.4f), -y, (-z * 1.6f), r, g, b});
-    mVertices.push_back(Vertex{(x * 0.4f), -y, -z, r, g, b});
+    mVertices.push_back(Vertex{(x * 0.4f), (y * 0.2f), -z, r, g, b});
+    mVertices.push_back(Vertex{(x * 0.4f), (y * 0.2f), -z, r, g, b});
+    mVertices.push_back(Vertex{(-x * 0.4f), (y * 0.2f), -z, r, g, b});
+    mVertices.push_back(Vertex{(-x * 0.4f), -y, -z, r, g, b});
 
+
+    /* Funker
+    mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{0.4, 0.2, -z, r, g, b});
+    mVertices.push_back(Vertex{0.4, 0.2, -z, r, g, b});
+    mVertices.push_back(Vertex{-0.4, 0.2, -z, r, g, b});
+    mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
+    */
 
     mMatrix.setToIdentity();
 }
 
-PressurePlate::~PressurePlate()
+Door::~Door()
 {
 
 }
 
-void PressurePlate::init(GLint matrixUniform)
+void Door::init(GLint matrixUniform)
 {
     mMatrixUniform = matrixUniform;
 
@@ -60,7 +60,7 @@ void PressurePlate::init(GLint matrixUniform)
     glBindVertexArray(0);
 }
 
-void PressurePlate::draw()
+void Door::draw()
 {
     //if (checkScene1)
     {
@@ -69,6 +69,6 @@ void PressurePlate::draw()
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 
         // constant rotation
-        mMatrix.rotate(-1, 0, 1, 0);
+        //mMatrix.rotate(-1, 0, 1, 0);
     }
 }

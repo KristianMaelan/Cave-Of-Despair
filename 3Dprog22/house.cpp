@@ -9,27 +9,27 @@ house::house(float x, float y, float z, float r, float g, float b)
 {
     // Front plane left
     mVertices.push_back(Vertex{-x, -y, -z, r, 1, b});
-    mVertices.push_back(Vertex{-0.4, -y, -z, r, 1, b});
-    mVertices.push_back(Vertex{-0.4, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{-0.4, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, -y, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, y, -z, r, 1, b});
     mVertices.push_back(Vertex{-x, y, -z, r, 1, b});
     mVertices.push_back(Vertex{-x, -y, -z, r, 1, b});
 
     // Front plane right
-    mVertices.push_back(Vertex{0.4, -y, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, -y, -z, r, 1, b});
     mVertices.push_back(Vertex{x, -y, -z, r, 1, b});
     mVertices.push_back(Vertex{x, y, -z, r, 1, b});
     mVertices.push_back(Vertex{x, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{0.4, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{0.4, -y, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, -y, -z, r, 1, b});
 
     // Front plane doorframe
-    mVertices.push_back(Vertex{-0.4, 0.2, -z, r, 1, b});
-    mVertices.push_back(Vertex{0.4, 0.2, -z, r, 1, b});
-    mVertices.push_back(Vertex{0.4, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{0.4, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{-0.4, y, -z, r, 1, b});
-    mVertices.push_back(Vertex{-0.4, 0.2, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, y * 0.2f, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, y * 0.2f, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{x * 0.4f, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, y, -z, r, 1, b});
+    mVertices.push_back(Vertex{-x * 0.4f, y * 0.2f, -z, r, 1, b});
 
     // Back plane
     mVertices.push_back(Vertex{-x, -y, z, 1, g, b});    // 3rd
@@ -124,7 +124,7 @@ void house::draw()
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 
         // constant rotation
-        //mMatrix.rotate(-1, 0, 1, 0);
+        mMatrix.rotate(-1, 0, 1, 0);
     }
 }
 
