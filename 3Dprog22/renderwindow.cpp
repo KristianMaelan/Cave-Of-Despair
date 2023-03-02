@@ -17,6 +17,7 @@
 #include "trianglesurface.h"
 #include "house.h"
 #include "scene1_plan.h"
+#include "pressureplate.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -56,9 +57,14 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     mObjects.push_back(KristianGraf);
 
-    // House dimensions
-    scene1_House = new house(1, 1, 1, 0, 0, 0);
+    // Oblig2 - Scene1_House
+    scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
+    scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
     mObjects.push_back(scene1_House);
+
+    // Oblig2 - Scene1_PressurePlate dimensions
+    scene1_PressurePlate = new PressurePlate(1, 1, 1, 1, 0, 0);
+    mObjects.push_back(scene1_PressurePlate);
 
     // Oblig2 - Scene1_Plan
     scene1_Plan = new Scene1_plan();

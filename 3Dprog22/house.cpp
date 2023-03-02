@@ -33,7 +33,7 @@ house::house(float x, float y, float z, float r, float g, float b)
 
     // Back plane
     mVertices.push_back(Vertex{-x, -y, z, 1, g, b});    // 3rd
-    mVertices.push_back(Vertex{x, -y, -z, 1, g, b});
+    mVertices.push_back(Vertex{x, -y, z, 1, g, b});
     mVertices.push_back(Vertex{x, y, z, 1, g, b});
     mVertices.push_back(Vertex{x, y, z, 1, g, b});      // 4th
     mVertices.push_back(Vertex{-x, y, z, 1, g, b});
@@ -124,7 +124,7 @@ void house::draw()
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 
         // constant rotation
-        mMatrix.rotate(-1, 0, 1, 0);
+        //mMatrix.rotate(-1, 0, 1, 0);
     }
 }
 

@@ -47,6 +47,7 @@ private:
     VisualObject* KristianGraf;         // TriangleSurface readFile
     VisualObject* scene1_House;         // Oblig2 scene1_House
     VisualObject* scene1_Plan;          // Oblig2 scene1_Plan
+    VisualObject* scene1_PressurePlate; // Oblig2 scene1_PressurePlate
 
     // camera
     Camera mCamera{};
@@ -98,6 +99,7 @@ protected:
     //    void wheelEvent(QWheelEvent *event) override{}
 
     /*  move camera?? */
+
 
 };
 
