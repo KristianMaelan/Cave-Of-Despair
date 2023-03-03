@@ -2,15 +2,6 @@
 
 PressurePlate::PressurePlate(float x, float y, float z, float r, float g, float b)
 {
-    /*
-    mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
-    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -1.6, r, g, b});
-    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
-    */
-
     // Dynamisk
     mVertices.push_back(Vertex{(-x * 0.4f), -y, -z, r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), -y, -z, r, g, b});
@@ -19,6 +10,14 @@ PressurePlate::PressurePlate(float x, float y, float z, float r, float g, float 
     mVertices.push_back(Vertex{(x * 0.4f), -y, (-z * 1.6f), r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), -y, -z, r, g, b});
 
+    /*
+    mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
+    mVertices.push_back(Vertex{-0.4, -y, -1.6, r, g, b});
+    mVertices.push_back(Vertex{0.4, -y, -1.6, r, g, b});
+    mVertices.push_back(Vertex{0.4, -y, -z, r, g, b});
+    */
 
     mMatrix.setToIdentity();
 }
@@ -62,13 +61,13 @@ void PressurePlate::init(GLint matrixUniform)
 
 void PressurePlate::draw()
 {
-    //if (checkScene1)
+    if (checkScene1)
     {
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 
         // constant rotation
-        mMatrix.rotate(-1, 0, 1, 0);
+        //mMatrix.rotate(-1, 0, 1, 0);
     }
 }

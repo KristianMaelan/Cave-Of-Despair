@@ -73,6 +73,8 @@ house::house(float x, float y, float z, float r, float g, float b)
 
     //mMatrix.rotate(-1 , 0, 1, 0);
     //mMatrix.translate(0, 90, 0);
+    //mMatrix.rotate(180, 0, 1, 0);
+    //setRotation(180, 0, 1, 0);
 
     mMatrix.setToIdentity();
 
@@ -124,7 +126,7 @@ void house::draw()
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
 
         // constant rotation
-        mMatrix.rotate(-1, 0, 1, 0);
+        //mMatrix.rotate(-1, 0, 1, 0);
     }
 }
 

@@ -17,6 +17,7 @@ public:
     void translate(float dx, float dy, float dz);
     // move camera??
     void move(float x, float y, float z);
+    void getRotated(float a, float x, float y, float z);
 private:
     GLint  mPmatrixUniform;             // Leksjon 3
     GLint  mVmatrixUniform;             // Leksjon 3

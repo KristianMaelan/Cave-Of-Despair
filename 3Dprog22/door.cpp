@@ -2,14 +2,39 @@
 
 Door::Door(float x, float y, float z, float r, float g, float b)
 {
-    // Funker
+    // Dynamisk
+    /*
     mVertices.push_back(Vertex{(-x * 0.4f), -y, -z, r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), -y, -z, r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), (y * 0.2f), -z, r, g, b});
     mVertices.push_back(Vertex{(x * 0.4f), (y * 0.2f), -z, r, g, b});
     mVertices.push_back(Vertex{(-x * 0.4f), (y * 0.2f), -z, r, g, b});
     mVertices.push_back(Vertex{(-x * 0.4f), -y, -z, r, g, b});
+    */
 
+    if (!doorOpen)
+    {
+        Vertex v0{(-x * 0.4f), -y, -z, r, g, b};             mVertices.push_back(v0);
+        Vertex v1((x * 0.4f), -y, -z, r, g, b);              mVertices.push_back(v1);
+        Vertex v2{(x * 0.4f), (y * 0.2f), -z, r, g, b};      mVertices.push_back(v2);
+        Vertex v3{(x * 0.4f), (y * 0.2f), -z, r, g, b};      mVertices.push_back(v3);
+        Vertex v4{(-x * 0.4f), (y * 0.2f), -z, r, g, b};     mVertices.push_back(v4);
+        Vertex v5{(-x * 0.4f), -y, -z, r, g, b};             mVertices.push_back(v5);
+    }
+
+    // Tried rotating the door when opened. WIP
+    /*
+    if (doorOpen)
+    {
+        Vertex v0{(-x * 0.4f), -y, -z, r, g, b};             mVertices.push_back(v0);
+            Vertex v1((x * 0.4f), -y, -z, r, g, b);              mVertices.push_back(v1);
+            Vertex v2{(x * 0.4f), (y * 0.2f), -z, r, g, b};      mVertices.push_back(v2);
+            Vertex v3{(x * 0.4f), (y * 0.2f), -z, r, g, b};      mVertices.push_back(v3);
+        Vertex v4{(-x * 0.4f), (y * 0.2f), -z, r, g, b};     mVertices.push_back(v4);
+        Vertex v5{(-x * 0.4f), -y, -z, r, g, b};             mVertices.push_back(v5);
+        //v0 * QVector3D{}
+    }
+    */
 
     /* Funker
     mVertices.push_back(Vertex{-0.4, -y, -z, r, g, b});
@@ -62,7 +87,7 @@ void Door::init(GLint matrixUniform)
 
 void Door::draw()
 {
-    //if (checkScene1)
+    if (checkScene1)
     {
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());

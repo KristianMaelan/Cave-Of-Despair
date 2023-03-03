@@ -55,3 +55,8 @@ void Camera::move(float x, float y, float z)
     //mMatrix.translate(x, y, z);
 }
 
+void Camera::getRotated(float a, float x, float y, float z)
+{
+    mPmatrix.rotate(a, x, y, z);
+}
+

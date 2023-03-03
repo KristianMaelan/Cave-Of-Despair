@@ -64,15 +64,18 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
-    scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
+    scene1_House->setPos(QVector3D{3, 0, -2});   // Set position
+    scene1_House->setRotation(135, 0, 1, 0);    // Set rotation
     mObjects.push_back(scene1_House);
 
     // Oblig2 - Scene1_PressurePlate dimensions
     scene1_PressurePlate = new PressurePlate(1, 1, 1, 1, 0, 0);
+    scene1_PressurePlate->setPos(QVector3D{3, 0, -2});
+    scene1_PressurePlate->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_PressurePlate);
 
     // Oblig2 - Scene1_Plan
-    scene1_Plan = new Scene1_plan();
+    scene1_Plan = new Scene1_plan(2, 1, 2, 1, 0, 0); // y is 1 so it is visible from this camera angle
     mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
@@ -94,6 +97,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
+    scene1_Door->setPos(QVector3D{3, 0, -2});
+    scene1_Door->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_Door);
 }
 
@@ -400,11 +405,15 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space)
     {
         scene1_House->checkScene1 = true;
+        scene1_Door->checkScene1 = true;
+        scene1_PressurePlate->checkScene1 = true;
     }
     // Undraw Scene1
     if (event->key() == Qt::Key_V)
     {
         scene1_House->checkScene1 = false;
+        scene1_Door->checkScene1 = false;
+        scene1_PressurePlate->checkScene1 = false;
     }
 
     // Moving InteractiveObject
@@ -466,18 +475,28 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         Comp1Cube->move(0.1f, 0.0f, 0.0f);
     }
 
-    // Moving camera
+    // Rotate house
+    /*
     if (event->key() == Qt::Key_W)
     {
-        qDebug() << "W pressed";
-        //mCamera.lookAt(QVector3D{0,0,1}, QVector3D{0,0,0}, QVector3D{0,0,0});
-        //mCamera.translate(10, 0, 0);
-        //mCamera.update();
+        scene1_House->setRotation(180, 0, 1, 0); // Rotates house!!!!!!!
     }
-    if (event->key() == Qt::Key_S)
-    {
+    */
 
+    // Rotate camera
+    if (event->key() == Qt::Key_W)
+    {
+        mCamera.getRotated(180, 0, 1, 0); // No worky
     }
+
+    // Test door opening
+    if (event->key() == Qt::Key_O)
+    {
+        //scene1_Door->setPos(QVector3D{0, 0, 0});
+        //scene1_Door->setRotation(30, 0, 0, 0);
+        //scene1_Door
+    }
+
 
 
 }

@@ -26,11 +26,20 @@ QVector3D VisualObject::GetPos()
     return mMatrix.column(3).toVector3D();
 }
 
+// Set position when constructing the object in renderwindow
 void VisualObject::setPos(QVector3D inPos)
 {
     auto aA = mMatrix.column(3);
     aA.setX(inPos.x());
     aA.setY(inPos.y());
-    aA.setZ(inPos.y());
+    aA.setZ(inPos.z());
     mMatrix.setColumn(3, aA);
+
+
+}
+
+// Set rotation when constructing the object in renderwindow or use it to rotate object using user input
+void VisualObject::setRotation(float a, float x, float y, float z)
+{
+    mMatrix.rotate(a, x, y, z);
 }

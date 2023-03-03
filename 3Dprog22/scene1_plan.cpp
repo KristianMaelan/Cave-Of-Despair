@@ -2,6 +2,7 @@
 
 Scene1_plan::Scene1_plan()
 {
+    /*
     float heightY = 1;
     float dimension = 10;
 
@@ -18,7 +19,20 @@ Scene1_plan::Scene1_plan()
     mVertices.push_back(Vertex{dimension, heightY, 0, 0, 1, 0});
     mVertices.push_back(Vertex{dimension, heightY, -dimension, 0, 1, 0});
     mVertices.push_back(Vertex{0, heightY, -dimension, 0, 1, 0});
+    */
 
+}
+
+Scene1_plan::Scene1_plan(float x, float y, float z, float r, float g, float b)
+{
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, z, r, g, b});
+    mVertices.push_back(Vertex{x, y, -z, r, g, b});
+    mVertices.push_back(Vertex{-x, y, -z, r, g, b});
+
+    mMatrix.setToIdentity();
 }
 
 Scene1_plan::~Scene1_plan()
@@ -56,7 +70,10 @@ void Scene1_plan::init(GLint matrixUniform)
 
 void Scene1_plan::draw()
 {
-    glBindVertexArray( mVAO );
-    glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-    glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
+    if (checkScene1)
+    {
+        glBindVertexArray( mVAO );
+        glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
+        glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
+    }
 }

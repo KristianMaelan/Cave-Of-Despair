@@ -10,6 +10,8 @@ public:
     ~Door() override;
     void init(GLint matrixUniform) override;
     void draw() override;
+
+    bool doorOpen = false;
 };
 
 #endif // DOOR_H
