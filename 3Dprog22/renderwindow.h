@@ -9,6 +9,7 @@
 #include "visualobject.h"
 #include "camera.h"
 #include "trophy.h"
+#include "npc_grapher.h"
 
 class QOpenGLContext;
 class Shader;
@@ -50,9 +51,19 @@ private:
     VisualObject* scene1_Door;          // Oblig2 scene1_Door
 
     // programming 2
+    // trophy
     Trophy* trophyCube;           // pickup item (for oblig2)
     std::vector<Trophy*> trophyList;
 
+    // NPC
+    NPC_grapher* Walker;
+    NPC_grapher* graph_1_Walker;
+    NPC_grapher* graph_2_Walker;
+    std::vector<NPC_grapher*> npclist;
+    std::vector<NPC_grapher*> graph1List;
+    std::vector<NPC_grapher*> graph2List;
+
+    // Collision/collection
     bool CollisionDetection(VisualObject* trophy, VisualObject* player);
 
     // camera

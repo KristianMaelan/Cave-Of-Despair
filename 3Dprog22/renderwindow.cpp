@@ -47,11 +47,16 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     mObjects.push_back(new XYZ());
    //mObjects.push_back(new TriangleSurface());
+    // mObjects.push_back(new XYZ());
+    // mObjects.push_back(new TriangleSurface());
 
     // interaction with object
     // mObjects.push_back(new Interaction());
     // InteractiveObject = new Interaction;
     // mObjects.push_back(InteractiveObject);
+
+    //// CAMERA
+
 
     // Askelad-cube
    Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
@@ -62,12 +67,15 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // from tempReadMe, needs to be changed depending
     KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     mObjects.push_back(KristianGraf);
+    //KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
+    //mObjects.push_back(KristianGraf);
 
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
     scene1_House->setPos(QVector3D{3, 0, -2});   // Set position
     scene1_House->setRotation(135, 0, 1, 0);    // Set rotation
     mObjects.push_back(scene1_House);
+    //mObjects.push_back(scene1_House);
 
     // Oblig2 - Scene1_PressurePlate dimensions
     scene1_PressurePlate = new PressurePlate(1, 1, 1, 1, 0, 0);
@@ -101,14 +109,20 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     scene1_Door->setPos(QVector3D{3, 0, -2});
     scene1_Door->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_Door);
-       }
+
+
     //Player 1
-       {
-           Player1* Player = new Player1(0.5,0.5,0.5,1,0,0);
-             mObjects.push_back(Player);
+    {
+        Player1* Player = new Player1(0.5,0.5,0.5,1,0,0);
+            mObjects.push_back(Player);
+
+    }
 
 
-       }
+    // NPC Walker
+    Walker = new NPC_grapher(-0.2, -0.4, 0.4);
+    npclist.push_back(Walker);
+
 }
 
 RenderWindow::~RenderWindow()
@@ -194,6 +208,10 @@ void RenderWindow::init()
         (*trophy_nr)->init(mMatrixUniform);
         std::cout << "mMatrixUnifrom is initialised\n";
     }
+    for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
+    {
+        (*npc_nr)->init(mMatrixUniform);
+    }
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
 
@@ -231,6 +249,7 @@ void RenderWindow::render()
     // Camera movement
     //float x = 15;
     mCamera.translate(0, 0, 15);
+    mCamera.translate(0.0f, 0.0f, 15.0f);
     mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     mCamera.update();
 
@@ -239,19 +258,32 @@ void RenderWindow::render()
        (*it)->draw();
     }
 
-    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr) {
-        if (!CollisionDetection(Comp1Cube, (*trophy_nr)))
+ 
+    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
+    {
+        if (Comp1Cube->checkCube == true)
+        {
+            bool CollectionDetection = CollisionDetection(Comp1Cube, (*trophy_nr));
+
+            if (CollectionDetection)
+            {
+                std::cout << "CollectionDetection is false: " << CollectionDetection << '\n';
+                (*trophy_nr)->draw();
+            }
+            else
+            {
+                std::cout << "CollectionDetection is true: " << CollectionDetection << '\n';
+                (*trophy_nr)->DidItemGetPickedUp = true;
+                (*trophy_nr)->draw();
+            }
+        }
+        else if (Comp1Cube->checkCube == false)
         {
             (*trophy_nr)->draw();
         }
-        else
-        {
-            (*trophy_nr)->DidItemGetPickedUp = true;
-            (*trophy_nr)->mVAO = 0;
-            (*trophy_nr)->mVBO = 0;
-            std::cout << "Trophy was picked up!\n";
-        }
+        
     }
+    
 
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
@@ -384,6 +416,12 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_1)
     {
         Comp1Cube->checkCube = true;
+    }
+
+    // change graph
+    if (event->key() == Qt::Key_4)
+    {
+        Walker->b_showGraph_2 = true;
     }
 
     // Draw Graph
