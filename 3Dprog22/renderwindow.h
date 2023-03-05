@@ -73,6 +73,9 @@ private:
 
     // camera
     Camera* mCamera{};
+    float x_Axis = 0.f;
+    float y_Axis = 0.f;
+    float z_Axis = 5.f;
 
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
     bool mInitialized{false};

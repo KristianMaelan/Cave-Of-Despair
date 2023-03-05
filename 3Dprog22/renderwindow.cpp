@@ -262,10 +262,12 @@ void RenderWindow::render()
     glUseProgram(mShaderProgram->getProgram() );
 
     // Camera movement
-    //float x = 15;
-    mCamera->translate(0, 0, 15);
-    mCamera->lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
+
+
+    mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
     mCamera->update();
+
+
 
    for (auto it=mObjects.begin(); it != mObjects.end(); it++)
    {
@@ -430,25 +432,25 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_W)
     {
        Player->move(0.0f, 0.0f, -0.1f);       //Moves forward
-    }
-    if (event->key() == Qt::Key_M)
-    {
-
+       z_Axis += -0.1f;
     }
     //Backward
     if (event->key() == Qt::Key_S)
     {
        Player->move(0.0f, 0.0f, 0.1f);       //Moves forward
+       z_Axis += 0.1f;
     }
     //Right
     if (event->key() == Qt::Key_D)
     {
        Player->move(0.1f, 0.0f, 0.0f);       //Moves forward
+       x_Axis += 0.1f;
     }
     //Left
     if (event->key() == Qt::Key_A)
     {
        Player->move(-0.1f, 0.0f, 0.0f);       //Moves forward
+       x_Axis += -0.1f;
     }
 
     }
