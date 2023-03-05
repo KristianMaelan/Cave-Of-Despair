@@ -65,9 +65,6 @@ public:
     void functionMove();
     void move(float dx, float dy, float dz) override;
 
-    ~NPC_grapher();
-    void init(GLint matrixUniform) override;
-    void draw() override;
 };
 
 #endif // NPC_GRAPHER_H

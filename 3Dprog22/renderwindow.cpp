@@ -71,12 +71,11 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
-
     scene1_House->setPos(QVector3D{3, 0, -2});   // Set position
     scene1_House->setRotation(135, 0, 1, 0);    // Set rotation
     mObjects.push_back(scene1_House);
 
-    scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
+    //scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
 
     //mObjects.push_back(scene1_House);
 
@@ -113,7 +112,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     NPC = new NPC_grapher(npc_x, npc_y, npc_z);
     mObjects.push_back(NPC);
 
-    {// Oblig 2 - Scene1_Door
+    // Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
     scene1_Door->setPos(QVector3D{3, 0, -2});
     scene1_Door->setRotation(135, 0, 1, 0);
@@ -231,12 +230,6 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 {
     bool CollidedWith_X = player->Coordinate_X + 0.5 >= world_object->Coordinate_X && world_object->Coordinate_X + 0.5 >= player->Coordinate_X;
     bool CollidedWith_Y = player->Coordinate_Y + 0.5 >= world_object->Coordinate_Y && world_object->Coordinate_Y + 0.5 >= player->Coordinate_Y;
-=======
-    bool CollidedWith_X = Player_ToRender->Coordinate_X + 0.5 >= Obj_toRender->Coordinate_X && Obj_toRender->Coordinate_X + 0.5 >= Player_ToRender->Coordinate_X;
-    bool CollidedWith_Y = Player_ToRender->Coordinate_Y + 0.5 >= Obj_toRender->Coordinate_Y && Obj_toRender->Coordinate_Y + 0.5 >= Player_ToRender->Coordinate_Y;
-
-    std::cout << CollidedWith_X << " & " << CollidedWith_Y << std::endl;
->>>>>>> Stashed changes
     return CollidedWith_X && CollidedWith_Y;
 }
 
@@ -265,23 +258,14 @@ void RenderWindow::render()
 
     // Camera movement
     //float x = 15;
-<<<<<<< Updated upstream
-    mCamera.translate(0.0f, 0.0f, 15.0f);
-    mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
-    mCamera.update();
-=======
     mCamera->translate(0, 0, 15);
     mCamera->lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     mCamera->update();
->>>>>>> Stashed changes
 
    for (auto it=mObjects.begin(); it != mObjects.end(); it++)
    {
       (*it)->draw();
    }
-
-
- 
 
     for (auto it = npclist.begin(); it != npclist.end(); it++)
     {

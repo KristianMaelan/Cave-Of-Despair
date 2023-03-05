@@ -63,8 +63,6 @@ private:
     std::vector<NPC_grapher*> graph1List;
     std::vector<NPC_grapher*> graph2List;
 
-    // Collision/collection
-    bool CollisionDetection(VisualObject* trophy, VisualObject* player);
     // collision
     bool CollisionDetection(VisualObject* player, VisualObject* wordl_object);
 
