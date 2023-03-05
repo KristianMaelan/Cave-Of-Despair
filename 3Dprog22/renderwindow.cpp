@@ -105,12 +105,21 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
       //  trophyZ += 0.5f;
        std::cout << "we have new trophies\n";
     //}
+
     /*float npc_x = 0.4f;
     float npc_y = 0.6f;
     float npc_z = 0.0f;
 
     NPC = new NPC_grapher(npc_x, npc_y, npc_z);
     mObjects.push_back(NPC);*/
+
+//    float npc_x = 0.4f;
+//    float npc_y = 0.6f;
+//    float npc_z = 0.0f;
+
+//    NPC = new NPC_grapher(npc_x, npc_y, npc_z);
+//    mObjects.push_back(NPC);
+
 
     // Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
@@ -125,23 +134,27 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mObjects.push_back(ObjectInHouse);
 
 
-    //Player 1
-//    {
-//        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
-//        //Player->setPos(QVector3D{0, -0.5, 0}); // Joakim test
-//        PlayerList.push_back(Player);
-//    }
+
 
 
     // NPC Walker
-    Walker = new NPC_grapher(-0.2, -0.4, 0.4);
+    Walker = new NPC_grapher(0.1, 0.1, 0.1, 1,0,1);
     npclist.push_back(Walker);
 
-       {
-        Player = new Player1(0.5,0.5,0.5,0,1,0);
-        Player->setPos(QVector3D{0, -0.5, 0});
+
+
+    {
+        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
         mObjects.push_back(Player);
-       }
+    }
+
+
+    // NPC Walker
+    Walker = new NPC_grapher(0.5,0.5,0.5, 1,0,1);
+    mObjects.push_back(Walker);
+    //npclist.push_back(Walker);
+    Walker->functionMove();
+
 }
 
 RenderWindow::~RenderWindow()
@@ -475,43 +488,6 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mMainWindow->close();       //Shuts down the whole program
     }
 
-    {
-    // Draw Cube
-//    if (event->key() == Qt::Key_1)
-//    {
-//        Comp1Cube->checkCube = true;
-//    }
-
-    // change graph
-//    if (event->key() == Qt::Key_4)
-//    {
-//        Walker->b_showGraph_2 = true;
-//    }
-
-    // Draw Graph
-//    if (event->key() == Qt::Key_2)
-//    {
-//        KristianGraf->checkGraph = true;
-//    }
-
-    // Draw xyz
-//    if (event->key() == Qt::Key_3)
-//    {
-
-//    }
-
-    // Undraw Cube
-    if (event->key() == Qt::Key_9)
-    {
-        Comp1Cube->checkCube = false;
-    }
-
-    // Draw Graph
-//    if (event->key() == Qt::Key_8)
-//    {
-//        KristianGraf->checkGraph = false;
-//    }
-}
     // Draw Scene1
     if (event->key() == Qt::Key_1)
     {
@@ -533,26 +509,6 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 
 
         }
-    }
-    //cube movement
-    {
-//    if (event->key() == Qt::Key_Up && Comp1Cube)
-//    {
-//       Comp1Cube->move(0.f, 0.1f, 0.0f);
-//    }
-//    if (event->key() == Qt::Key_Down && Comp1Cube)
-//    {
-//        Comp1Cube->move(0.0f, -0.1f, 0.0f);
-//    }
-//    if (event->key() == Qt::Key_Left && Comp1Cube)
-//    {
-//        Comp1Cube->move(-0.1f, 0.f, 0.0f);
-//    }
-//    if (event->key() == Qt::Key_Right && Comp1Cube)
-//    {
-//        Comp1Cube->move(0.1f, 0.0f, 0.0f);
-//    }
-
     }
 
     // Opening the door
@@ -593,6 +549,14 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         // Object in house
     }
 
-
-
+    if (event->key() == Qt::Key_3)
+    {
+    if(Walker->b_showGraph_2 == false){
+        Walker->b_showGraph_2 = true;
+    }
+    else
+    {
+        Walker->b_showGraph_2 = false;
+    }
+    }
 }

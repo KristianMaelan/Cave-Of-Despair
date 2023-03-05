@@ -9,7 +9,7 @@ class NPC_grapher : public Cube
 {
 public:
     NPC_grapher();
-    NPC_grapher(float xv, float yv, float zv);
+    NPC_grapher(float x, float y, float z, float r, float g, float b);
 
 
     void init(GLint matrixUniform) override;
