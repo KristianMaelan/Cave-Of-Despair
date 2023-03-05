@@ -70,7 +70,7 @@ void Scene1_plan::init(GLint matrixUniform)
 
 void Scene1_plan::draw()
 {
-    if (checkScene1)
+    //if (checkScene1)
     {
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());

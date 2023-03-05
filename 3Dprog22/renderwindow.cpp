@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 
+#include "player1.h"
 #include "shader.h"
 #include "mainwindow.h"
 #include "logger.h"
@@ -53,8 +54,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // mObjects.push_back(InteractiveObject);
 
     // Askelad-cube
-    Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
-    mObjects.push_back(Comp1Cube);
+   Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
+   mObjects.push_back(Comp1Cube);
     // Comp1Cube = new Cube;
     // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 
@@ -95,11 +96,19 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
        std::cout << "we have new trophies\n";
     //}
 
-    // Oblig 2 - Scene1_Door
+    {// Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
     scene1_Door->setPos(QVector3D{3, 0, -2});
     scene1_Door->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_Door);
+       }
+    //Player 1
+       {
+           Player1* Player = new Player1(0.5,0.5,0.5,1,0,0);
+             mObjects.push_back(Player);
+
+
+       }
 }
 
 RenderWindow::~RenderWindow()

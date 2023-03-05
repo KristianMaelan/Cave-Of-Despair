@@ -15,6 +15,7 @@ SOURCES += main.cpp \
     logger.cpp \
     mainwindow.cpp \
     npc_grapher.cpp \
+    player1.cpp \
     pressureplate.cpp \
     renderwindow.cpp \
     scene1_plan.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     npc_grapher.h \
+    player1.h \
     pressureplate.h \
     renderwindow.h \
     scene1_plan.h \
