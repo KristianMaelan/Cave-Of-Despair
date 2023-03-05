@@ -90,22 +90,24 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
-    double trophyX = 0.2;
-    double trophyY = 0.2;
-    double trophyZ = 0.2;
+    double trophyX = 1.5;
+    double trophyY = -0.6;
+    double trophyZ = 0.0;
 
     // (2) UNCOMMENT WHEN YOU WANT ALL YOUR TROPHIES
-    //for (int i = 0; i < 7; ++i)
-    //{
+    for (int i = 0; i < 7; ++i)
+    {
         trophyCube = new Trophy(trophyX, trophyY, trophyZ);
         trophyList.push_back(trophyCube);
      // mObjects.push_back(trophyCube);
-      //  trophyX += 0.5f;
+       trophyX += 1.0f;
       //  trophyY += 0.5f;
       //  trophyZ += 0.5f;
        std::cout << "we have new trophies\n";
     //}
 
+       std::cout << "we have new trophies" << i << "\n";
+    }
     /*float npc_x = 0.4f;
     float npc_y = 0.6f;
     float npc_z = 0.0f;
