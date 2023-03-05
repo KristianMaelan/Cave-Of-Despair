@@ -5,16 +5,18 @@ NPC_grapher::NPC_grapher()
 
 }
 
-NPC_grapher::NPC_grapher(float x, float y, float z) : Cube (x, y, z, 1, 0.46, 0.0)
+NPC_grapher::NPC_grapher(float xv, float yv, float zv) : Cube (xv, yv, zv, 1, 0.46, 0.0)
 {
     // graph 1
     // (1,5), (2,2), (3,5), (4,7)
     // graph 2
     // (-1,4), (6,2), (5,3), (7,1)
 
-    Coordinate_X = x;
-    Coordinate_Y = y;
-    Coordinate_Z = z;
+    Coordinate_X = xv;
+    Coordinate_Y = yv;
+    Coordinate_Z = zv;
+
+    x = Coordinate_X;
 
     calculateGraphFunction();
     mMatrix.setToIdentity();
@@ -69,16 +71,6 @@ void NPC_grapher::calculateGraphFunction()
     // graph 2
     Eigen::MatrixXf matrix_A2inv = matrix_2_A.inverse();
     matrix_2_X = matrix_A2inv * matrix_2_Y;
-
-    // print
-    std::cout << "matrix_A1inv\n";
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            std::cout << matrix_A1inv(i, j) << ", ";
-        }
-        std::cout << '\n';
-    }
-    std::cout << '\n';
 }
 
 void NPC_grapher::functionMove()
@@ -100,7 +92,7 @@ void NPC_grapher::functionMove()
         float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
         std::cout << x << ", " << y << '\n';
         move(x, y, 0);
-        ++x;
+        x += 0.1;
      }
      else if (x >= xn_1)
      {
@@ -109,7 +101,7 @@ void NPC_grapher::functionMove()
         float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
         std::cout << x << ", " << y << '\n';
         move(x, y, 0);
-        --x;
+        x -= 0.1;
      }
      else if (x0_1 < x && xn_1 > x)
      {
@@ -118,25 +110,14 @@ void NPC_grapher::functionMove()
         move(x, y, 0);
         if (b_shouldWeIncreaseX)
         {
-            ++x;
+            x += 0.1;
         }
         else
         {
-            --x;
+            x -= 0.1;
         }
      }
-      /*for (x = x0_1; x < xn_1; ++x) {
 
-            float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
-            std::cout << x << ", " << y << '\n';
-            move(x, y, 0);
-        }
-        for (x = xn_1; x > x0_1; --x) {
-
-            float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
-            std::cout << x << ", " << y << '\n';
-            move(x, y, 0);
-        }*/
     }
     else if (b_showGraph_2 == true)
     {
@@ -146,17 +127,37 @@ void NPC_grapher::functionMove()
         b_2 = matrix_2_X(1);
         c_2 = matrix_2_X(2);
         d_2 = matrix_2_X(3);
-        for (float x = x0_2; x < xn_2; ++x) {
-
-            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
-            std::cout << x << ", " << y << '\n';
-            move(x, y, 0);
+        if (x <= x0_2)
+        {
+           x = x0_2;
+           b_shouldWeIncreaseX = true;
+           float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
+           std::cout << x << ", " << y << '\n';
+           move(x, y, 0);
+           x += 0.1;
         }
-        for (float x = xn_2; x > x0_2; --x) {
-
-            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
-            std::cout << x << ", " << y << '\n';
-            move(x, y, 0);
+        else if (x >= xn_1)
+        {
+           x = xn_1;
+           b_shouldWeIncreaseX = false;
+           float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
+           std::cout << x << ", " << y << '\n';
+           move(x, y, 0);
+           x -= 0.1;
+        }
+        else if (x0_1 < x && xn_1 > x)
+        {
+           float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
+           std::cout << x << ", " << y << '\n';
+           move(x, y, 0);
+           if (b_shouldWeIncreaseX)
+           {
+               x += 0.1;
+           }
+           else
+           {
+               x -= 0.1;
+           }
         }
     }
 }
