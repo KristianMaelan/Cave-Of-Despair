@@ -82,11 +82,12 @@ public:
     void calculateGraphFunction();
     // move NPC
     void functionMove();
+
     void move(float dx, float dy, float dz) override;
     //  new positions
-    float Coordinate_X;
-    float Coordinate_Y;
-    float Coordinate_Z;
+    //float Coordinate_X;
+    //float Coordinate_Y;
+    //float Coordinate_Z;
 
 };
 
