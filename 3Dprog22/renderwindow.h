@@ -64,6 +64,10 @@ private:
 
     // Collision/collection
     bool CollisionDetection(VisualObject* trophy, VisualObject* player);
+    bool CollisionDetection(VisualObject* player, VisualObject* wordl_object);
+
+    // NPC
+    NPC_grapher* NPC;                   // NPC
 
     // camera
     Camera mCamera{};

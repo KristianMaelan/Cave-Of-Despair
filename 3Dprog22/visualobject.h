@@ -31,10 +31,11 @@ public:
    bool checkScene1{false};
    bool checkScene2{false};
 
-   // protected:
-   std::vector<Vertex> mVertices;
    GLuint mVAO{0};
    GLuint mVBO{0};
+
+protected:
+   std::vector<Vertex> mVertices;
    GLint mMatrixUniform{0};
    QMatrix4x4 mMatrix;
    QMatrix4x4 mPosition;

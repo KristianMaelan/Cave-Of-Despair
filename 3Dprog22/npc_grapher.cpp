@@ -88,6 +88,12 @@ NPC_grapher::NPC_grapher(float x, float y, float z) : Cube (x, y, z, 1, 0.46, 0.
     calculateGraphFunction();
 
 }
+{
+
+}
+
+NPC_grapher::~NPC_grapher(){   }
+
 void NPC_grapher::init(GLint matrixUniform)
 {
     mMatrixUniform = matrixUniform;

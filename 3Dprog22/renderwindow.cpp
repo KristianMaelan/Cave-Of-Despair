@@ -103,6 +103,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
       //  trophyZ += 0.5f;
        std::cout << "we have new trophies\n";
     //}
+    float npc_x = 0.4f;
+    float npc_y = 0.6f;
+    float npc_z = 0.0f;
+
+    NPC = new NPC_grapher(npc_x, npc_y, npc_z);
+    mObjects.push_back(NPC);
 
     {// Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
@@ -203,7 +209,7 @@ void RenderWindow::init()
     {
         (*it)->init(mMatrixUniform);
     }
-    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
+    for (auto trophy_nr = trophyList.begin(); trophy_nr != trophyList.end(); ++trophy_nr)
     {
         (*trophy_nr)->init(mMatrixUniform);
     }
@@ -214,11 +220,10 @@ void RenderWindow::init()
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
 
-bool RenderWindow::CollisionDetection(VisualObject *Player_ToRender, VisualObject *Obj_toRender)
+bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_object)
 {
-    bool CollidedWith_X = Player_ToRender->Coordinate_X + 0.5 >= Obj_toRender->Coordinate_X && Obj_toRender->Coordinate_X + 0.5 >= Player_ToRender->Coordinate_X;
-    bool CollidedWith_Y = Player_ToRender->Coordinate_Y + 0.5 >= Obj_toRender->Coordinate_Y && Obj_toRender->Coordinate_Y + 0.5 >= Player_ToRender->Coordinate_Y;
-
+    bool CollidedWith_X = player->Coordinate_X + 0.5 >= world_object->Coordinate_X && world_object->Coordinate_X + 0.5 >= player->Coordinate_X;
+    bool CollidedWith_Y = player->Coordinate_Y + 0.5 >= world_object->Coordinate_Y && world_object->Coordinate_Y + 0.5 >= player->Coordinate_Y;
     return CollidedWith_X && CollidedWith_Y;
 }
 
@@ -251,10 +256,10 @@ void RenderWindow::render()
     mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     mCamera.update();
 
-    for (auto it=mObjects.begin(); it != mObjects.end(); it++)
-    {
-       (*it)->draw();
-    }
+   for (auto it=mObjects.begin(); it != mObjects.end(); it++)
+   {
+      (*it)->draw();
+   }
 
 
  
