@@ -30,6 +30,7 @@ public:
 
    bool checkScene1{false};
    bool checkScene2{false};
+   bool doorOpen = false;
 
    GLuint mVAO{0};
    GLuint mVBO{0};

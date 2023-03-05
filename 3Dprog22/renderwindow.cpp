@@ -243,6 +243,7 @@ void RenderWindow::render()
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
     mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
 
+
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
 
@@ -586,9 +587,34 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     // Test door opening
     if (event->key() == Qt::Key_O)
     {
-        //scene1_Door->setPos(QVector3D{0, 0, 0});
-        //scene1_Door->setRotation(30, 0, 0, 0);
-        //scene1_Door
+        // Funker sånn ish
+        /*
+        scene1_Door->mMatrix.rotate(70, 0, 1, 0);
+        scene1_Door->setPos(QVector3D{2, 0, -2});
+        */
+
+        // Samme som over
+        /*
+        scene1_Door->setRotation(70, 0, 1, 0);
+        scene1_Door->setPos(QVector3D{2, 0, -2});
+        */
+
+        // Beste eg får til, klarer ikkje dynamisk på nåværende tidspunkt - Mvh Joakim ;*
+        scene1_Door->setRotation(80, 0, 1, 0);
+        scene1_Door->setPos(QVector3D{1.6, 0, -1.4});
+    }
+
+    // Scene2
+    if (event->key() == Qt::Key_5)
+    {
+        scene1_House->setPos(QVector3D{0, 0, 1});
+        scene1_House->setRotation(45, 0, 1, 0);
+
+        scene1_Door->setRotation(45, 0, 1, 0);
+        scene1_Door->setPos(QVector3D{-0.6, 0, 2});
+
+        scene1_PressurePlate->setPos(QVector3D{0, 0, 1});
+        scene1_PressurePlate->setRotation(45, 0, 1, 0);
     }
 
 
