@@ -70,7 +70,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //mObjects.push_back(KristianGraf);
 
     // Oblig2 - Scene1_House
-    scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
+    scene1_House = new house(1, 1, 1, 0.2, 0.5, 0.3); // Create with dimensions
     scene1_House->setPos(QVector3D{3, 0, -2});   // Set position
     scene1_House->setRotation(135, 0, 1, 0);    // Set rotation
     mObjects.push_back(scene1_House);
@@ -121,9 +121,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     //Player 1
     {
-        Player1* Player = new Player1(0.5,0.5,0.5,1,0,0);
+        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
         PlayerList.push_back(Player);
-
     }
 
 
@@ -132,8 +131,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     npclist.push_back(Walker);
 
        {
-             Player = new Player1(0.5,0.5,0.5,0,1,0);
-             mObjects.push_back(Player);
+        Player = new Player1(0.5,0.5,0.5,0,1,0);
+        mObjects.push_back(Player);
        }
 }
 
@@ -263,10 +262,14 @@ void RenderWindow::render()
 
     // Camera movement
 
-
+    if (Scene1){
     mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
     mCamera->update();
-
+    }
+    if(Scene2){
+        mCamera->lookAt(QVector3D{0, 0, 5}, QVector3D{0,0,0}, QVector3D{0,1,0});
+        mCamera->update();
+    }
 
 
    for (auto it=mObjects.begin(); it != mObjects.end(); it++)
@@ -461,29 +464,30 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mMainWindow->close();       //Shuts down the whole program
     }
 
-    // Draw Cube
-    if (event->key() == Qt::Key_1)
     {
-        Comp1Cube->checkCube = true;
-    }
+    // Draw Cube
+//    if (event->key() == Qt::Key_1)
+//    {
+//        Comp1Cube->checkCube = true;
+//    }
 
     // change graph
-    if (event->key() == Qt::Key_4)
-    {
-        Walker->b_showGraph_2 = true;
-    }
+//    if (event->key() == Qt::Key_4)
+//    {
+//        Walker->b_showGraph_2 = true;
+//    }
 
     // Draw Graph
-    if (event->key() == Qt::Key_2)
-    {
-        KristianGraf->checkGraph = true;
-    }
+//    if (event->key() == Qt::Key_2)
+//    {
+//        KristianGraf->checkGraph = true;
+//    }
 
     // Draw xyz
-    if (event->key() == Qt::Key_3)
-    {
+//    if (event->key() == Qt::Key_3)
+//    {
 
-    }
+//    }
 
     // Undraw Cube
     if (event->key() == Qt::Key_9)
@@ -492,122 +496,75 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     }
 
     // Draw Graph
-    if (event->key() == Qt::Key_8)
-    {
-        KristianGraf->checkGraph = false;
-    }
-
+//    if (event->key() == Qt::Key_8)
+//    {
+//        KristianGraf->checkGraph = false;
+//    }
+}
     // Draw Scene1
-    if (event->key() == Qt::Key_Space)
+    if (event->key() == Qt::Key_1)
     {
+        if(!Scene1){
+
         scene1_House->checkScene1 = true;
+        scene1_House->checkScene2 = false;
         scene1_Door->checkScene1 = true;
         scene1_PressurePlate->checkScene1 = true;
+        Player->checkScene1 = true;
+        Scene1 = true;
+        }
+        else{
+            scene1_House->checkScene1 = false;
+            scene1_Door->checkScene1 = false;
+            scene1_PressurePlate->checkScene1 = false;
+            Player->checkScene1 = false;
+            Scene1 = false;
+
+
+        }
     }
-    // Undraw Scene1
-    if (event->key() == Qt::Key_V)
+    //cube movement
     {
-        scene1_House->checkScene1 = false;
-        scene1_Door->checkScene1 = false;
-        scene1_PressurePlate->checkScene1 = false;
+//    if (event->key() == Qt::Key_Up && Comp1Cube)
+//    {
+//       Comp1Cube->move(0.f, 0.1f, 0.0f);
+//    }
+//    if (event->key() == Qt::Key_Down && Comp1Cube)
+//    {
+//        Comp1Cube->move(0.0f, -0.1f, 0.0f);
+//    }
+//    if (event->key() == Qt::Key_Left && Comp1Cube)
+//    {
+//        Comp1Cube->move(-0.1f, 0.f, 0.0f);
+//    }
+//    if (event->key() == Qt::Key_Right && Comp1Cube)
+//    {
+//        Comp1Cube->move(0.1f, 0.0f, 0.0f);
+//    }
+
     }
 
-    // Moving InteractiveObject
-    /*
-    if (event->key() == Qt::Key_W && InteractiveObject)
-    {
-        InteractiveObject->move(0.f, 0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_S && InteractiveObject)
-    {
-        InteractiveObject->move(0.0f, -0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_A && InteractiveObject)
-    {
-        InteractiveObject->move(-0.1f, 0.f, 0.0f);
-    }
-    if (event->key() == Qt::Key_D && InteractiveObject)
-    {
-        InteractiveObject->move(0.1f, 0.0f, 0.0f);
-    }
-    */
-
-    // Moving graph, not working
-    /*
-    if (event->key() == Qt::Key_W && KristianGraf)
-    {
-        KristianGraf->move(0.f, 0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_S && KristianGraf)
-    {
-        KristianGraf->move(0.0f, -0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_A && KristianGraf)
-    {
-        KristianGraf->move(-0.1f, 0.f, 0.0f);
-    }
-    if (event->key() == Qt::Key_D && KristianGraf)
-    {
-        KristianGraf->move(0.1f, 0.0f, 0.0f);
-    }
-    */
-    // I want to know the Player's location
-
-    // Moving Cube
-    if (event->key() == Qt::Key_Up && Comp1Cube)
-    {
-       Comp1Cube->move(0.f, 0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_Down && Comp1Cube)
-    {
-        Comp1Cube->move(0.0f, -0.1f, 0.0f);
-    }
-    if (event->key() == Qt::Key_Left && Comp1Cube)
-    {
-        Comp1Cube->move(-0.1f, 0.f, 0.0f);
-    }
-    if (event->key() == Qt::Key_Right && Comp1Cube)
-    {
-        Comp1Cube->move(0.1f, 0.0f, 0.0f);
-    }
-
-    // Rotate house
-    /*
-    if (event->key() == Qt::Key_W)
-    {
-        scene1_House->setRotation(180, 0, 1, 0); // Rotates house!!!!!!!
-    }
-    */
-
-    // Rotate camera
-  //  if (event->key() == Qt::Key_W)
-    {
-    //    mCamera.getRotated(180, 0, 1, 0); // No worky
-    }
-
-    // Test door opening
+    // Opening the door
     if (event->key() == Qt::Key_O)
     {
-        // Funker sånn ish
-        /*
-        scene1_Door->mMatrix.rotate(70, 0, 1, 0);
-        scene1_Door->setPos(QVector3D{2, 0, -2});
-        */
 
-        // Samme som over
-        /*
-        scene1_Door->setRotation(70, 0, 1, 0);
-        scene1_Door->setPos(QVector3D{2, 0, -2});
-        */
-
-        // Beste eg får til, klarer ikkje dynamisk på nåværende tidspunkt - Mvh Joakim ;*
+        if(!doorOpen){
         scene1_Door->setRotation(80, 0, 1, 0);
         scene1_Door->setPos(QVector3D{1.6, 0, -1.4});
+        doorOpen = true;
+        }
     }
 
     // Scene2
-    if (event->key() == Qt::Key_5)
+    if (event->key() == Qt::Key_2)
     {
+        scene1_House->checkScene2 = true;
+        scene1_Door->checkScene2 = true;
+        scene1_Door->checkScene1 = false;
+        scene1_PressurePlate->checkScene1 = false;
+        Player->checkScene1 = false;
+        Scene1 = false;
+
         scene1_House->setPos(QVector3D{0, 0, 1});
         scene1_House->setRotation(45, 0, 1, 0);
 

@@ -18,6 +18,9 @@ public:
 
     bool checkPlayerPresence{true};
 
+    bool checkScene1{false};
+    bool checkScene2{false};
+
    // GetLocation();
    void SetLocation(float x, float y, float z);
 

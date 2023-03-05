@@ -7,6 +7,9 @@ Player1::Player1(){
 
 Player1::Player1(float x, float y, float z, float r, float g, float b)
 {
+x = 0.5 * x;
+y = 0.5 * y;
+z = 0.5 * z;
 
     { //Cubemode
     mVertices.push_back(Vertex{-x, -y, -z, r, g, b});   // 1st
@@ -100,10 +103,12 @@ void Player1::init(GLint matrixUniform){
 
 void Player1::draw(){
 
+    if(checkScene1)
+    {
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
-
+    }
 }
 
 void Player1::move(float dx, float dy, float dz){

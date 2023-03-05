@@ -53,6 +53,12 @@ private:
     Player1* Player;               // Player1 Pointer
     std::vector<VisualObject*> PlayerList;
 
+    bool doorOpen = false;
+
+    bool Scene1 = false;
+    bool Scene2 = false;
+
+
     // trophy
     Trophy* trophyCube;           // pickup item (for oblig2)
     std::vector<Trophy*> trophyList;

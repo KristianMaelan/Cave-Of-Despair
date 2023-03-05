@@ -93,8 +93,5 @@ void Door::draw()
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
-
-        // constant rotation
-        //mMatrix.rotate(-1, 0, 1, 0);
     }
 }

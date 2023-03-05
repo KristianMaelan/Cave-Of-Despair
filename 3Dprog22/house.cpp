@@ -119,7 +119,7 @@ void house::init(GLint matrixUniform)
 
 void house::draw()
 {
-    if (checkScene1)
+    if (checkScene1 == true || checkScene2 == true)
     {
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
