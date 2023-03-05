@@ -240,7 +240,7 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 void RenderWindow::render()
 {
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
-    mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
+   // mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
 
 
     mTimeStart.restart(); //restart FPS clock
@@ -263,11 +263,14 @@ void RenderWindow::render()
     // Camera movement
 
     if (Scene1){
+        mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
     mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
     mCamera->update();
     }
     if(Scene2){
-        mCamera->lookAt(QVector3D{0, 0, 5}, QVector3D{0,0,0}, QVector3D{0,1,0});
+        mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);
+        mCamera->lookAt(QVector3D{0, 0, 1.8f}, QVector3D{0,0,0}, QVector3D{0,1,0});
+
         mCamera->update();
     }
 
@@ -564,6 +567,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         scene1_PressurePlate->checkScene1 = false;
         Player->checkScene1 = false;
         Scene1 = false;
+        Scene2 = true;
 
         scene1_House->setPos(QVector3D{0, 0, 1});
         scene1_House->setRotation(45, 0, 1, 0);
