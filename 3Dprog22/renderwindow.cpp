@@ -81,12 +81,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Oblig2 - Scene1_PressurePlate dimensions
     scene1_PressurePlate = new PressurePlate(1, 1, 1, 1, 0, 0);
-    scene1_PressurePlate->setPos(QVector3D{3, 0, -2});
+    scene1_PressurePlate->setPos(QVector3D{3, 0.00001, -2});
     scene1_PressurePlate->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_PressurePlate);
 
     // Oblig2 - Scene1_Plan
-    scene1_Plan = new Scene1_plan(2, 1, 2, 1, 0, 0); // y is 1 so it is visible from this camera angle
+    scene1_Plan = new Scene1_plan(5, -1, 5, 0.58, 0.30, 0); // y is 1 so it is visible from this camera angle
     mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
@@ -118,12 +118,19 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     scene1_Door->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_Door);
 
+    // Object in house test - Joakim
+    ObjectInHouse = new house(0.2, 0.2, 0.2, 1, 0, 0);
+    ObjectInHouse->setPos(QVector3D{0, -1, 1});
+    ObjectInHouse->setRotation(180, 0, 1, 0);
+    mObjects.push_back(ObjectInHouse);
+
 
     //Player 1
-    {
-        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
-        PlayerList.push_back(Player);
-    }
+//    {
+//        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
+//        //Player->setPos(QVector3D{0, -0.5, 0}); // Joakim test
+//        PlayerList.push_back(Player);
+//    }
 
 
     // NPC Walker
@@ -132,6 +139,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
        {
         Player = new Player1(0.5,0.5,0.5,0,1,0);
+        Player->setPos(QVector3D{0, -0.5, 0});
         mObjects.push_back(Player);
        }
 }
@@ -563,9 +571,11 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
         scene1_House->checkScene2 = true;
         scene1_Door->checkScene2 = true;
+        ObjectInHouse->checkScene2 = true; // Test
         scene1_Door->checkScene1 = false;
         scene1_PressurePlate->checkScene1 = false;
         Player->checkScene1 = false;
+
         Scene1 = false;
         Scene2 = true;
 
@@ -577,6 +587,10 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 
         scene1_PressurePlate->setPos(QVector3D{0, 0, 1});
         scene1_PressurePlate->setRotation(45, 0, 1, 0);
+
+        ObjectInHouse->setRotation(45, 0, 1, 0);
+
+        // Object in house
     }
 
 

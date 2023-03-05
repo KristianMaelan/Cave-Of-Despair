@@ -52,6 +52,7 @@ private:
     VisualObject* scene1_Door;          // Oblig2 scene1_Door
     Player1* Player;               // Player1 Pointer
     std::vector<VisualObject*> PlayerList;
+    VisualObject* ObjectInHouse;        // Oblig2 Object inside house
 
     bool doorOpen = false;
 
