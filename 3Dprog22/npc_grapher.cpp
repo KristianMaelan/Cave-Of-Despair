@@ -59,6 +59,7 @@ void NPC_grapher::draw()
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
     //update position
+
 }
 
 void NPC_grapher::calculateGraphFunction()
