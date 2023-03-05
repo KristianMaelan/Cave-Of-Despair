@@ -16,6 +16,8 @@ public:
     void draw() override;
     void move(float x, float y, float z) override;
 
+    bool checkPlayerPresence{true};
+
    // GetLocation();
    void SetLocation(float x, float y, float z);
 

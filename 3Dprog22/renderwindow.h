@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "trophy.h"
 #include "npc_grapher.h"
+#include "player1.h"
 
 class QOpenGLContext;
 class Shader;
@@ -49,7 +50,8 @@ private:
     VisualObject* scene1_Plan;          // Oblig2 scene1_Plan
     VisualObject* scene1_PressurePlate; // Oblig2 scene1_PressurePlate
     VisualObject* scene1_Door;          // Oblig2 scene1_Door
-    VisualObject* Player;               // Player1 Pointer
+    Player1* Player;               // Player1 Pointer
+    std::vector<VisualObject*> PlayerList;
 
     // trophy
     Trophy* trophyCube;           // pickup item (for oblig2)

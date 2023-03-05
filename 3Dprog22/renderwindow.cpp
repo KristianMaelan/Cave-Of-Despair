@@ -122,7 +122,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //Player 1
     {
         Player1* Player = new Player1(0.5,0.5,0.5,1,0,0);
-            mObjects.push_back(Player);
+        PlayerList.push_back(Player);
 
     }
 
@@ -223,6 +223,10 @@ void RenderWindow::init()
     {
         (*npc_nr)->init(mMatrixUniform);
     }
+    for (auto player_nr = PlayerList.begin(); player_nr < PlayerList.end(); ++player_nr)
+    {
+        (*player_nr)->init(mMatrixUniform);
+    }
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
 
@@ -274,9 +278,9 @@ void RenderWindow::render()
 
     for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
     {
-        if (Comp1Cube->checkCube == true)
+        if (Player->checkPlayerPresence == true)
         {
-            bool CollectionDetection = CollisionDetection(Comp1Cube, (*trophy_nr));
+            bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
 
             if (CollectionDetection)
             {
@@ -290,7 +294,7 @@ void RenderWindow::render()
                 (*trophy_nr)->draw();
             }
         }
-        else if (Comp1Cube->checkCube == false)
+        else if (Player->checkPlayerPresence == true)
         {
             (*trophy_nr)->draw();
         }
@@ -446,12 +450,6 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     {
        Player->move(-0.1f, 0.0f, 0.0f);       //Moves forward
     }
-
-
-
-
-
-
 
     }
 
