@@ -90,24 +90,49 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
-    double trophyX = 1.5;
-    double trophyY = -0.6;
-    double trophyZ = 0.0;
+    //float trophyX = 0.1;
+    //float trophyY = 0.1;
+    //float trophyZ = 0.1;
 
     // (2) UNCOMMENT WHEN YOU WANT ALL YOUR TROPHIES
-    for (int i = 0; i < 7; ++i)
-    {
-        trophyCube = new Trophy(trophyX, trophyY, trophyZ);
-        trophyList.push_back(trophyCube);
+    //for (int i = 0; i < 7; ++i)
+    //{
+      //  trophyCube = new Trophy(trophyX, trophyY, trophyZ);
+        //trophyList.push_back(trophyCube);
      // mObjects.push_back(trophyCube);
-       trophyX += 1.0f;
-      //  trophyY += 0.5f;
-      //  trophyZ += 0.5f;
-       std::cout << "we have new trophies\n";
+     // trophyX += 2.0f;
+     // trophyZ += 0.5f;
+        //for (float x = 0; x < 7; ++x)
+        //{
+        //  trophyList[i]->setPos(QVector3D{trophyX, trophyY, 0.1});
+        //}
+      // std::cout << "we have new trophies" << i << "\n";
     //}
 
-       std::cout << "we have new trophies" << i << "\n";
-    }
+    trophyCube1 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube1->setPos(QVector3D{0, 0, 0});
+    trophyList.push_back(trophyCube1);
+
+    trophyCube2 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube2->setPos(QVector3D{1.7, 0, 0});
+    trophyList.push_back(trophyCube2);
+
+    trophyCube3 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube3->setPos(QVector3D{2.4, 0, 0});
+    trophyList.push_back(trophyCube3);
+
+    trophyCube4 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube4->setPos(QVector3D{3.1, 0, 0});
+    trophyList.push_back(trophyCube4);
+
+    trophyCube5 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube5->setPos(QVector3D{4.8, 0, 0});
+    trophyList.push_back(trophyCube5);
+
+    trophyCube6 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube6->setPos(QVector3D{5.5, 0, 0});
+    trophyList.push_back(trophyCube6);
+
     /*float npc_x = 0.4f;
     float npc_y = 0.6f;
     float npc_z = 0.0f;
@@ -134,11 +159,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     ObjectInHouse->setPos(QVector3D{0, -1, 1});
     ObjectInHouse->setRotation(180, 0, 1, 0);
     mObjects.push_back(ObjectInHouse);
-
-
-
-
-
 
     {
         Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
@@ -305,24 +325,27 @@ void RenderWindow::render()
 
     for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
     {
-        if (Player->checkPlayerPresence == true && (*trophy_nr)->DidItemGetPickedUp == false)
+        //(*trophy_nr)->draw();
+        if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == false )
         {
             bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
 
-            if (CollectionDetection)
+            if (!CollectionDetection)
             {
-                std::cout << "CollectionDetection is false: " << CollectionDetection << '\n';
+                std::cout << "collectiondetection is true, we picked up a trophy\n";
                 (*trophy_nr)->draw();
-            }
-            else if (!CollectionDetection)
-            {
-                std::cout << "CollectionDetection is true: " << CollectionDetection << '\n';
                 (*trophy_nr)->DidItemGetPickedUp = true;
             }
+            else if (CollectionDetection)
+            {
+                std::cout << "collectiondetection is false, we didn't pick up anything\n";
+                (*trophy_nr)->draw();
+                //(*trophy_nr)->DidItemGetPickedUp = true;
+            }
         }
-        else if (Player->checkPlayerPresence == false)
+        else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
         {
-            (*trophy_nr)->draw();
+            // trophy is already picked up
         }
         
     }

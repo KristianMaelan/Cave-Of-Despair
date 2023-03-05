@@ -3,19 +3,17 @@
 
 Trophy::Trophy()
 {
-    // trophyCube1 = new Cube(0, 1, 0.5, 0, 1, 1);
-    // mObjects.push_back(trophyCube1);
+
 }
 
-Trophy::Trophy(double x, double y, double z) : Cube(x, y, z, 1, 1, 0 )
+Trophy::Trophy(double x, double y, double z) : Cube(x, y, z, 1, 0, 1 )
 {
-   // mObjects.push_back(trophyCube1);
-   // mTrophyLocations.push_back(trophyCube1);
+
 }
 
 Trophy::~Trophy()
 {
-    // nuthin'
+
 }
 
 void Trophy::init(GLint matrixUniform)

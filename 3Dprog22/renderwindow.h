@@ -61,7 +61,12 @@ private:
 
 
     // trophy
-    Trophy* trophyCube;           // pickup item (for oblig2)
+    Trophy* trophyCube1;           // pickup item (for oblig2)
+    Trophy* trophyCube2;
+    Trophy* trophyCube3;
+    Trophy* trophyCube4;
+    Trophy* trophyCube5;
+    Trophy* trophyCube6;
     std::vector<Trophy*> trophyList;
 
     // NPC
