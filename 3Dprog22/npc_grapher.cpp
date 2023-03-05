@@ -87,6 +87,7 @@ void NPC_grapher::functionMove()
         setPos(QVector3D{x, y, 0});
         //move(x, y, 0);
         x += 0.1;
+        setPos(QVector3D{x, y, 0});
         //move(x, y, 0);
         x += 0.01;
      }
