@@ -5,17 +5,13 @@ NPC_grapher::NPC_grapher()
 
 }
 
+NPC_grapher::NPC_grapher(float xv, float yv, float zv) : Cube (xv, yv, zv, 1, 0.46, 0.0)
 {
     // graph 1
     // (1,5), (2,2), (3,5), (4,7)
     // graph 2
     // (-1,4), (6,2), (5,3), (7,1)
-
-    Coordinate_X = xv;
-    Coordinate_Y = yv;
-    Coordinate_Z = zv;
-
-    x = Coordinate_X;
+    x =xv;
 
     calculateGraphFunction();
     mMatrix.setToIdentity();
@@ -59,7 +55,7 @@ void NPC_grapher::draw()
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
     //update position
-
+    functionMove();
 }
 
 void NPC_grapher::calculateGraphFunction()
@@ -73,8 +69,7 @@ void NPC_grapher::calculateGraphFunction()
 }
 
 void NPC_grapher::functionMove()
-{
-    // check which graph, if we are using a graph, that should be used (a/b/c/d values) at the same time, define x0/xn values to use
+{ 
     if (b_showGraph_2 == false)
     {
         // we are using graph 1
@@ -83,14 +78,14 @@ void NPC_grapher::functionMove()
         c_1 = matrix_1_X(2);
         d_1 = matrix_1_X(3);
 
-        // move this to render window? how is interactive cube moved?
      if (x <= x0_1)
      {
         x = x0_1;
         b_shouldWeIncreaseX = true;
         float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
         std::cout << x << ", " << y << '\n';
-       // move(x, y, 0);
+        setPos(QVector3D{x, y, 0});
+        //move(x, y, 0);
         x += 0.1;
      }
      else if (x >= xn_1)
@@ -99,14 +94,16 @@ void NPC_grapher::functionMove()
         b_shouldWeIncreaseX = false;
         float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
         std::cout << x << ", " << y << '\n';
-       // move(x, y, 0);
+        setPos(QVector3D{x, y, 0});
+        //move(x, y, 0);
         x -= 0.1;
      }
      else if (x0_1 < x && xn_1 > x)
      {
         float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
         std::cout << x << ", " << y << '\n';
-       // move(x, y, 0);
+        setPos(QVector3D{x, y, 0});
+        //move(x, y, 0);
         if (b_shouldWeIncreaseX)
         {
             x += 0.1;
@@ -132,7 +129,7 @@ void NPC_grapher::functionMove()
            b_shouldWeIncreaseX = true;
            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
            std::cout << x << ", " << y << '\n';
-         //  move(x, y, 0);
+           setPos(QVector3D{x, y, 0});
            x += 0.1;
         }
         else if (x >= xn_1)
@@ -141,14 +138,14 @@ void NPC_grapher::functionMove()
            b_shouldWeIncreaseX = false;
            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
            std::cout << x << ", " << y << '\n';
-          // move(x, y, 0);
+           setPos(QVector3D{x, y, 0});
            x -= 0.1;
         }
         else if (x0_1 < x && xn_1 > x)
         {
            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
            std::cout << x << ", " << y << '\n';
-          // move(x, y, 0);
+           setPos(QVector3D{x, y, 0});
            if (b_shouldWeIncreaseX)
            {
                x += 0.1;

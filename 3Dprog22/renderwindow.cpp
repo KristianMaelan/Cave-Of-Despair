@@ -137,11 +137,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
 
 
-    // NPC Walker
-    Walker = new NPC_grapher(0.1, 0.1, 0.1, 1,0,1);
-    npclist.push_back(Walker);
-
-
 
     {
         Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
@@ -150,7 +145,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
 
     // NPC Walker
-    Walker = new NPC_grapher(0.5,0.5,0.5, 1,0,1);
+    Walker = new NPC_grapher(0.5,0.5,0.5);
     mObjects.push_back(Walker);
     //npclist.push_back(Walker);
     Walker->functionMove();
