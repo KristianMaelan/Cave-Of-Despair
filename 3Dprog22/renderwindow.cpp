@@ -45,8 +45,6 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //Make the gameloop timer:
     mRenderTimer = new QTimer(this);
 
-    mObjects.push_back(new XYZ());
-   //mObjects.push_back(new TriangleSurface());
     // mObjects.push_back(new XYZ());
     // mObjects.push_back(new TriangleSurface());
 
@@ -65,16 +63,18 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 
     // from tempReadMe, needs to be changed depending
-    KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
-    mObjects.push_back(KristianGraf);
     //KristianGraf = new TriangleSurface("../3Dprog22/info.txt");
     //mObjects.push_back(KristianGraf);
 
     // Oblig2 - Scene1_House
     scene1_House = new house(1, 1, 1, 0, 0, 0); // Create with dimensions
+
     scene1_House->setPos(QVector3D{3, 0, -2});   // Set position
     scene1_House->setRotation(135, 0, 1, 0);    // Set rotation
     mObjects.push_back(scene1_House);
+
+    scene1_House->setPos(QVector3D{0, 0, 0});   // Set position
+
     //mObjects.push_back(scene1_House);
 
     // Oblig2 - Scene1_PressurePlate dimensions
@@ -206,7 +206,6 @@ void RenderWindow::init()
     for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
     {
         (*trophy_nr)->init(mMatrixUniform);
-        std::cout << "mMatrixUnifrom is initialised\n";
     }
     for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
     {
@@ -248,7 +247,6 @@ void RenderWindow::render()
 
     // Camera movement
     //float x = 15;
-    mCamera.translate(0, 0, 15);
     mCamera.translate(0.0f, 0.0f, 15.0f);
     mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     mCamera.update();
@@ -258,7 +256,14 @@ void RenderWindow::render()
        (*it)->draw();
     }
 
+
  
+
+    for (auto it = npclist.begin(); it != npclist.end(); it++)
+    {
+       (*it)->draw();
+    }
+
     for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
     {
         if (Comp1Cube->checkCube == true)

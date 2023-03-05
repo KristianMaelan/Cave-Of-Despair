@@ -50,7 +50,6 @@ private:
     VisualObject* scene1_PressurePlate; // Oblig2 scene1_PressurePlate
     VisualObject* scene1_Door;          // Oblig2 scene1_Door
 
-    // programming 2
     // trophy
     Trophy* trophyCube;           // pickup item (for oblig2)
     std::vector<Trophy*> trophyList;
