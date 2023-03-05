@@ -279,7 +279,7 @@ void RenderWindow::render()
 
     for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
     {
-        if (Player->checkPlayerPresence == true)
+        if (Player->checkPlayerPresence == true && (*trophy_nr)->DidItemGetPickedUp == false)
         {
             bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
 
@@ -288,14 +288,13 @@ void RenderWindow::render()
                 std::cout << "CollectionDetection is false: " << CollectionDetection << '\n';
                 (*trophy_nr)->draw();
             }
-            else
+            else if (!CollectionDetection)
             {
                 std::cout << "CollectionDetection is true: " << CollectionDetection << '\n';
                 (*trophy_nr)->DidItemGetPickedUp = true;
-                (*trophy_nr)->draw();
             }
         }
-        else if (Player->checkPlayerPresence == true)
+        else if (Player->checkPlayerPresence == false)
         {
             (*trophy_nr)->draw();
         }
