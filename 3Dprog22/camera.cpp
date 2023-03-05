@@ -38,7 +38,7 @@ void Camera::update()
 
 void Camera::translate(float dx, float dy, float dz)
 {
-    mEye + QVector3D(dx, dy, dz);
+    mEye += QVector3D(dx, dy, dz);
 }
 
 void Camera::move(float x, float y, float z)
@@ -47,7 +47,6 @@ void Camera::move(float x, float y, float z)
     degrees += x;
     moveY += y;
     moveZ += z;
-
 
    mPmatrix.rotate(moveX, moveY, moveZ);
    */

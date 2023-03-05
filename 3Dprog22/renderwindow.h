@@ -49,6 +49,7 @@ private:
     VisualObject* scene1_Plan;          // Oblig2 scene1_Plan
     VisualObject* scene1_PressurePlate; // Oblig2 scene1_PressurePlate
     VisualObject* scene1_Door;          // Oblig2 scene1_Door
+    VisualObject* Player;               // Player1 Pointer
 
     // trophy
     Trophy* trophyCube;           // pickup item (for oblig2)
@@ -71,7 +72,7 @@ private:
     NPC_grapher* NPC;                   // NPC
 
     // camera
-    Camera mCamera{};
+    Camera* mCamera{};
 
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
     bool mInitialized{false};

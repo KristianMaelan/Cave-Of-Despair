@@ -42,6 +42,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
         qDebug() << "Context could not be made - quitting this application";
     }
 
+    //Camera setup
+    mCamera = new Camera;
+
     //Make the gameloop timer:
     mRenderTimer = new QTimer(this);
 
@@ -129,6 +132,10 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     Walker = new NPC_grapher(-0.2, -0.4, 0.4);
     npclist.push_back(Walker);
 
+       {
+             Player = new Player1(0.5,0.5,0.5,0,1,0);
+             mObjects.push_back(Player);
+       }
 }
 
 RenderWindow::~RenderWindow()
@@ -201,7 +208,7 @@ void RenderWindow::init()
     mVmatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "vMatrix" );
     mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
 
-    mCamera.init(mPmatrixUniform, mVmatrixUniform);
+    mCamera->init(mPmatrixUniform, mVmatrixUniform);
 
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
 
@@ -224,14 +231,20 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 {
     bool CollidedWith_X = player->Coordinate_X + 0.5 >= world_object->Coordinate_X && world_object->Coordinate_X + 0.5 >= player->Coordinate_X;
     bool CollidedWith_Y = player->Coordinate_Y + 0.5 >= world_object->Coordinate_Y && world_object->Coordinate_Y + 0.5 >= player->Coordinate_Y;
+=======
+    bool CollidedWith_X = Player_ToRender->Coordinate_X + 0.5 >= Obj_toRender->Coordinate_X && Obj_toRender->Coordinate_X + 0.5 >= Player_ToRender->Coordinate_X;
+    bool CollidedWith_Y = Player_ToRender->Coordinate_Y + 0.5 >= Obj_toRender->Coordinate_Y && Obj_toRender->Coordinate_Y + 0.5 >= Player_ToRender->Coordinate_Y;
+
+    std::cout << CollidedWith_X << " & " << CollidedWith_Y << std::endl;
+>>>>>>> Stashed changes
     return CollidedWith_X && CollidedWith_Y;
 }
 
 // Called each frame - doing the rendering!!!
 void RenderWindow::render()
 {
-    mCamera.init(mPmatrixUniform, mVmatrixUniform);
-    mCamera.perspective(60, 4.0/3.0, 0.1, 20.0);
+    mCamera->init(mPmatrixUniform, mVmatrixUniform);
+    mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
 
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
@@ -252,9 +265,15 @@ void RenderWindow::render()
 
     // Camera movement
     //float x = 15;
+<<<<<<< Updated upstream
     mCamera.translate(0.0f, 0.0f, 15.0f);
     mCamera.lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
     mCamera.update();
+=======
+    mCamera->translate(0, 0, 15);
+    mCamera->lookAt(QVector3D{0,0,5}, QVector3D{0,0,0}, QVector3D{0,1,0});
+    mCamera->update();
+>>>>>>> Stashed changes
 
    for (auto it=mObjects.begin(); it != mObjects.end(); it++)
    {
@@ -417,6 +436,42 @@ void RenderWindow::startOpenGLDebugger()
 // NB - see renderwindow.h for signatures on keyRelease and mouse input
 void RenderWindow::keyPressEvent(QKeyEvent *event)
 {
+    //Player1
+    {
+    //Forward
+    if (event->key() == Qt::Key_W)
+    {
+       Player->move(0.0f, 0.0f, -0.1f);       //Moves forward
+    }
+    if (event->key() == Qt::Key_M)
+    {
+
+    }
+    //Backward
+    if (event->key() == Qt::Key_S)
+    {
+       Player->move(0.0f, 0.0f, 0.1f);       //Moves forward
+    }
+    //Right
+    if (event->key() == Qt::Key_D)
+    {
+       Player->move(0.1f, 0.0f, 0.0f);       //Moves forward
+    }
+    //Left
+    if (event->key() == Qt::Key_A)
+    {
+       Player->move(-0.1f, 0.0f, 0.0f);       //Moves forward
+    }
+
+
+
+
+
+
+
+    }
+
+
     if (event->key() == Qt::Key_Escape)
     {
         mMainWindow->close();       //Shuts down the whole program
@@ -517,7 +572,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     // Moving Cube
     if (event->key() == Qt::Key_Up && Comp1Cube)
     {
-        Comp1Cube->move(0.f, 0.1f, 0.0f);
+       Comp1Cube->move(0.f, 0.1f, 0.0f);
     }
     if (event->key() == Qt::Key_Down && Comp1Cube)
     {
@@ -541,9 +596,9 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
     */
 
     // Rotate camera
-    if (event->key() == Qt::Key_W)
+  //  if (event->key() == Qt::Key_W)
     {
-        mCamera.getRotated(180, 0, 1, 0); // No worky
+    //    mCamera.getRotated(180, 0, 1, 0); // No worky
     }
 
     // Test door opening

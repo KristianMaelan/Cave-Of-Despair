@@ -112,5 +112,4 @@ void Player1::move(float dx, float dy, float dz){
     Coordinate_X = dx;
     Coordinate_Y = dy;
     Coordinate_Z = dz;
-
 }
