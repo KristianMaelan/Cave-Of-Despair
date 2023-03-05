@@ -105,12 +105,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
       //  trophyZ += 0.5f;
        std::cout << "we have new trophies\n";
     //}
-    float npc_x = 0.4f;
+    /*float npc_x = 0.4f;
     float npc_y = 0.6f;
     float npc_z = 0.0f;
 
     NPC = new NPC_grapher(npc_x, npc_y, npc_z);
-    mObjects.push_back(NPC);
+    mObjects.push_back(NPC);*/
 
     // Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
