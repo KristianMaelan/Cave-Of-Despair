@@ -19,7 +19,10 @@ public:
     bool b_showGraph_2{false}; // false show graph1, true show graph2
 
     // calculate graph
+    float x;
+
     // matrices for graph1
+    bool b_shouldWeIncreaseX{true};
     Eigen::MatrixXf matrix_graph1 {
         {1,5},
         {2,2},
@@ -39,6 +42,14 @@ public:
         {7}
     };
     Eigen::MatrixXf matrix_1_X;
+
+    float x0_1 = 1;
+    float xn_1 = 4;
+    float a_1;
+    float b_1;
+    float c_1;
+    float d_1;
+
     // matrices for graph2
     Eigen::MatrixXf matrix_graph2   {
         {-1,4},
@@ -59,11 +70,23 @@ public:
         {1}
     };
     Eigen::MatrixXf matrix_2_X;
+
+    float x0_2 = -1;
+    float xn_2 = 7;
+    float a_2;
+    float b_2;
+    float c_2;
+    float d_2;
+
     // calculate a/b/c/d values
     void calculateGraphFunction();
     // move NPC
     void functionMove();
     void move(float dx, float dy, float dz) override;
+    //  new positions
+    float Coordinate_X;
+    float Coordinate_Y;
+    float Coordinate_Z;
 
 };
 

@@ -88,7 +88,7 @@ void Door::init(GLint matrixUniform)
 
 void Door::draw()
 {
-    //if (checkScene1)
+    if (checkScene1)
     {
         glBindVertexArray( mVAO );
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());

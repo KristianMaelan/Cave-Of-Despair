@@ -9,83 +9,15 @@ NPC_grapher::NPC_grapher(float x, float y, float z) : Cube (x, y, z, 1, 0.46, 0.
 {
     // graph 1
     // (1,5), (2,2), (3,5), (4,7)
-/*
-    for (int i = 0; i < 4; ++i)
-    {
-        for (int j = 0; j < 5; ++j)
-        {
-            if (i == 0)
-            {
-                matrix_1_A(i,j) = pow(matrix_graph1(i,0), 3);
-            }
-            else if (i == 1)
-            {
-                matrix_1_A(i,j) = pow(matrix_graph1(i,0), 2);
-            }
-            else if (i == 2)
-            {
-                matrix_1_A(i,j) = pow(matrix_graph1(i,0), 1);
-            }
-            else if (i == 3)
-            {
-                matrix_1_A(i,j) = 1;
-            }
-            else if (i == 4)
-            {
-                matrix_1_Y(i) = matrix_graph1(i,1);
-            }
-        }
-    }
-    // print
-    std::cout << "matrix_1_A\n";
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            std::cout << matrix_1_A(i, j) << ", ";
-        }
-        std::cout << '\n';
-    }
-    std::cout << '\n';
-*/
     // graph 2
     // (-1,4), (6,2), (5,3), (7,1)
-/*
-    for (int i = 0; i < 4; ++i)
-    {
-        for (int j = 0; j < 5; ++j)
-        {
-            if (i == 0)
-            {
-                matrix_2_A(i,j) = pow(matrix_graph2(i,0), 3);
-            }
-            else if (i == 1)
-            {
-                matrix_2_A(i,j) = pow(matrix_graph2(i,0), 2);
-            }
-            else if (i == 2)
-            {
-                matrix_2_A(i,j) = pow(matrix_graph2(i,0), 1);
-            }
-            else if (i == 3)
-            {
-                matrix_2_A(i,j) = 1;
-            }
-            else if (i == 4)
-            {
-                matrix_2_Y(i) = matrix_graph2(i,1);
-            }
-        }
-    }
-    // print
-    std::cout << "matrix_2_A\n";
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            std::cout << matrix_2_A(i, j) << ", ";
-        }
-        std::cout << '\n';
-    }
-    std::cout << '\n';
-*/
+
+    Coordinate_X = x;
+    Coordinate_Y = y;
+    Coordinate_Z = z;
+
     calculateGraphFunction();
+    mMatrix.setToIdentity();
 
 }
 
@@ -125,6 +57,8 @@ void NPC_grapher::draw()
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
+    //update position
+    functionMove();
 }
 
 void NPC_grapher::calculateGraphFunction()
@@ -153,34 +87,75 @@ void NPC_grapher::functionMove()
     if (b_showGraph_2 == false)
     {
         // we are using graph 1
-        float x0 = 1;
-        float xn = 4;
-        float a = matrix_1_X(0);
-        float b = matrix_1_X(1);
-        float c = matrix_1_X(2);
-        float d = matrix_1_X(3);
+        a_1 = matrix_1_X(0);
+        b_1 = matrix_1_X(1);
+        c_1 = matrix_1_X(2);
+        d_1 = matrix_1_X(3);
 
         // move this to render window? how is interactive cube moved?
-        for (float x = x0; x < xn; ++x) {
+     if (x <= x0_1)
+     {
+        x = x0_1;
+        b_shouldWeIncreaseX = true;
+        float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
+        std::cout << x << ", " << y << '\n';
+        move(x, y, 0);
+        ++x;
+     }
+     else if (x >= xn_1)
+     {
+        x = xn_1;
+        b_shouldWeIncreaseX = false;
+        float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
+        std::cout << x << ", " << y << '\n';
+        move(x, y, 0);
+        --x;
+     }
+     else if (x0_1 < x && xn_1 > x)
+     {
+        float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
+        std::cout << x << ", " << y << '\n';
+        move(x, y, 0);
+        if (b_shouldWeIncreaseX)
+        {
+            ++x;
+        }
+        else
+        {
+            --x;
+        }
+     }
+      /*for (x = x0_1; x < xn_1; ++x) {
 
-            float y = a * (x * x * x) + b * (x * x) + c * x + d;
-
+            float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
+            std::cout << x << ", " << y << '\n';
             move(x, y, 0);
         }
+        for (x = xn_1; x > x0_1; --x) {
+
+            float y = a_1 * (x * x * x) + b_1 * (x * x) + c_1 * x + d_1;
+            std::cout << x << ", " << y << '\n';
+            move(x, y, 0);
+        }*/
     }
     else if (b_showGraph_2 == true)
     {
         // we are using graph 2
-        float x0 = -1;
-        float xn = 7;
-        float a = matrix_2_X(0);
-        float b = matrix_2_X(1);
-        float c = matrix_2_X(2);
-        float d = matrix_2_X(3);
-        for (float x = xn; x > x0; --x) {
 
-            float y = a * (x * x * x) + b * (x * x) + c * x + d;
+        a_2 = matrix_2_X(0);
+        b_2 = matrix_2_X(1);
+        c_2 = matrix_2_X(2);
+        d_2 = matrix_2_X(3);
+        for (float x = x0_2; x < xn_2; ++x) {
 
+            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
+            std::cout << x << ", " << y << '\n';
+            move(x, y, 0);
+        }
+        for (float x = xn_2; x > x0_2; --x) {
+
+            float y = a_2 * (x * x * x) + b_2 * (x * x) + c_2 * x + d_2;
+            std::cout << x << ", " << y << '\n';
             move(x, y, 0);
         }
     }
@@ -189,5 +164,8 @@ void NPC_grapher::functionMove()
 void NPC_grapher::move(float dx, float dy, float dz)
 {
     mMatrix.translate(dx, dy, dz);
+    Coordinate_X = dx;
+    Coordinate_Y = dy;
+    Coordinate_Z = dz;
 }
 
