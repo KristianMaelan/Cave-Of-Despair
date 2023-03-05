@@ -64,6 +64,7 @@ private:
 
     // Collision/collection
     bool CollisionDetection(VisualObject* trophy, VisualObject* player);
+    // collision
     bool CollisionDetection(VisualObject* player, VisualObject* wordl_object);
 
     // NPC
