@@ -51,6 +51,8 @@ FORMS += \
     mainwindow.ui
 
 DISTFILES += \
+    phongshader.frag \
+    phongshader.vert \
     plainshader.frag \
     plainshader.vert \
     tempReadMeFile
