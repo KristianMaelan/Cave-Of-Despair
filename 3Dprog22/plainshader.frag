@@ -14,5 +14,5 @@ uniform vec4 ambientColour = vec4(1, 0, 0, 0); // controls the colour of the lig
 // not dot or cross product
 
 void main() {
-   fragmentColor = color * ambientColour *ambientStrength;   //color given to current fragment (pixel)
+   fragmentColor = color * ambientColour * ambientStrength;   //color given to current fragment (pixel)
 }
