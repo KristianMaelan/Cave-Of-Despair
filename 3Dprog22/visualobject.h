@@ -34,9 +34,11 @@ public:
 
    GLuint mVAO{0};
    GLuint mVBO{0};
+   GLuint mEAB{0};
 
 protected:
    std::vector<Vertex> mVertices;
+   std::vector<GLuint> mIndices;
    GLint mMatrixUniform{0};
    QMatrix4x4 mMatrix;
    QMatrix4x4 mPosition;

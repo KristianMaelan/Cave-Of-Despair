@@ -11,8 +11,9 @@
 #include <string>
 #include <iostream>
 
-#include "player1.h"
+#include "lightsource.h"
 #include "shader.h"
+#include "player1.h"
 #include "mainwindow.h"
 #include "logger.h"
 #include "xyz.h"
@@ -24,6 +25,7 @@
 #include "pressureplate.h"
 #include "trophy.h"
 #include "door.h"
+//#include "lightsource.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     : mContext(nullptr), mInitialized(false), mMainWindow(mainWindow)
@@ -172,7 +174,46 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //npclist.push_back(Walker);
     Walker->functionMove();
 
+    // this is our lightsource, should look like a pyramid
+    mObjects.push_back(new class LightSource());
+    //LightSourceList.push_back(new LightSource);
+
+
 }
+
+/*OLE FLATEN - SETTING UP SHADERS?
+void RenderWindow::setupPlainShader(int shaderIndex)
+{
+    mMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
+    vMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
+    pMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
+}
+
+void RenderWindow::setupTextureShader(int shaderIndex)
+{
+    mMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
+    vMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
+    pMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
+    mTextureUniform1 = glGetUniformLocation(mShaderProgram[shaderIndex]->getProgram(), "textureSampler");
+}
+
+void RenderWindow::setupPhongShader(int shaderIndex)
+{
+    mMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
+    vMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
+    pMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
+
+    mLightColorUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightColor" );
+    mObjectColorUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "objectColor" );
+    mAmbientLightStrengthUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "ambientStrengt" );
+    mLightPositionUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightPosition" );
+    mSpecularStrengthUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "specularStrength" );
+    mSpecularExponentUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "specularExponent" );
+    mLightPowerUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightPower" );
+    mCameraPositionUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "cameraPosition" );
+    mTextureUniform2 = glGetUniformLocation(mShaderProgram[shaderIndex]->getProgram(), "textureSampler");
+}
+*/
 
 RenderWindow::~RenderWindow()
 {
@@ -234,15 +275,33 @@ void RenderWindow::init()
     //NB: hardcoded path to files! You have to change this if you change directories for the project.
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
-    mShaderProgram = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
+    //
+    mShaderProgram[0] = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "matrix" );
+    glUseProgram(mShaderProgram[0]->getProgram());
 
+    mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "matrix" );
+    glUseProgram(mShaderProgram[1]->getProgram());
+
+    mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "matrix" );
+    glUseProgram(mShaderProgram[2]->getProgram());
+
+    /*setupPlainShader(0);
+    setupTextureShader(1);
+    setupPhongShader(2);*/
 
     // Get the matrixUniform location from the shader
     // This has to match the "matrix" variable name in the vertex shader
     // The uniform is used in the render() function to send the model matrix to the shader
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "vMatrix" );
-    mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
+
 
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
 
@@ -250,19 +309,23 @@ void RenderWindow::init()
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
-        (*it)->init(mMatrixUniform);
+        (*it)->init(mMmatrixUniform);
     }
     for (auto trophy_nr = trophyList.begin(); trophy_nr != trophyList.end(); ++trophy_nr)
     {
-        (*trophy_nr)->init(mMatrixUniform);
+        (*trophy_nr)->init(mMmatrixUniform);
     }
     for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
     {
-        (*npc_nr)->init(mMatrixUniform);
+        (*npc_nr)->init(mMmatrixUniform);
     }
     for (auto player_nr = PlayerList.begin(); player_nr < PlayerList.end(); ++player_nr)
     {
-        (*player_nr)->init(mMatrixUniform);
+        (*player_nr)->init(mMmatrixUniform);
+    }
+    for (auto LightSourceList_thing = LightSourceList.begin(); LightSourceList_thing < LightSourceList.end(); ++LightSourceList_thing)
+    {
+        (*LightSourceList_thing)->init(mMmatrixUniform);
     }
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
@@ -291,12 +354,11 @@ void RenderWindow::render()
     // mVmatrix->setToIdentity();
     // mPmatrix->perspective(60, 4.0/3.0, 0.1, 10.0);
 
-
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //what shader to use
-    glUseProgram(mShaderProgram->getProgram() );
+    //glUseProgram(mShaderProgram->getProgram());
 
     // Camera movement
 

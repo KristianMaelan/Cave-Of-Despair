@@ -18,6 +18,7 @@ private:
 public:
    Vertex();
    Vertex(float x, float y, float z, float r, float g, float b);
+   Vertex(float x, float y, float z, float r, float g, float b, float u, float v);
 };
 
 

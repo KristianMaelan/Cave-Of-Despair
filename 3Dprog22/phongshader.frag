@@ -4,6 +4,9 @@ out vec4 fragColor;
 
 in vec3 normalTransposed;
 in vec3 fragmentPosition;
+in vec2 UV;
+
+uniform sampler2D textureSampler;
 
 uniform float ambientStrength = 0.1;
 uniform vec3 lightPosition;
