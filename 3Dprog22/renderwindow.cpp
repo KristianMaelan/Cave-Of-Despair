@@ -245,7 +245,6 @@ void RenderWindow::init()
     mMatrixUniform = glGetUniformLocation( mShaderProgram->getProgram(), "matrix" );
 
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
-
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
