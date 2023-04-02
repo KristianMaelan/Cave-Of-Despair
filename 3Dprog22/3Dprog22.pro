@@ -12,6 +12,7 @@ SOURCES += main.cpp \
     grapher.cpp \
     house.cpp \
     interaction.cpp \
+    lightsource.cpp \
     logger.cpp \
     mainwindow.cpp \
     npc_grapher.cpp \
@@ -20,6 +21,7 @@ SOURCES += main.cpp \
     renderwindow.cpp \
     scene1_plan.cpp \
     shader.cpp \
+    texture.cpp \
     trianglesurface.cpp \
     trophy.cpp \
     vertex.cpp \
@@ -33,6 +35,7 @@ HEADERS += \
     grapher.h \
     house.h \
     interaction.h \
+    lightsource.h \
     logger.h \
     mainwindow.h \
     npc_grapher.h \
@@ -41,6 +44,7 @@ HEADERS += \
     renderwindow.h \
     scene1_plan.h \
     shader.h \
+    texture.h \
     trianglesurface.h \
     trophy.h \
     vertex.h \
@@ -51,6 +55,8 @@ FORMS += \
     mainwindow.ui
 
 DISTFILES += \
+    phongshader.frag \
+    phongshader.vert \
     plainshader.frag \
     plainshader.vert \
     tempReadMeFile
