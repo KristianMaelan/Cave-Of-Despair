@@ -8,9 +8,9 @@
 LightSource::LightSource()
 {
     mVertices.push_back(Vertex{-0.25f, -0.25f,  0.25f,    0.8f, 0.8f, 0.3f,    0.f, 0.f});    //Left low
-        mVertices.push_back(Vertex{0.25f, -0.25f,  0.25f,     0.8f, 0.8f, 0.3f,    1.f, 0.f});    //Right low
-        mVertices.push_back(Vertex{0.0f,  0.25f,  0.0f,       0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Top
-        mVertices.push_back(Vertex{0.0f, -0.25f, -0.25f,      0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Back low
+    mVertices.push_back(Vertex{0.25f, -0.25f,  0.25f,     0.8f, 0.8f, 0.3f,    1.f, 0.f});    //Right low
+    mVertices.push_back(Vertex{0.0f,  0.25f,  0.0f,       0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Top
+    mVertices.push_back(Vertex{0.0f, -0.25f, -0.25f,      0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Back low
 
     /*// -y veggen
         mVertices.push_back(Vertex{-1,-1,-1,1,0,0});

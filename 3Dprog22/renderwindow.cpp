@@ -44,6 +44,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
         qDebug() << "Context could not be made - quitting this application";
     }
 
+        std::cout << "we reached 'mContext";
     //Camera setup
     mCamera = new Camera;
 
@@ -175,45 +176,12 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     Walker->functionMove();
 
     // this is our lightsource, should look like a pyramid
-    mObjects.push_back(new class LightSource());
+    LightSourceObject = new LightSource();
+    mObjects.push_back(LightSourceObject);
     //LightSourceList.push_back(new LightSource);
 
 
 }
-
-/*OLE FLATEN - SETTING UP SHADERS?
-void RenderWindow::setupPlainShader(int shaderIndex)
-{
-    mMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
-    vMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
-    pMatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
-}
-
-void RenderWindow::setupTextureShader(int shaderIndex)
-{
-    mMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
-    vMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
-    pMatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
-    mTextureUniform1 = glGetUniformLocation(mShaderProgram[shaderIndex]->getProgram(), "textureSampler");
-}
-
-void RenderWindow::setupPhongShader(int shaderIndex)
-{
-    mMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "mMatrix" );
-    vMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "vMatrix" );
-    pMatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "pMatrix" );
-
-    mLightColorUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightColor" );
-    mObjectColorUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "objectColor" );
-    mAmbientLightStrengthUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "ambientStrengt" );
-    mLightPositionUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightPosition" );
-    mSpecularStrengthUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "specularStrength" );
-    mSpecularExponentUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "specularExponent" );
-    mLightPowerUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "lightPower" );
-    mCameraPositionUniform = glGetUniformLocation( mShaderProgram[shaderIndex]->getProgram(), "cameraPosition" );
-    mTextureUniform2 = glGetUniformLocation(mShaderProgram[shaderIndex]->getProgram(), "textureSampler");
-}
-*/
 
 RenderWindow::~RenderWindow()
 {
@@ -276,23 +244,14 @@ void RenderWindow::init()
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
     //
+        std::cout << "we reached 'renderwindow.cpp";
     mShaderProgram[0] = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[0]->getProgram(), "matrix" );
-    glUseProgram(mShaderProgram[0]->getProgram());
+    //mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
+    //mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
 
-    mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[1]->getProgram(), "matrix" );
-    glUseProgram(mShaderProgram[1]->getProgram());
-
-    mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "matrix" );
-    glUseProgram(mShaderProgram[2]->getProgram());
+    setUpPlainShader(0);
+    //setUpTextureShader(1);
+    //setUpPhongShader(2);
 
     /*setupPlainShader(0);
     setupTextureShader(1);
@@ -304,7 +263,13 @@ void RenderWindow::init()
 
 
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
+<<<<<<< Updated upstream
+=======
+    Logger::getInstance()->logText("RenderWindow; init camera");
+
+>>>>>>> Stashed changes
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
+    // use mMatrixUniform2 on the things affected by the phong shader (light model)
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
@@ -326,6 +291,9 @@ void RenderWindow::init()
     {
         (*LightSourceList_thing)->init(mMmatrixUniform);
     }
+
+    Logger::getInstance()->logText("RenderWindow; for auto loop");
+
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
 
@@ -334,6 +302,46 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
     bool CollidedWith_X = player->Coordinate_X + 0.5 >= world_object->Coordinate_X && world_object->Coordinate_X + 0.5 >= player->Coordinate_X;
     bool CollidedWith_Y = player->Coordinate_Y + 0.5 >= world_object->Coordinate_Y && world_object->Coordinate_Y + 0.5 >= player->Coordinate_Y;
     return CollidedWith_X && CollidedWith_Y;
+}
+
+void RenderWindow::setUpPlainShader(GLint shaderElement)
+{
+    std::cout << "we reached 'setuplainshader";
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+
+    Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
+
+    glUseProgram(mShaderProgram[shaderElement]->getProgram());
+}
+
+void RenderWindow::setUpTextureShader(GLint shaderElement)
+{
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+
+    glUseProgram(mShaderProgram[shaderElement]->getProgram());
+}
+
+void RenderWindow::setUpPhongShader(GLint shaderElement)
+{
+    std::cout << "we reached 'setuphongshader";
+    mPmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
+    mVmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
+    mMmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "mMatrix" );
+
+    // mAmbientStrength = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "ambientStrength");
+    mLightPosition = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightPosition");
+    mCameraPosition = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "cameraPosition");
+    // mLightColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightColor");
+    // mObjectColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "objectColor");
+    // mLightPower = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightPower");
+    // mSpecularStrenght = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularStrength");
+    // mSpecularExponent = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularExponent");
+
+    glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
 // Called each frame - doing the rendering!!!
@@ -348,6 +356,9 @@ void RenderWindow::render()
 
     initializeOpenGLFunctions();    //must call this every frame it seems...
 
+    // what shader to use
+    glUseProgram(mShaderProgram[0]->getProgram());
+
     // Leksjon 3
     // mPmatrix->setToIdentity();
     // mVmatrix->setToIdentity();
@@ -356,15 +367,12 @@ void RenderWindow::render()
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //what shader to use
-    //glUseProgram(mShaderProgram->getProgram());
-
     // Camera movement
 
     if (Scene1){
         mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
-    mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
-    mCamera->update();
+        mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
+        mCamera->update();
     }
     if(Scene2){
         mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);

@@ -8,6 +8,8 @@
 
 #include "logger.h" //For our utility Logger class
 
+
+//missunderstood the point of these arguments. They are asking for vertex code and fragment code, not shaders as a whole
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 {
     initializeOpenGLFunctions();    //must do this to get access to OpenGL functions in QOpenGLFunctions
@@ -22,6 +24,8 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     std::ifstream vShaderFile;
     std::ifstream fShaderFile;
 
+    Logger::getInstance()->logText("Shader; not read shader files ");
+
     // Open files and check for errors
     vShaderFile.open( vertexPath );
     if(!vShaderFile)
@@ -29,6 +33,9 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     fShaderFile.open( fragmentPath );
     if(!fShaderFile)
         mLogger->logText("ERROR SHADER FILE " + std::string(fragmentPath) + " NOT SUCCESFULLY READ", LogType::REALERROR);
+
+    Logger::getInstance()->logText("Shader; have read shader files ");
+
     std::stringstream vShaderStream, fShaderStream;
     // Read file's buffer contents into streams
     vShaderStream << vShaderFile.rdbuf( );
@@ -47,6 +54,7 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     GLuint vertex, fragment;
     GLint success;
     GLchar infoLog[512];
+
     // Vertex Shader
     vertex = glCreateShader( GL_VERTEX_SHADER );
     glShaderSource( vertex, 1, &vShaderCode, nullptr );
@@ -59,6 +67,7 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
         mLogger->logText("ERROR SHADER VERTEX " + std::string(vertexPath) +
                          " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
     }
+
     // Fragment Shader
     fragment = glCreateShader( GL_FRAGMENT_SHADER );
     glShaderSource( fragment, 1, &fShaderCode, nullptr );
@@ -71,6 +80,7 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
         mLogger->logText("ERROR SHADER VERTEX " + std::string(fragmentPath) +
                          " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
     }
+
     // Shader Program linking
     this->mProgram = glCreateProgram();
     glAttachShader( this->mProgram, vertex );

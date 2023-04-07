@@ -2,6 +2,7 @@
 #define LIGHTSOURCE_H
 
 #include "visualobject.h"
+#include <qvector3d.h>
 
 class LightSource : public VisualObject
 {

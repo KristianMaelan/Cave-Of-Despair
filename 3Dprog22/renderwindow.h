@@ -99,48 +99,31 @@ private:
     QOpenGLContext *mContext{nullptr};  //Our OpenGL context
     bool mInitialized{false};
 
-    Shader *mShaderProgram[4]{nullptr};    //holds pointer the GLSL shader program
-    GLint  mPmatrixUniform;             // Leksjon 3
-    GLint  mVmatrixUniform;             // Leksjon 3
-    GLint  mMmatrixUniform;              //OpenGL reference to the Uniform in the shader program
+    /// things needed for Shaders, such as uniform and setup functions
+    // holds pointer the GLSL shader program
+    Shader *mShaderProgram[4]{nullptr};
+    // setup functions
+    void setUpPlainShader(GLint shaderElement);
+    void setUpTextureShader(GLint shaderElement);
+    void setUpPhongShader(GLint shaderElement);
+    // uniform keyword - information for shaders
+    GLint  mPmatrixUniform;
+    GLint  mVmatrixUniform;
+    GLint  mMmatrixUniform;
+    // phong specific
+    GLint mPmatrixUniform2{-1};
+    GLint mVmatrixUniform2{-1};
+    GLint mMmatrixUniform2{-1};
+    GLint mAmbientStrength{-1};
+    GLint mLightPosition{-1};
+    GLint mCameraPosition{-1};
+    GLint mLightColour{-1};
+    GLint mObjectColour{-1};
+    GLint mLightPower{-1};
+    GLint mSpecularStrenght{-1};
+    GLint mSpecularExponent{-1};
 
-    /* OLE FLATENS KODE BOISSS /
-
-    void setupPlainShader(int shaderIndex);
-    GLint mMatrixUniform0{-1};
-    GLint vMatrixUniform0{-1};
-    GLint pMatrixUniform0{-1};
-
-    void setupTextureShader(int shaderIndex);
-    GLint mMatrixUniform1{-1};
-    GLint vMatrixUniform1{-1};
-    GLint pMatrixUniform1{-1};
-    GLint mTextureUniform1{-1};
-
-    void setupPhongShader(int shaderIndex);
-    GLint mMatrixUniform2{-1};
-    GLint vMatrixUniform2{-1};
-    GLint pMatrixUniform2{-1};
-
-    //other light shader variables
-    GLint mLightColorUniform{-1};
-    GLint mObjectColorUniform{-1};
-    GLint mAmbientLightStrengthUniform{-1};
-    GLint mLightPositionUniform{-1};
-    GLint mCameraPositionUniform{-1};
-    GLint mSpecularStrengthUniform{-1};
-    GLint mSpecularExponentUniform{-1};
-    GLint mLightPowerUniform{-1};
-    GLint mTextureUniform2{-1};
-
-    Texture *mTexture[4]{nullptr}; //We can hold 4 textures
-    Shader *mShaderProgram[4]{nullptr}; //We can hold 4 shaders
-
-    Camera *mCurrentCamera{nullptr};
-    float mAspectratio{1.f};
-
-     OLE FLATENS KODE ENDS :\ */
-
+    /// done with shader
 
     GLuint mVAO;                        //OpenGL reference to our VAO
     GLuint mVBO;                        //OpenGL reference to our VBO

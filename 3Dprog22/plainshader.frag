@@ -13,6 +13,10 @@ out vec4 fragmentColor;     //color sent to fragment on screen
 // !! vec4*vec4 here the components are multiplied together (here x*x* ambientStrength, y*y*ambientStrength, z*z*ambientStrength, and alpha*alpha*ambientStrength
 // not dot or cross product
 
+/*
+uniform float ambientLightStr = 0.8f; // high number/light - 0to1
+nifrom vec4 ambientLightCol = vec4(1, 0, 0, 0); // red
+*/
 void main() {
    fragmentColor = color;// * ambientColour * ambientStrength;   //color given to current fragment (pixel)
 }
