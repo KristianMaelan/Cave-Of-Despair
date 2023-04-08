@@ -12,6 +12,7 @@
 #include "npc_grapher.h"
 #include "player1.h"
 #include "lightsource.h"
+#include "loglheightmap.h"
 
 class QOpenGLContext;
 class Shader;
@@ -56,6 +57,8 @@ private:
     Player1* Player;               // Player1 Pointer
     std::vector<VisualObject*> PlayerList;
     VisualObject* ObjectInHouse;        // Oblig2 Object inside house
+
+    VisualObject* heightmap;
 
     bool doorOpen = false;
 
@@ -110,6 +113,7 @@ private:
     GLint  mPmatrixUniform;
     GLint  mVmatrixUniform;
     GLint  mMmatrixUniform;
+
     // phong specific
     GLint mPmatrixUniform2{-1};
     GLint mVmatrixUniform2{-1};
@@ -148,6 +152,16 @@ private:
 
     ///Starts QOpenGLDebugLogger if possible
     void startOpenGLDebugger();
+
+    // Mo
+    // Barysentric code
+    bool bIsBottomTriangle;
+    bool isItBottomTriangle(int posX, int posZ);
+    float px, py, pz;   // player position, updated in render window
+    float barrysentricHeightOfPlayer();
+
+    // Math3 compendium, page 83 (89 in pdf)
+    QVector3D BarysentricCoordinates(QVector3D p1, QVector3D p2, QVector3D p3);
 
 protected:
     //The QWindow that we inherit from have these functions to capture

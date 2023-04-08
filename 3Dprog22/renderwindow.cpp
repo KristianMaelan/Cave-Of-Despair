@@ -16,10 +16,10 @@
 #include "player1.h"
 #include "mainwindow.h"
 #include "logger.h"
-#include "xyz.h"
+//#include "xyz.h"
 #include "cube.h"
-#include "interaction.h"
-#include "trianglesurface.h"
+//#include "interaction.h"
+//#include "trianglesurface.h"
 #include "house.h"
 #include "scene1_plan.h"
 #include "pressureplate.h"
@@ -89,7 +89,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     mObjects.push_back(scene1_PressurePlate);
 
     // Oblig2 - Scene1_Plan
-    scene1_Plan = new Scene1_plan(5, -1, 5, 0.58, 0.30, 0); // y is 1 so it is visible from this camera angle
+    scene1_Plan = new Scene1_plan(5, -1, 5, 0.58, 0.30, 0);
     mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
@@ -181,6 +181,10 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //LightSourceList.push_back(new LightSource);
 
 
+    // Kan være denne må være i init? evt mObjects.push_back
+    //heightmap = new loglheightmap("../3Dprog22/heightmap.bmp");
+    //mObjects.push_back(heightmap); // Yes or No?
+
 }
 
 RenderWindow::~RenderWindow()
@@ -263,11 +267,10 @@ void RenderWindow::init()
 
 
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
-<<<<<<< Updated upstream
-=======
+
     Logger::getInstance()->logText("RenderWindow; init camera");
 
->>>>>>> Stashed changes
+
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
     // use mMatrixUniform2 on the things affected by the phong shader (light model)
 
@@ -292,7 +295,15 @@ void RenderWindow::init()
         (*LightSourceList_thing)->init(mMmatrixUniform);
     }
 
+
     Logger::getInstance()->logText("RenderWindow; for auto loop");
+
+    // Mo
+    // Ingen feilkode, men vises ikkje...
+    //heightmap = new loglheightmap("../3Dprog22/heightmap4.bmp");
+    // Denne ligger i Ole Flatens kode
+    //heightmap->init(mMmatrixUniform2);
+
 
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
 }
@@ -320,8 +331,9 @@ void RenderWindow::setUpTextureShader(GLint shaderElement)
 {
     mPmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
     mVmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" ); // Går det å endre navn her?
 
+    // Skal dette være her?
     glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
@@ -401,13 +413,13 @@ void RenderWindow::render()
 
             if (!CollectionDetection)
             {
-                std::cout << "collectiondetection is true, we picked up a trophy\n";
+                //std::cout << "collectiondetection is true, we picked up a trophy\n";
                 (*trophy_nr)->draw();
                 (*trophy_nr)->DidItemGetPickedUp = true;
             }
             else if (CollectionDetection)
             {
-                std::cout << "collectiondetection is false, we didn't pick up anything\n";
+                //std::cout << "collectiondetection is false, we didn't pick up anything\n";
                 (*trophy_nr)->draw();
                 //(*trophy_nr)->DidItemGetPickedUp = true;
             }
@@ -419,6 +431,26 @@ void RenderWindow::render()
         
     }
     
+
+    // Mo/Joakim
+    // Joakim test 07.04.23
+    // Test to see if I can change the height (y) in render
+    // or if I need to implement a setHeight function
+    if ((px >= 1.0f) && (pz >= 1.0f) && (px <= 255.0f) && (pz <= 255.0f))
+    {
+        // Snap player to floor
+        float y = barrysentricHeightOfPlayer() + 1.0f;
+        Player->Coordinate_Y = y;
+    }
+    else
+    {
+        // When out of bounds of heightmap, snap to 0. height
+        Player->Coordinate_Y = 0.0f;
+    }
+    // Har ikkje testet enda, as of 09:00
+
+
+
 
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
@@ -537,6 +569,124 @@ void RenderWindow::startOpenGLDebugger()
         }
     }
 }
+
+
+// Mo
+bool RenderWindow::isItBottomTriangle(int posX, int posZ)
+{
+    if (px > 0.0f && py > 0.0f && pz > 0.0f)
+    {
+        // To check if we need to calculate the top or bottom triangle on a quad
+        QVector3D VertPos1 = *heightmap->GetSurfacePos(posX, posZ - 1);
+        QVector3D VertPos2 = *heightmap->GetSurfacePos(posX + 1, posZ - 1 + 1);
+        // Now why the fuck does it have to be -1+1???? ^^
+        VertPos1.setY(0.0f);
+        VertPos2.setY(0.0f);
+
+        QVector3D DiagonalVector = VertPos2 - VertPos1;
+        QVector3D PlayerVector = QVector3D(px, 0, pz) - VertPos1;
+
+        PlayerVector.normalize(); // What does normalize do?
+
+        QVector3D Results = QVector3D::crossProduct(PlayerVector, DiagonalVector);
+
+        if (Results.y() > 0)
+        {
+            bIsBottomTriangle = true;
+            return true;
+        }
+        else
+        {
+            bIsBottomTriangle = false;
+            return false;
+        }
+    }
+    return false; // Removes a warning
+}
+
+// Mo
+float RenderWindow::barrysentricHeightOfPlayer()
+{
+    // int casting
+    int x = static_cast<int>(px);   // Removes floating points
+    //int y = static_cast<int>(py);
+    int z = static_cast<int>(pz);
+    QVector3D VertPos1, VertPos2, VertPos3, Bary;
+    isItBottomTriangle(x, z);
+
+    if (px > 0.0f && pz > 0.0f)
+    {
+        // 1st triangle in quad
+        if (bIsBottomTriangle)
+        {
+            // Get vertex pos of surface and turn it into 2D vector
+            VertPos1 = *heightmap->GetSurfacePos(x, z - 1);
+            VertPos2 = *heightmap->GetSurfacePos(x + 1, z - 1);
+            VertPos3 = *heightmap->GetSurfacePos(x + 1, z);
+            // Again, why -1 + 1???
+
+            // Calculate barycentric
+            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
+        }
+
+        // 2nd
+        else if (!bIsBottomTriangle)
+        {
+            VertPos1 = *heightmap->GetSurfacePos(x + 1, z - 1 + 1);
+            VertPos2 = *heightmap->GetSurfacePos(x, z);
+            VertPos3 = *heightmap->GetSurfacePos(x, z - 1);
+            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
+        }
+        // Sum
+        return VertPos1.y()*Bary.x() + VertPos2.y()*Bary.y() + VertPos3.y()*Bary.z();
+    }
+    return 0.0f; // Return to ground
+}
+
+// Mo/Joakim  vi tar begge fra kompendiumet i matte
+QVector3D RenderWindow::BarysentricCoordinates(QVector3D p1, QVector3D p2, QVector3D p3)
+{
+    // Set height to zero
+    p1.setY(0.0f);
+    p2.setY(0.0f);
+    p3.setY(0.0f);
+
+    // Math3 compendium, page 83 (89 in pdf)
+
+
+    QVector3D p12 = p2 - p1;
+    QVector3D p13 = p3 - p1;
+
+    QVector3D n = QVector3D::crossProduct(p12, p13);
+    float area_123 = n.length();   // doubled area
+
+    QVector3D baryc;    // For return. Gets filled with u,v,w
+
+    // u
+    QVector3D p = p2 - QVector3D(px, 0.0f, pz);
+    QVector3D q = p3 - QVector3D(px, 0.0, pz);
+    n = QVector3D::crossProduct(p, q);
+    baryc.setX(n.y()/area_123);
+
+    // v
+    p = p3 - QVector3D(px, 0.0f, pz);
+    q = p1 - QVector3D(px, 0.0f, pz);
+    n = QVector3D::crossProduct(p, q);
+    baryc.setY(n.y()/area_123);
+
+    // w
+    p = p1 - QVector3D(px, 0.0f, pz);
+    q = p2 - QVector3D(px, 0.0f, pz);
+    n = QVector3D::crossProduct(p, q);
+    baryc.setZ(n.y()/area_123);
+
+    return -baryc; // Mo bruker -baryc  teste først og se
+}
+
+
+
+
+
 
 //Event sent from Qt when program receives a keyPress
 // NB - see renderwindow.h for signatures on keyRelease and mouse input
