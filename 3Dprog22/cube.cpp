@@ -91,6 +91,10 @@ void Cube::init(GLint matrixUniform)
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,  sizeof( Vertex ),  (GLvoid*)(3 * sizeof(GLfloat)) );
     glEnableVertexAttribArray(1);
 
+    // 3rd attribute buffer : NO IDEA? NORMALS? OR SOMETHING?
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,  sizeof( Vertex ),  (GLvoid*)(6 * sizeof(GLfloat)) );
+    glEnableVertexAttribArray(2);
+
     //enable the matrixUniform
     // mMatrixUniform = glGetUniformLocation( matrixUniform, "matrix" );
 
@@ -102,7 +106,7 @@ void Cube::draw()
     if (checkCube)
     {
         glBindVertexArray( mVAO );
-        glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
+        glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData()); // can this be used for the shaders?
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
     }
 }

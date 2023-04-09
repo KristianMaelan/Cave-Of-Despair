@@ -59,4 +59,6 @@ DISTFILES += \
     phongshader.vert \
     plainshader.frag \
     plainshader.vert \
+    textureshader.frag \
+    textureshader.vert \
     tempReadMeFile

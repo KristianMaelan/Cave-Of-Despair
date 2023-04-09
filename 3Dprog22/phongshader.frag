@@ -2,14 +2,15 @@
 
 out vec4 fragColor;
 
-in vec3 normalTransposed;
 in vec3 fragmentPosition;
+in vec3 normalTransposed;
+in vec3 Normal;
 in vec2 uv;
 
 
 // uniform sampler2D textureSampler;
 
-uniform float ambientStrength = 0.1;
+uniform float ambientStrength = 0.6;
 uniform vec3 lightPosition;             // position of the source of light Does it need a getter?
 uniform vec3 cameraPosition;            // position of the camera does it have a getter?
 //uniform float lightStrength = 0.41;
@@ -45,5 +46,5 @@ void main()
 
     vec3 result = ambient; // + diffuse + specular;
 
-    fragColor = vec4(result, 1.0);
+    fragColor = vec4(ambient, 1.0);
 }

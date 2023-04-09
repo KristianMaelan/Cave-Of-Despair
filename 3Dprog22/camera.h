@@ -18,14 +18,14 @@ public:
     // move camera??
     void move(float x, float y, float z);
     void getRotated(float a, float x, float y, float z);
-private:
+    QMatrix4x4 mPmatrix{ };
+    QMatrix4x4 mVmatrix{ };
     GLint  mPmatrixUniform;             // Leksjon 3
     GLint  mVmatrixUniform;             // Leksjon 3
+private:
     QVector3D mEye;
     //QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3
     //QMatrix4x4 *mVmatrix{nullptr};         // Leksjon 3
-    QMatrix4x4 mPmatrix{ };
-    QMatrix4x4 mVmatrix{ };
 
     // move camera??
     float degrees;

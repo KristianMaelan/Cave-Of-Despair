@@ -94,6 +94,10 @@ void Player1::init(GLint matrixUniform){
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,  sizeof( Vertex ),  (GLvoid*)(3 * sizeof(GLfloat)) );
     glEnableVertexAttribArray(1);
 
+    // 3rd attribute buffer : NO IDEA? NORMALS? OR SOMETHING?
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,  sizeof( Vertex ),  (GLvoid*)(6 * sizeof(GLfloat)) );
+    glEnableVertexAttribArray(2);
+
     //enable the matrixUniform
     // mMatrixUniform = glGetUniformLocation( matrixUniform, "matrix" );
 

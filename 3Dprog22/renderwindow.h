@@ -12,7 +12,6 @@
 #include "npc_grapher.h"
 #include "player1.h"
 #include "lightsource.h"
-#include "loglheightmap.h"
 
 class QOpenGLContext;
 class Shader;
@@ -105,19 +104,32 @@ private:
     /// things needed for Shaders, such as uniform and setup functions
     // holds pointer the GLSL shader program
     Shader *mShaderProgram[4]{nullptr};
-    // setup functions
+    Shader* ptr_plainShaderProgram;
+    Shader* ptr_textureShaderProgram;
+    Shader* ptr_phongShaderProgram;
+
     void setUpPlainShader(GLint shaderElement);
+    GLint mPmatrixUniform0{-1};
+    GLint mVmatrixUniform0{-1};
+    GLint mMmatrixUniform0{-1};
+
     void setUpTextureShader(GLint shaderElement);
+    GLint mPmatrixUniform1{-1};
+    GLint mVmatrixUniform1{-1};
+    GLint mMmatrixUniform1{-1};
+    GLint mSampler2Dtexture{-1};
+
     void setUpPhongShader(GLint shaderElement);
     // uniform keyword - information for shaders
-    GLint  mPmatrixUniform;
-    GLint  mVmatrixUniform;
-    GLint  mMmatrixUniform;
+    GLint  mPmatrixUniform{-1};
+    GLint  mVmatrixUniform{-1};
+    GLint  mMmatrixUniform{-1};
 
     // phong specific
     GLint mPmatrixUniform2{-1};
     GLint mVmatrixUniform2{-1};
     GLint mMmatrixUniform2{-1};
+
     GLint mAmbientStrength{-1};
     GLint mLightPosition{-1};
     GLint mCameraPosition{-1};

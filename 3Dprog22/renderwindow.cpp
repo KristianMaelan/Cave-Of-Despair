@@ -177,7 +177,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // this is our lightsource, should look like a pyramid
     LightSourceObject = new LightSource();
-    mObjects.push_back(LightSourceObject);
+    LightSourceList.push_back(LightSourceObject);
     //LightSourceList.push_back(new LightSource);
 
 
@@ -250,12 +250,12 @@ void RenderWindow::init()
     //
         std::cout << "we reached 'renderwindow.cpp";
     mShaderProgram[0] = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
-    //mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
-    //mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
+    mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
+    mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
 
     setUpPlainShader(0);
-    //setUpTextureShader(1);
-    //setUpPhongShader(2);
+    setUpTextureShader(1);
+    setUpPhongShader(2);
 
     /*setupPlainShader(0);
     setupTextureShader(1);
@@ -266,33 +266,37 @@ void RenderWindow::init()
     // The uniform is used in the render() function to send the model matrix to the shader
 
 
-    mCamera->init(mPmatrixUniform, mVmatrixUniform);
-
+    //mCamera->init(mPmatrixUniform, mVmatrixUniform);
+    mCamera->init(mPmatrixUniform0, mVmatrixUniform0);
     Logger::getInstance()->logText("RenderWindow; init camera");
-
 
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
     // use mMatrixUniform2 on the things affected by the phong shader (light model)
 
+    glUseProgram( mShaderProgram[0]->getProgram() );
+
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
-        (*it)->init(mMmatrixUniform);
+        //(*it)->init(mMmatrixUniform);
+        (*it)->init(mMmatrixUniform0);
     }
     for (auto trophy_nr = trophyList.begin(); trophy_nr != trophyList.end(); ++trophy_nr)
     {
-        (*trophy_nr)->init(mMmatrixUniform);
+        //(*trophy_nr)->init(mMmatrixUniform);
+        (*trophy_nr)->init(mMmatrixUniform0);
     }
     for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
     {
-        (*npc_nr)->init(mMmatrixUniform);
+        //(*npc_nr)->init(mMmatrixUniform);
+        (*npc_nr)->init(mMmatrixUniform0);
     }
     for (auto player_nr = PlayerList.begin(); player_nr < PlayerList.end(); ++player_nr)
     {
-        (*player_nr)->init(mMmatrixUniform);
+        (*player_nr)->init(mMmatrixUniform0);
     }
     for (auto LightSourceList_thing = LightSourceList.begin(); LightSourceList_thing < LightSourceList.end(); ++LightSourceList_thing)
     {
-        (*LightSourceList_thing)->init(mMmatrixUniform);
+        (*LightSourceList_thing)->init(mMmatrixUniform0);
     }
 
 
@@ -317,79 +321,75 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 
 void RenderWindow::setUpPlainShader(GLint shaderElement)
 {
-    std::cout << "we reached 'setuplainshader";
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+    mPmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
+    mVmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
+    mMmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
 
     Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
 
-    glUseProgram(mShaderProgram[shaderElement]->getProgram());
+    //glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
 void RenderWindow::setUpTextureShader(GLint shaderElement)
 {
-    mPmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
-    mVmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" ); // Går det å endre navn her?
+    mPmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
+    mVmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
+    mMmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+    mSampler2Dtexture = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "textureSampler");
 
-    // Skal dette være her?
-    glUseProgram(mShaderProgram[shaderElement]->getProgram());
+    Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
 }
 
 void RenderWindow::setUpPhongShader(GLint shaderElement)
 {
-    std::cout << "we reached 'setuphongshader";
     mPmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
     mVmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "mMatrix" );
+    mMmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
 
-    // mAmbientStrength = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "ambientStrength");
-    mLightPosition = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightPosition");
+    mAmbientStrength = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "ambientStrength");
+    mLightPosition = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "lightPosition" );
     mCameraPosition = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "cameraPosition");
-    // mLightColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightColor");
-    // mObjectColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "objectColor");
-    // mLightPower = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightPower");
-    // mSpecularStrenght = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularStrength");
-    // mSpecularExponent = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularExponent");
+    mLightColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightColor");
+    mObjectColour = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "objectColor");
+    mLightPower = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "lightPower");
+    mSpecularStrenght = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularStrength");
+    mSpecularExponent = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularExponent");
 
-    glUseProgram(mShaderProgram[shaderElement]->getProgram());
+    Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
+
+    //glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
 // Called each frame - doing the rendering!!!
 void RenderWindow::render()
 {
-    mCamera->init(mPmatrixUniform, mVmatrixUniform);
+    mCamera->init(mPmatrixUniform0, mVmatrixUniform0);
    // mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
-
 
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
 
     initializeOpenGLFunctions();    //must call this every frame it seems...
 
-    // what shader to use
-    glUseProgram(mShaderProgram[0]->getProgram());
-
-    // Leksjon 3
-    // mPmatrix->setToIdentity();
-    // mVmatrix->setToIdentity();
-    // mPmatrix->perspective(60, 4.0/3.0, 0.1, 10.0);
-
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Camera movement
 
+    glUseProgram(mShaderProgram[0]->getProgram());
+
+    // Camera movement
     if (Scene1){
         mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
         mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
+        glUniformMatrix4fv(mVmatrixUniform0, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
+        glUniformMatrix4fv(mPmatrixUniform0, 1, GL_TRUE, mCamera->mPmatrix.constData());
         mCamera->update();
     }
     if(Scene2){
         mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);
         mCamera->lookAt(QVector3D{0, 0, 1.8f}, QVector3D{0,0,0}, QVector3D{0,1,0});
-
+        glUniformMatrix4fv(mVmatrixUniform0, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
+        glUniformMatrix4fv(mPmatrixUniform0, 1, GL_TRUE, mCamera->mPmatrix.constData());
         mCamera->update();
     }
 
@@ -430,7 +430,18 @@ void RenderWindow::render()
         }
         
     }
-    
+
+    glUseProgram( mShaderProgram[2]->getProgram());
+
+    glUniformMatrix4fv(mVmatrixUniform2, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
+    glUniformMatrix4fv(mPmatrixUniform2, 1, GL_TRUE, mCamera->mPmatrix.constData());
+    glUniformMatrix4fv(mMmatrixUniform2, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+    glUniformMatrix4fv(mAmbientStrength, 1, GL_TRUE, LightSourceObject->AmbientLightStrength);
+
+    for (auto LS_nr = LightSourceList.begin(); LS_nr != LightSourceList.end(); ++LS_nr)
+    {
+        (*LS_nr)->draw();
+    }
 
     // Mo/Joakim
     // Joakim test 07.04.23
@@ -570,123 +581,117 @@ void RenderWindow::startOpenGLDebugger()
     }
 }
 
-
 // Mo
 bool RenderWindow::isItBottomTriangle(int posX, int posZ)
 {
-    if (px > 0.0f && py > 0.0f && pz > 0.0f)
-    {
+//    if (px > 0.0f && py > 0.0f && pz > 0.0f)
+//    {
         // To check if we need to calculate the top or bottom triangle on a quad
-        QVector3D VertPos1 = *heightmap->GetSurfacePos(posX, posZ - 1);
-        QVector3D VertPos2 = *heightmap->GetSurfacePos(posX + 1, posZ - 1 + 1);
+        // QVector3D VertPos1 = *heightmap->GetSurfacePos(posX, posZ - 1);
+        // QVector3D VertPos2 = *heightmap->GetSurfacePos(posX + 1, posZ - 1 + 1);
         // Now why the fuck does it have to be -1+1???? ^^
-        VertPos1.setY(0.0f);
-        VertPos2.setY(0.0f);
+        // VertPos1.setY(0.0f);
+        // VertPos2.setY(0.0f);
 
-        QVector3D DiagonalVector = VertPos2 - VertPos1;
-        QVector3D PlayerVector = QVector3D(px, 0, pz) - VertPos1;
+        // QVector3D DiagonalVector = VertPos2 - VertPos1;
+        // QVector3D PlayerVector = QVector3D(px, 0, pz) - VertPos1;
 
-        PlayerVector.normalize(); // What does normalize do?
+//        PlayerVector.normalize(); // What does normalize do?
 
-        QVector3D Results = QVector3D::crossProduct(PlayerVector, DiagonalVector);
+//        QVector3D Results = QVector3D::crossProduct(PlayerVector, DiagonalVector);
 
-        if (Results.y() > 0)
-        {
-            bIsBottomTriangle = true;
-            return true;
-        }
-        else
-        {
-            bIsBottomTriangle = false;
-            return false;
-        }
-    }
+//        if (Results.y() > 0)
+//        {
+//            bIsBottomTriangle = true;
+//            return true;
+//        }
+//        else
+//        {
+//            bIsBottomTriangle = false;
+//            return false;
+//        }
+//    }
     return false; // Removes a warning
 }
 
 // Mo
 float RenderWindow::barrysentricHeightOfPlayer()
 {
-    // int casting
-    int x = static_cast<int>(px);   // Removes floating points
-    //int y = static_cast<int>(py);
-    int z = static_cast<int>(pz);
-    QVector3D VertPos1, VertPos2, VertPos3, Bary;
-    isItBottomTriangle(x, z);
+//    // int casting
+//    int x = static_cast<int>(px);   // Removes floating points
+//    //int y = static_cast<int>(py);
+//    int z = static_cast<int>(pz);
+//    QVector3D VertPos1, VertPos2, VertPos3, Bary;
+//    isItBottomTriangle(x, z);
 
-    if (px > 0.0f && pz > 0.0f)
-    {
-        // 1st triangle in quad
-        if (bIsBottomTriangle)
-        {
-            // Get vertex pos of surface and turn it into 2D vector
-            VertPos1 = *heightmap->GetSurfacePos(x, z - 1);
-            VertPos2 = *heightmap->GetSurfacePos(x + 1, z - 1);
-            VertPos3 = *heightmap->GetSurfacePos(x + 1, z);
-            // Again, why -1 + 1???
+//    if (px > 0.0f && pz > 0.0f)
+//    {
+//        // 1st triangle in quad
+//        if (bIsBottomTriangle)
+//        {
+//            // Get vertex pos of surface and turn it into 2D vector
+//            VertPos1 = *heightmap->GetSurfacePos(x, z - 1);
+//            VertPos2 = *heightmap->GetSurfacePos(x + 1, z - 1);
+//            VertPos3 = *heightmap->GetSurfacePos(x + 1, z);
+//            // Again, why -1 + 1???
 
-            // Calculate barycentric
-            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
-        }
+//            // Calculate barycentric
+//            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
+//        }
 
-        // 2nd
-        else if (!bIsBottomTriangle)
-        {
-            VertPos1 = *heightmap->GetSurfacePos(x + 1, z - 1 + 1);
-            VertPos2 = *heightmap->GetSurfacePos(x, z);
-            VertPos3 = *heightmap->GetSurfacePos(x, z - 1);
-            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
-        }
-        // Sum
-        return VertPos1.y()*Bary.x() + VertPos2.y()*Bary.y() + VertPos3.y()*Bary.z();
-    }
+//        // 2nd
+//        else if (!bIsBottomTriangle)
+//        {
+//            VertPos1 = *heightmap->GetSurfacePos(x + 1, z - 1 + 1);
+//            VertPos2 = *heightmap->GetSurfacePos(x, z);
+//            VertPos3 = *heightmap->GetSurfacePos(x, z - 1);
+//            Bary = BarysentricCoordinates(VertPos1, VertPos2, VertPos3);
+//        }
+//        // Sum
+//        return VertPos1.y()*Bary.x() + VertPos2.y()*Bary.y() + VertPos3.y()*Bary.z();
+//    }
     return 0.0f; // Return to ground
 }
 
 // Mo/Joakim  vi tar begge fra kompendiumet i matte
 QVector3D RenderWindow::BarysentricCoordinates(QVector3D p1, QVector3D p2, QVector3D p3)
 {
-    // Set height to zero
-    p1.setY(0.0f);
-    p2.setY(0.0f);
-    p3.setY(0.0f);
+//    // Set height to zero
+//    p1.setY(0.0f);
+//    p2.setY(0.0f);
+//    p3.setY(0.0f);
 
-    // Math3 compendium, page 83 (89 in pdf)
+//    // Math3 compendium, page 83 (89 in pdf)
 
 
-    QVector3D p12 = p2 - p1;
-    QVector3D p13 = p3 - p1;
+//    QVector3D p12 = p2 - p1;
+//    QVector3D p13 = p3 - p1;
 
-    QVector3D n = QVector3D::crossProduct(p12, p13);
-    float area_123 = n.length();   // doubled area
+//    QVector3D n = QVector3D::crossProduct(p12, p13);
+//    float area_123 = n.length();   // doubled area
 
     QVector3D baryc;    // For return. Gets filled with u,v,w
 
-    // u
-    QVector3D p = p2 - QVector3D(px, 0.0f, pz);
-    QVector3D q = p3 - QVector3D(px, 0.0, pz);
-    n = QVector3D::crossProduct(p, q);
-    baryc.setX(n.y()/area_123);
+//    // u
+//    QVector3D p = p2 - QVector3D(px, 0.0f, pz);
+//    QVector3D q = p3 - QVector3D(px, 0.0, pz);
+//    n = QVector3D::crossProduct(p, q);
+//    baryc.setX(n.y()/area_123);
 
-    // v
-    p = p3 - QVector3D(px, 0.0f, pz);
-    q = p1 - QVector3D(px, 0.0f, pz);
-    n = QVector3D::crossProduct(p, q);
-    baryc.setY(n.y()/area_123);
+//    // v
+//    p = p3 - QVector3D(px, 0.0f, pz);
+//    q = p1 - QVector3D(px, 0.0f, pz);
+//    n = QVector3D::crossProduct(p, q);
+//    baryc.setY(n.y()/area_123);
 
-    // w
-    p = p1 - QVector3D(px, 0.0f, pz);
-    q = p2 - QVector3D(px, 0.0f, pz);
-    n = QVector3D::crossProduct(p, q);
-    baryc.setZ(n.y()/area_123);
+//    // w
+//    p = p1 - QVector3D(px, 0.0f, pz);
+//    q = p2 - QVector3D(px, 0.0f, pz);
+//    n = QVector3D::crossProduct(p, q);
+//    baryc.setZ(n.y()/area_123);
 
     return -baryc; // Mo bruker -baryc  teste først og se
 }
-
-
-
-
-
 
 //Event sent from Qt when program receives a keyPress
 // NB - see renderwindow.h for signatures on keyRelease and mouse input

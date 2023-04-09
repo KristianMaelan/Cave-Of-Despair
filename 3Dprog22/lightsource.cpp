@@ -12,54 +12,6 @@ LightSource::LightSource()
     mVertices.push_back(Vertex{0.0f,  0.25f,  0.0f,       0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Top
     mVertices.push_back(Vertex{0.0f, -0.25f, -0.25f,      0.8f, 0.8f, 0.3f,    0.5f, 0.5f});  //Back low
 
-    /*// -y veggen
-        mVertices.push_back(Vertex{-1,-1,-1,1,0,0});
-        mVertices.push_back(Vertex{1,-1,1,1,0,0});
-        mVertices.push_back(Vertex{-1,-1,1,1,0,0});
-        mVertices.push_back(Vertex{-1,-1,-1,1,0,0});
-        mVertices.push_back(Vertex{1,-1,-1,1,0,0});
-        mVertices.push_back(Vertex{1,-1,1,1,0,0});
-
-        // -z veggen
-        mVertices.push_back(Vertex{-1,-1,-1,0,1,0});
-        mVertices.push_back(Vertex{1,-1,-1,0,1,0});
-        mVertices.push_back(Vertex{-1,1,-1,0,1,0});
-        mVertices.push_back(Vertex{1,-1,-1,0,1,0});
-        mVertices.push_back(Vertex{1,1,-1,0,1,0});
-        mVertices.push_back(Vertex{-1,1,-1,0,1,0});
-
-        // -x veggen
-        mVertices.push_back(Vertex{-1,1,-1,0,0,1});
-        mVertices.push_back(Vertex{-1,-1,-1,0,0,1});
-        mVertices.push_back(Vertex{-1,-1,1,0,0,1});
-        mVertices.push_back(Vertex{-1,1,-1,0,0,1});
-        mVertices.push_back(Vertex{-1,-1,1,0,0,1});
-        mVertices.push_back(Vertex{-1,1,1,0,0,1});
-
-        // +y veggen
-        mVertices.push_back(Vertex{1,1,1,1,0,1});
-        mVertices.push_back(Vertex{-1,1,1,1,0,1});
-        mVertices.push_back(Vertex{-1,1,-1,1,0,1});
-        mVertices.push_back(Vertex{1,1,1,1,0,1});
-        mVertices.push_back(Vertex{-1,1,-1,1,0,1});
-        mVertices.push_back(Vertex{1,1,-1,1,0,1});
-
-        // + z veggen
-        mVertices.push_back(Vertex{-1,-1,1,1,1,0});
-        mVertices.push_back(Vertex{1,1,1,1,1,0});
-        mVertices.push_back(Vertex{-1,1,1,1,1,0});
-        mVertices.push_back(Vertex{-1,-1,1,1,1,0});
-        mVertices.push_back(Vertex{1,-1,1,1,1,0});
-        mVertices.push_back(Vertex{1,1,1,1,1,0});
-
-        // + x veggen
-        mVertices.push_back(Vertex{1,-1,-1,0,1,1});
-        mVertices.push_back(Vertex{1,1,1,0,1,1});
-        mVertices.push_back(Vertex{1,-1,1,0,1,1});
-        mVertices.push_back(Vertex{1,-1,-1,0,1,1});
-        mVertices.push_back(Vertex{1,1,-1,0,1,1});
-        mVertices.push_back(Vertex{1,1,1,0,1,1});*/
-
     mIndices.insert( mIndices.end(),
     { 0, 1, 2,
       1, 3, 2,
