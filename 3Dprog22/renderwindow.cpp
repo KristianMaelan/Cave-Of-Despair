@@ -249,11 +249,15 @@ void RenderWindow::init()
     // (out of the build-folder) and then up into the project folder.
     //
         std::cout << "we reached 'renderwindow.cpp";
-    mShaderProgram[0] = new Shader("../3Dprog22/plainshader.vert", "../3Dprog22/plainshader.frag");
-    mShaderProgram[1] = new Shader("../3Dprog22/textureshader.vert", "../3Dprog22/textureshader.frag");
-    mShaderProgram[2] = new Shader("../3Dprog22/phongshader.vert", "../3Dprog22/phongshader.frag");
+    mShaderProgram[0] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/plainshader.frag");
+    mShaderProgram[1] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/textureshader.frag");
+    mShaderProgram[2] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/phongshader.frag");
 
-    setUpPlainShader(0);
+    mPmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "pMatrix" );
+    mVmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "vMatrix" );
+    mMmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "matrix" );
+
+//    setUpPlainShader(0);
     setUpTextureShader(1);
     setUpPhongShader(2);
 
@@ -267,36 +271,36 @@ void RenderWindow::init()
 
 
     //mCamera->init(mPmatrixUniform, mVmatrixUniform);
-    mCamera->init(mPmatrixUniform0, mVmatrixUniform0);
+    mCamera->init(mPmatrixUniform, mPmatrixUniform);
     Logger::getInstance()->logText("RenderWindow; init camera");
 
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
     // use mMatrixUniform2 on the things affected by the phong shader (light model)
 
-    glUseProgram( mShaderProgram[0]->getProgram() );
+    glUseProgram( mShaderProgram[2]->getProgram() );
 
     for (auto it=mObjects.begin(); it != mObjects.end(); it++)
     {
         //(*it)->init(mMmatrixUniform);
-        (*it)->init(mMmatrixUniform0);
+        (*it)->init(mMmatrixUniform);
     }
     for (auto trophy_nr = trophyList.begin(); trophy_nr != trophyList.end(); ++trophy_nr)
     {
         //(*trophy_nr)->init(mMmatrixUniform);
-        (*trophy_nr)->init(mMmatrixUniform0);
+        (*trophy_nr)->init(mMmatrixUniform);
     }
     for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
     {
         //(*npc_nr)->init(mMmatrixUniform);
-        (*npc_nr)->init(mMmatrixUniform0);
+        (*npc_nr)->init(mMmatrixUniform);
     }
     for (auto player_nr = PlayerList.begin(); player_nr < PlayerList.end(); ++player_nr)
     {
-        (*player_nr)->init(mMmatrixUniform0);
+        (*player_nr)->init(mMmatrixUniform);
     }
     for (auto LightSourceList_thing = LightSourceList.begin(); LightSourceList_thing < LightSourceList.end(); ++LightSourceList_thing)
     {
-        (*LightSourceList_thing)->init(mMmatrixUniform0);
+        (*LightSourceList_thing)->init(mMmatrixUniform);
     }
 
 
@@ -306,7 +310,7 @@ void RenderWindow::init()
     // Ingen feilkode, men vises ikkje...
     //heightmap = new loglheightmap("../3Dprog22/heightmap4.bmp");
     // Denne ligger i Ole Flatens kode
-    //heightmap->init(mMmatrixUniform2);
+    //heightmap->init(mMmatrixUniform);
 
 
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
@@ -321,20 +325,13 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 
 void RenderWindow::setUpPlainShader(GLint shaderElement)
 {
-    mPmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
-    mVmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform0 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
+
 
     Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
-
-    //glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
 void RenderWindow::setUpTextureShader(GLint shaderElement)
 {
-    mPmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
-    mVmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform1 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
     mSampler2Dtexture = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "textureSampler");
 
     Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
@@ -342,10 +339,6 @@ void RenderWindow::setUpTextureShader(GLint shaderElement)
 
 void RenderWindow::setUpPhongShader(GLint shaderElement)
 {
-    mPmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "pMatrix" );
-    mVmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "vMatrix" );
-    mMmatrixUniform2 = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "matrix" );
-
     mAmbientStrength = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "ambientStrength");
     mLightPosition = glGetUniformLocation( mShaderProgram[shaderElement]->getProgram(), "lightPosition" );
     mCameraPosition = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "cameraPosition");
@@ -356,14 +349,12 @@ void RenderWindow::setUpPhongShader(GLint shaderElement)
     mSpecularExponent = glGetUniformLocation(mShaderProgram[shaderElement]->getProgram(), "specularExponent");
 
     Logger::getInstance()->logText("Renderwindow; setUpPlainShader; uniforms done ");
-
-    //glUseProgram(mShaderProgram[shaderElement]->getProgram());
 }
 
 // Called each frame - doing the rendering!!!
 void RenderWindow::render()
 {
-    mCamera->init(mPmatrixUniform0, mVmatrixUniform0);
+    mCamera->init(mPmatrixUniform, mVmatrixUniform);
    // mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
 
     mTimeStart.restart(); //restart FPS clock
@@ -375,73 +366,112 @@ void RenderWindow::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-    glUseProgram(mShaderProgram[0]->getProgram());
-
-    // Camera movement
-    if (Scene1){
-        mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
-        mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
-        glUniformMatrix4fv(mVmatrixUniform0, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
-        glUniformMatrix4fv(mPmatrixUniform0, 1, GL_TRUE, mCamera->mPmatrix.constData());
-        mCamera->update();
-    }
-    if(Scene2){
-        mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);
-        mCamera->lookAt(QVector3D{0, 0, 1.8f}, QVector3D{0,0,0}, QVector3D{0,1,0});
-        glUniformMatrix4fv(mVmatrixUniform0, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
-        glUniformMatrix4fv(mPmatrixUniform0, 1, GL_TRUE, mCamera->mPmatrix.constData());
-        mCamera->update();
-    }
-
-
-   for (auto it=mObjects.begin(); it != mObjects.end(); it++)
-   {
-      (*it)->draw();
-   }
-
-    for (auto it = npclist.begin(); it != npclist.end(); it++)
+    glUseProgram(mShaderProgram[2]->getProgram());
+    // camara information
+//    mCamera->init(mPmatrixUniform, mVmatrixUniform);
+    glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
+    glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
     {
-       (*it)->draw();
-    }
-
-    for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
-    {
-        //(*trophy_nr)->draw();
-        if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == false )
-        {
-            bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
-
-            if (!CollectionDetection)
-            {
-                //std::cout << "collectiondetection is true, we picked up a trophy\n";
-                (*trophy_nr)->draw();
-                (*trophy_nr)->DidItemGetPickedUp = true;
-            }
-            else if (CollectionDetection)
-            {
-                //std::cout << "collectiondetection is false, we didn't pick up anything\n";
-                (*trophy_nr)->draw();
-                //(*trophy_nr)->DidItemGetPickedUp = true;
-            }
+        // Camera movement
+        if (Scene1){
+            mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
+            mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
+            glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
+            glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
+            mCamera->update();
         }
-        else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
-        {
-            // trophy is already picked up
+        if(Scene2){
+            mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);
+            mCamera->lookAt(QVector3D{0, 0, 1.8f}, QVector3D{0,0,0}, QVector3D{0,1,0});
+            glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
+            glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
+            mCamera->update();
         }
-        
+
+        glUseProgram(mShaderProgram[0]->getProgram());
+
+        //LIGHTSOURCE
+        for (auto LS_nr = LightSourceList.begin(); LS_nr != LightSourceList.end(); ++LS_nr)
+        {
+            glUniform3f(mLightPosition, LightSourceObject->Coordinate_X, LightSourceObject->Coordinate_Y, LightSourceObject->Coordinate_Z);
+            glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*LS_nr)->mMatrix.constData());
+            (*LS_nr)->draw();
+        }
+
+
+        glUseProgram( mShaderProgram[2]->getProgram());
+        //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+        // mOBJECTS VECTOR STUFF
+       for (auto it=mObjects.begin(); it != mObjects.end(); it++)
+       {
+           glUniform3f(mObjectColour, (*it)->GetColour().x(), (*it)->GetColour().y(), (*it)->GetColour().z());
+
+           glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+
+            //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
+            glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*it)->mMatrix.constData());
+            (*it)->draw();
+       }
+
+        // WALKER
+       for (auto it = npclist.begin(); it != npclist.end(); it++)
+        {
+            glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+
+            glUniform3f(mObjectColour, (*it)->GetColour().x(), (*it)->GetColour().y(), (*it)->GetColour().z());
+
+            //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+            //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
+            glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*it)->mMatrix.constData());
+           (*it)->draw();
+        }
+
+       // TROPHIES
+        for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
+        {
+            //(*trophy_nr)->draw();
+            if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == false )
+            {
+                bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
+
+                if (!CollectionDetection)
+                {
+                    //std::cout << "collectiondetection is true, we picked up a trophy\n";
+                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+
+                    glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
+
+
+                    //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+                    //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
+                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
+                    (*trophy_nr)->draw();
+                    (*trophy_nr)->DidItemGetPickedUp = true;
+                }
+                else if (CollectionDetection)
+                {
+                    //std::cout << "collectiondetection is false, we didn't pick up anything\n";
+                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+
+
+//                    glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+//                    glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
+                    glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
+                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
+                    (*trophy_nr)->draw();
+                    //(*trophy_nr)->DidItemGetPickedUp = true;
+                }
+            }
+            else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
+            {
+                // trophy is already picked up
+            }
+
+        }
     }
 
-    glUseProgram( mShaderProgram[2]->getProgram());
+    //glUniformMatrix4fv(mAmbientStrength, 1, GL_TRUE, LightSourceObject->AmbientLightStrength);
 
-    glUniformMatrix4fv(mVmatrixUniform2, 1, GL_TRUE, mCamera->mVmatrix.constData()); // updates plainshader
-    glUniformMatrix4fv(mPmatrixUniform2, 1, GL_TRUE, mCamera->mPmatrix.constData());
-    glUniformMatrix4fv(mMmatrixUniform2, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
-    glUniformMatrix4fv(mAmbientStrength, 1, GL_TRUE, LightSourceObject->AmbientLightStrength);
-
-    for (auto LS_nr = LightSourceList.begin(); LS_nr != LightSourceList.end(); ++LS_nr)
-    {
-        (*LS_nr)->draw();
-    }
 
     // Mo/Joakim
     // Joakim test 07.04.23

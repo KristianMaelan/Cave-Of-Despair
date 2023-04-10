@@ -12,9 +12,11 @@ public:
     void init(GLint matrixUniform) override;
     void draw() override;
     void move(float x, float y, float z)override;
+    QVector3D GetColour() override;
 
 private:
     float mx, my, mz;
+    float colourX, colourY, colourZ;
 };
 
 #endif // CUBE_H

@@ -47,6 +47,12 @@ Door::Door(float x, float y, float z, float r, float g, float b)
     */
 
     mMatrix.setToIdentity();
+
+     colourX = r;
+     colourY = g;
+     colourZ = b;
+
+
 }
 
 Door::~Door()
@@ -98,4 +104,10 @@ void Door::draw()
         glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
     }
+}
+
+QVector3D Door::GetColour()
+{
+    QVector3D colour = QVector3D(colourX, colourY, colourZ);
+    return colour;
 }

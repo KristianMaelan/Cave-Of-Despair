@@ -59,6 +59,9 @@ Cube::Cube(float x, float y, float z, float r, float g,float b)
 
     mMatrix.setToIdentity();
 
+    colourX = r;
+    colourY = g;
+    colourZ =b;
 }
 
 Cube::~Cube()
@@ -117,4 +120,10 @@ void Cube::move(float dx, float dy, float dz)
     Coordinate_X = dx;
     Coordinate_Y = dy;
     Coordinate_Z = dz;
+}
+
+QVector3D Cube::GetColour()
+{
+    QVector3D colour = QVector3D(colourX, colourY, colourZ);
+    return colour;
 }

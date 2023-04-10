@@ -11,7 +11,12 @@ public:
     ~house() override;
     void init(GLint matrixUniform) override;
     void draw() override;
-    void move(float x, float y, float z);
+    void move(float x, float y, float z) override;
+
+    QVector3D GetColour() override;
+
+private:
+    float colourX, colourY, colourZ;
 };
 
 #endif // HOUSE_H

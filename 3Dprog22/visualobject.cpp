@@ -26,6 +26,11 @@ QVector3D VisualObject::GetPos()
     return mMatrix.column(3).toVector3D();
 }
 
+QVector3D VisualObject::GetColour()
+{
+
+}
+
 // Set position when constructing the object in renderwindow
 void VisualObject::setPos(QVector3D inPos)
 {

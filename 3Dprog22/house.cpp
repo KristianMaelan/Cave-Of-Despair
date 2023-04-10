@@ -78,6 +78,9 @@ house::house(float x, float y, float z, float r, float g, float b)
 
     mMatrix.setToIdentity();
 
+    colourX = r;
+    colourY = g;
+    colourZ = b;
 }
 
 house::~house()
@@ -137,4 +140,10 @@ void house::draw()
 void house::move(float dx, float dy, float dz)
 {
     mMatrix.translate(dx, dy, dz);
+}
+
+QVector3D house::GetColour()
+{
+    QVector3D colour = QVector3D(colourX, colourY, colourZ);
+    return colour;
 }

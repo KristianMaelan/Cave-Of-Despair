@@ -17,6 +17,7 @@ public:
    virtual void move(float x, float y, float z);
 
    virtual QVector3D GetPos();
+   virtual QVector3D GetColour();
    void setPos(QVector3D inPos);
    void setRotation(float a, float x, float y, float z); // Hope to manage rotation from here...
 

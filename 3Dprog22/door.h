@@ -11,6 +11,9 @@ public:
     void init(GLint matrixUniform) override;
     void draw() override;
 
+    QVector3D GetColour() override;
+private:
+    float colourX, colourY, colourZ;
 
 };
 
