@@ -10,6 +10,7 @@ SOURCES += main.cpp \
     cube.cpp \
     door.cpp \
     grapher.cpp \
+    heightmap.cpp \
     house.cpp \
     interaction.cpp \
     lightsource.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     cube.h \
     door.h \
     grapher.h \
+    heightmap.h \
     house.h \
     interaction.h \
     lightsource.h \
@@ -44,6 +46,7 @@ HEADERS += \
     renderwindow.h \
     scene1_plan.h \
     shader.h \
+    stb_image.h \
     texture.h \
     trianglesurface.h \
     trophy.h \

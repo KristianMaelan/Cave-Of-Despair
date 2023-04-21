@@ -12,6 +12,7 @@
 #include "npc_grapher.h"
 #include "player1.h"
 #include "lightsource.h"
+#include "heightmap.h"
 
 class QOpenGLContext;
 class Shader;
@@ -45,6 +46,7 @@ private:
     void init();            //initialize things we need before rendering
 
     std::vector<VisualObject*> mObjects;
+    std::vector<VisualObject*> TexturedObjects;
 
     VisualObject* InteractiveObject;    // new object for interaction possibilities WIP
     VisualObject* Comp1Cube;            // Movable cube
@@ -57,12 +59,13 @@ private:
     std::vector<VisualObject*> PlayerList;
     VisualObject* ObjectInHouse;        // Oblig2 Object inside house
 
-    VisualObject* heightmap;
+    heightmap* Heightmap;
 
     bool doorOpen = false;
 
     bool Scene1 = false;
     bool Scene2 = false;
+    bool wireframeOn = false;
 
 
     // trophy
@@ -118,9 +121,9 @@ private:
 //    GLint mMmatrixUniform0{-1};
 
     void setUpTextureShader(GLint shaderElement);
-//    GLint mPmatrixUniform1{-1};
-//    GLint mVmatrixUniform1{-1};
-//    GLint mMmatrixUniform1{-1};
+    GLint mPmatrixUniform1{-1};
+    GLint mVmatrixUniform1{-1};
+    GLint mMmatrixUniform1{-1};
     GLint mSampler2Dtexture{-1};
 
     void setUpPhongShader(GLint shaderElement);

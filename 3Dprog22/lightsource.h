@@ -13,10 +13,10 @@ public:
 
     // QVector3D GetPos() override;
 
-    GLfloat AmbientLightStrength {0.1};
+    GLfloat AmbientLightStrength {0.8};
     QVector3D AmbinetColour {0.3, 0.3, 0.3};
 
-    GLfloat LightStrenght {0.7f};
+    GLfloat LightStrenght {0.9f};
     QVector3D LightColour {0.9, 0.9, 0.3};
 
     GLfloat SpecularStrenght{0.9f};

@@ -4,8 +4,8 @@ out vec4 fragColor;
 
 in vec3 fragmentPosition;
 in vec3 normalTransposed;
-in vec3 Normal;
-in vec2 uv;
+in vec3 color;
+in vec2 UV;
 
 
 // uniform sampler2D textureSampler;
@@ -25,7 +25,7 @@ void main()
 {
 
     // ambient
-    vec3 ambient = ambientStrength * lightColor;
+    vec3 ambient = ambientStrength * lightColor * color;
 
     // diffuse
     vec3 normalCorrect = normalize(normalTransposed);

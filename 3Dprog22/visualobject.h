@@ -7,6 +7,9 @@
 #include <vector>
 #include "vertex.h"
 #include "math.h"
+#include <string>
+#include "qimage.h"
+#include <QOpenGLTexture>
 
 class VisualObject : public QOpenGLFunctions_4_1_Core {
 public:
@@ -28,6 +31,9 @@ public:
    bool checkCube{false};
    bool checkGraph{false};
    bool checkXYZ{false};
+   bool bRunTexture{true};
+   bool bWireframe{false};
+   //bHasHeightmap
 
    bool checkScene1{false};
    bool checkScene2{false};

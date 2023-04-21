@@ -25,6 +25,7 @@
 #include "pressureplate.h"
 #include "trophy.h"
 #include "door.h"
+#include "heightmap.h"
 //#include "lightsource.h"
 
 RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
@@ -63,8 +64,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
 
     // Askelad-cube
-   Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5);
-   mObjects.push_back(Comp1Cube);
+   Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5, 1, 1);
+   //mObjects.push_back(Comp1Cube);
+   TexturedObjects.push_back(Comp1Cube);
     // Comp1Cube = new Cube;
     // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
 
@@ -90,7 +92,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     // Oblig2 - Scene1_Plan
     scene1_Plan = new Scene1_plan(5, -1, 5, 0.58, 0.30, 0);
-    mObjects.push_back(scene1_Plan);
+    //mObjects.push_back(scene1_Plan);
 
     // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
     //float trophyX = 0.1;
@@ -185,6 +187,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //heightmap = new loglheightmap("../3Dprog22/heightmap.bmp");
     //mObjects.push_back(heightmap); // Yes or No?
 
+    Heightmap = new heightmap("../3Dprog22/heightmap.jpg", 0.0, 0.0, 1.0);
+    Heightmap->setPos(QVector3D{0, 16, 0});
+    mObjects.push_back(Heightmap);
 }
 
 RenderWindow::~RenderWindow()
@@ -257,13 +262,13 @@ void RenderWindow::init()
     mVmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "vMatrix" );
     mMmatrixUniform = glGetUniformLocation( mShaderProgram[2]->getProgram(), "matrix" );
 
+    mPmatrixUniform1 = glGetUniformLocation( mShaderProgram[1]->getProgram(), "pMatrix" );
+    mVmatrixUniform1 = glGetUniformLocation( mShaderProgram[1]->getProgram(), "vMatrix" );
+    mMmatrixUniform1 = glGetUniformLocation( mShaderProgram[1]->getProgram(), "matrix" );
+
 //    setUpPlainShader(0);
     setUpTextureShader(1);
     setUpPhongShader(2);
-
-    /*setupPlainShader(0);
-    setupTextureShader(1);
-    setupPhongShader(2);*/
 
     // Get the matrixUniform location from the shader
     // This has to match the "matrix" variable name in the vertex shader
@@ -276,6 +281,9 @@ void RenderWindow::init()
 
     // mCamera.init(mPmatrixUniform, mVmatrixUniform);
     // use mMatrixUniform2 on the things affected by the phong shader (light model)
+
+    glUseProgram( mShaderProgram[1]->getProgram());
+    Comp1Cube->init(mMmatrixUniform1);
 
     glUseProgram( mShaderProgram[2]->getProgram() );
 
@@ -374,14 +382,14 @@ void RenderWindow::render()
     {
         // Camera movement
         if (Scene1){
-            mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
+            mCamera->perspective(60, 4.0/3.0, 0.1, 200.0);
             mCamera->lookAt(QVector3D{0, 0, z_Axis}, QVector3D{x_Axis,0,0}, QVector3D{0,1,0});
             glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
             glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
             mCamera->update();
         }
         if(Scene2){
-            mCamera->perspective(90, 4.0/3.0, 0.1, 20.0);
+            mCamera->perspective(90, 4.0/3.0, 0.1, 200.0);
             mCamera->lookAt(QVector3D{0, 0, 1.8f}, QVector3D{0,0,0}, QVector3D{0,1,0});
             glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
             glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
@@ -398,6 +406,8 @@ void RenderWindow::render()
             (*LS_nr)->draw();
         }
 
+        // Barycentric coordinates - goodbye pc
+        Player->Coordinate_Y = Heightmap->getTerrainHeight(QVector2D(Player->Coordinate_X, Player->Coordinate_Z));
 
         glUseProgram( mShaderProgram[2]->getProgram());
         //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
@@ -490,8 +500,14 @@ void RenderWindow::render()
     }
     // Har ikkje testet enda, as of 09:00
 
+ // ******* TEXTURES *********
+    glUseProgram(mShaderProgram[1]->getProgram());
 
-
+    glUniformMatrix4fv( mVmatrixUniform1, 1, GL_TRUE, mCamera->mVmatrix.constData() );
+    glUniformMatrix4fv( mPmatrixUniform1, 1, GL_TRUE, mCamera->mPmatrix.constData() );
+    glUniform1i(mSampler2Dtexture, 1);
+    Comp1Cube->checkCube = true;
+    Comp1Cube->draw();
 
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
@@ -825,12 +841,27 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_3)
     {
-    if(Walker->b_showGraph_2 == false){
-        Walker->b_showGraph_2 = true;
+        if(Walker->b_showGraph_2 == false)
+        {
+            Walker->b_showGraph_2 = true;
+        }
+        else
+        {
+            Walker->b_showGraph_2 = false;
+        }
     }
-    else
+
+    if (event->key() == Qt::Key_Space)
     {
-        Walker->b_showGraph_2 = false;
-    }
+        if (!wireframeOn)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe
+            wireframeOn = true;
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Filled triangles
+            wireframeOn = false;
+        }
     }
 }

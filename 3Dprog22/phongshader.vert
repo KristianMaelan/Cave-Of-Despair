@@ -7,8 +7,8 @@ layout(location = 2) in vec2 vertexUV;          //
 // information output (result from work with shader)
 out vec3 fragmentPosition;
 out vec3 normalTransposed;
-out vec3 Normal;                // correspondingly named Normal in fragment shader
-out vec2 uv;
+out vec3 color;                // correspondingly named Normal in fragment shader
+out vec2 UV;
 
 // information in through uniform
 uniform mat4 matrix;
@@ -20,8 +20,8 @@ void main()
     fragmentPosition = vec3( matrix * vec4( vertexPosition, 1.0));
     normalTransposed = mat3( transpose( inverse ( matrix ))) *vertexNormal;
 
-    uv = vertexUV;
-    Normal = vertexNormal;
+    UV = vertexUV;
+    color = vertexNormal;
 
     gl_Position = pMatrix * vMatrix * matrix * vec4( vertexPosition, 1.0);
 }
