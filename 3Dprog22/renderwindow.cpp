@@ -114,27 +114,27 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
       // std::cout << "we have new trophies" << i << "\n";
     //}
 
-    trophyCube1 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube1 = new Trophy(0.1, -0.5, 0.1);
     trophyCube1->setPos(QVector3D{0, 0, 0});
     trophyList.push_back(trophyCube1);
 
-    trophyCube2 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube2 = new Trophy(0.1, -0.5, 0.1);
     trophyCube2->setPos(QVector3D{1.7, 0, 0});
     trophyList.push_back(trophyCube2);
 
-    trophyCube3 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube3 = new Trophy(0.1, -0.5, 0.1);
     trophyCube3->setPos(QVector3D{2.4, 0, 0});
     trophyList.push_back(trophyCube3);
 
-    trophyCube4 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube4 = new Trophy(0.1, -0.5, 0.1);
     trophyCube4->setPos(QVector3D{3.1, 0, 0});
     trophyList.push_back(trophyCube4);
 
-    trophyCube5 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube5 = new Trophy(0.1, -0.5, 0.1);
     trophyCube5->setPos(QVector3D{4.8, 0, 0});
     trophyList.push_back(trophyCube5);
 
-    trophyCube6 = new Trophy(0.1, -0.6, 0.1);
+    trophyCube6 = new Trophy(0.1, -0.5, 0.1);
     trophyCube6->setPos(QVector3D{5.5, 0, 0});
     trophyList.push_back(trophyCube6);
 
@@ -313,10 +313,43 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 {
     QVector3D pp = player->GetPos();
     QVector3D op = world_object->GetPos();
-   std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
-    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
-    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
-    bool CollidedWith_Z = pp.z()  >= op.z() && op.z() >= pp.z();
+    std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
+//    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
+//    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
+//    bool CollidedWith_Z = pp.z()  >= op.z() && op.z() >= pp.z();
+
+    bool CollidedWith_X;
+    bool CollidedWith_Y;
+    bool CollidedWith_Z;
+
+    if (pp.x() >= op.x() - 0.01 && pp.x() <= op.x() + 0.01)
+    {
+        CollidedWith_X = true;
+    }
+    else
+    {
+        CollidedWith_X = false;
+    }
+
+    if (pp.y() >= op.y() - 0.01 && pp.y() <= op.y() + 0.01)
+    {
+        CollidedWith_Y = true;
+    }
+    else
+    {
+        CollidedWith_Y = false;
+    }
+
+    if (pp.z() >= op.z() - 0.01 && pp.z() <= op.z() + 0.01)
+    {
+        CollidedWith_Z = true;
+    }
+    else
+    {
+        CollidedWith_Z = false;
+    }
+
+    std::cout << "Collided X = " << CollidedWith_X << "\nCollided Y = " << CollidedWith_Y << "\nCollided Z = " << CollidedWith_Z << std::endl;
 
     return CollidedWith_X && CollidedWith_Z && CollidedWith_Y;
 }
@@ -375,6 +408,7 @@ void RenderWindow::render()
     Player->setPos(QVector3D(pp.x(), 20 + Heightmap->getTerrainHeight(QVector2D(pp.x(), pp.z())), pp.z()));
     // Satt 20 + ... for å se kuben bedre og få med meg at den faktisk følger y-koordinatene til heightmap
 
+    //QVector3D op =
 
     {
         // Camera movement
@@ -498,9 +532,10 @@ void RenderWindow::setObjectPositionInScene()
     // we will set objects positon according to the scenes currently being rendered
     if (Scene1)
     {
-        for (auto list = trophyList.begin(); list <= trophyList.end(); ++list)
+        for (auto list = trophyList.begin(); list < trophyList.end(); ++list)
         {
-           // (*list)->setPos(QVector3D((*list)->GetPos().x(), 20 + Heightmap->getTerrainHeight(QVector2D((*list)->GetPos().x(), (*list)->GetPos().z())), (*list)->GetPos().z()));
+           (*list)->setPos(QVector3D((*list)->GetPos().x(), 20 + Heightmap->getTerrainHeight(QVector2D((*list)->GetPos().x(), (*list)->GetPos().z())), (*list)->GetPos().z()));
+            //std::cout << "Trophy X: " << (*list)->GetPos().x() << "  Trophy Y: " << (*list)->GetPos().y() << "  Trophy Z: " << (*list)->GetPos().z() << std::endl;
         }
     }
 }
