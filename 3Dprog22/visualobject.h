@@ -24,9 +24,12 @@ public:
    void setPos(QVector3D inPos);
    void setRotation(float a, float x, float y, float z); // Hope to manage rotation from here...
 
-   float Coordinate_X;
-   float Coordinate_Y;
-   float Coordinate_Z;
+   float GetX();
+   float GetY();
+   float GetZ();
+   float Coordinate_X = 0.0f;
+   float Coordinate_Y = 0.0f;
+   float Coordinate_Z = 0.0f;
 
    bool checkCube{false};
    bool checkGraph{false};
@@ -46,7 +49,7 @@ public:
    QMatrix4x4 mMatrix;
    GLint mMatrixUniform{0};
 
-protected:
+//protected:
    std::vector<Vertex> mVertices;
    std::vector<GLuint> mIndices;
    QMatrix4x4 mPosition;

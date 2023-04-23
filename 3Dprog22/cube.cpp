@@ -18,7 +18,7 @@ Cube::Cube(float x, float y, float z, float r, float g,float b)
 
     // Back plane
     mVertices.push_back(Vertex{-x, -y, z, r, g, b});    // 3rd
-    mVertices.push_back(Vertex{x, -y, -z, r, g, b});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b});
     mVertices.push_back(Vertex{x, y, z, r, g, b});
     mVertices.push_back(Vertex{x, y, z, r, g, b});      // 4th
     mVertices.push_back(Vertex{-x, y, z, r, g, b});
@@ -75,7 +75,7 @@ Cube::Cube(float x, float y, float z, float r, float g, float b, float u, float 
 
     // Back plane
     mVertices.push_back(Vertex{-x, -y, z, r, g, b, 0*u, 0*v});    // 3rd
-    mVertices.push_back(Vertex{x, -y, -z, r, g, b, 1*u, 0*v});
+    mVertices.push_back(Vertex{x, -y, z, r, g, b, 1*u, 0*v});
     mVertices.push_back(Vertex{x, y, z, r, g, b, 1*u, 1*v});
     mVertices.push_back(Vertex{x, y, z, r, g, b, 1*u, 1*v});      // 4th
     mVertices.push_back(Vertex{-x, y, z, r, g, b, 0*u, 1*v});
@@ -192,14 +192,17 @@ void Cube::draw()
         glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
         glBindVertexArray(0);
     }
+    //mMatrix.rotate(1, 1, 1, 0);
 }
 
 void Cube::move(float dx, float dy, float dz)
 {   
     mMatrix.translate(dx, dy, dz);
-    Coordinate_X = dx;
-    Coordinate_Y = dy;
-    Coordinate_Z = dz;
+    Coordinate_X += dx;
+    Coordinate_Y += dy;
+    Coordinate_Z += dz;
+
+    //mMatrix.translate(Coordinate_X, Coordinate_Y, Coordinate_Z);
 }
 
 QVector3D Cube::GetColour()

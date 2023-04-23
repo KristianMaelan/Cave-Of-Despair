@@ -169,16 +169,6 @@ private:
     ///Starts QOpenGLDebugLogger if possible
     void startOpenGLDebugger();
 
-    // Mo
-    // Barysentric code
-    bool bIsBottomTriangle;
-    bool isItBottomTriangle(int posX, int posZ);
-    float px, py, pz;   // player position, updated in render window
-    float barrysentricHeightOfPlayer();
-
-    // Math3 compendium, page 83 (89 in pdf)
-    QVector3D BarysentricCoordinates(QVector3D p1, QVector3D p2, QVector3D p3);
-
 protected:
     //The QWindow that we inherit from have these functions to capture
     // - mouse and keyboard.
