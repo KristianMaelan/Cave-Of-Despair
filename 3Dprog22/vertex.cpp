@@ -23,6 +23,14 @@ Vertex::Vertex(float x, float y, float z, float r, float g, float b, float u, fl
     m_st[0] = u; m_st[1] = v;
 }
 
+Vertex::Vertex(QVector3D position, QVector3D colour, QVector2D uv, QVector3D normal)
+{
+    m_xyz[0] = position.x(); m_xyz[1] = position.y(); m_xyz[2] = position.z();
+    m_colour[0] = colour.x(); m_colour[1] = colour.y(); m_colour[2] = colour.z();
+    m_st[0] = uv.x(); m_st[1] = uv.y();
+     m_normal[0] = normal.x(); m_normal[1] = normal.y(); m_normal[2] = normal.z();
+}
+
 std::ostream& operator<< (std::ostream& os, const Vertex& v) {
   os << std::fixed;
   os << "(" << v.m_xyz[0] << ", " << v.m_xyz[1] << ", " << v.m_xyz[2] << ") ";
