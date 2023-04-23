@@ -23,6 +23,7 @@ public:
    Vertex(float x, float y, float z, float r, float g, float b);
    Vertex(float x, float y, float z, float r, float g, float b, float u, float v);
    Vertex(QVector3D position, QVector3D colour, QVector2D uv, QVector3D normal);
+   Vertex(float x, float y, float z, float r, float g, float b, float u, float v, float n1, float n2, float n3);
 };
 
 

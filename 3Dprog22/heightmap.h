@@ -10,12 +10,14 @@ class heightmap : public VisualObject
 public:
     heightmap();
     heightmap(const char* imgPath);
+    heightmap(const char* imgPath, float r, float g, float b, bool yes);
     heightmap(const char* imgPath, float r, float g, float b);
     ~heightmap() override;
     void init(GLint matrixUniform) override;
     void draw() override;
     float getTerrainHeight(const QVector2D pointInSpace);
     QVector3D getBary(const QVector2D& a, const QVector2D& b, const QVector2D& c, const QVector2D& x);
+    QVector3D getNormal(QVector3D hb, QVector3D vb);
 
 };
 

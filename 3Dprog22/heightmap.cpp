@@ -45,7 +45,7 @@ heightmap::heightmap(const char *imgPath)
     stbi_image_free(data);
 }
 
-heightmap::heightmap(const char *imgPath, float r, float g, float b)
+heightmap::heightmap(const char *imgPath, float r, float g, float b, bool yes)
 {
     int width, height, channels;
     unsigned char* data = stbi_load(imgPath, &width, &height, &channels, 1);
@@ -54,6 +54,106 @@ heightmap::heightmap(const char *imgPath, float r, float g, float b)
     float heightMultiplier{-0.2};
     // endre?
     int vert{}; // run through image data array
+
+
+
+    for (float x = -width / 2; x < (width / 2); x ++)
+    {
+        for (float z  = -height / 2; z < (height / 2); z ++)
+        {
+            QVector3D vec1,  vec2,  vec3,  vec4,   vec5,  vec6;
+            float y = (float)data[vert] * heightMultiplier;
+            vec1.setX(x);
+            vec1.setY(y);
+            vec1.setZ(z);
+            //mVertices.push_back(Vertex{x, y, z, r, g, b, 0, 0});
+
+            y = (float)data[vert + width] * heightMultiplier;
+            //mVertices.push_back(Vertex{x + 1.0f, y, z, r, g, b, 1, 0});
+            vec2.setX(x);
+            vec2.setY(y);
+            vec2.setZ(z);
+
+            y = (float)data[vert + 1] * heightMultiplier;
+            //mVertices.push_back(Vertex{x, y, z + 1.0f, r, g, b, 1, 1});
+            vec3.setX(x);
+            vec3.setY(y);
+            vec3.setZ(z);
+            //mVertices.push_back(Vertex{x, y, z + 1.0f, r, g, b, 1, 1});
+            vec4.setX(x);
+            vec4.setY(y);
+            vec4.setZ(z);
+
+            y = (float)data[vert + width] * heightMultiplier;
+            //mVertices.push_back(Vertex{x + 1.0f, y, z, r, g, b, 0, 1});
+            vec5.setX(x);
+            vec5.setY(y);
+            vec5.setZ(z);
+
+            y = (float)data[vert + width + 1] * heightMultiplier;
+            //mVertices.push_back(Vertex{x + 1.0f, y, z + 1.0f, r, g, b, 0, 0});
+            vec6.setX(x);
+            vec6.setY(y);
+            vec6.setZ(z);
+
+            QVector3D hoyreBein, venstreBein;
+            QVector3D normal1, normal2, normal3, normal4, normal5, normal6;
+
+            hoyreBein = vec2 - vec1;
+            venstreBein = vec3 - vec1;
+            normal1 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec1.x(), vec1.y(), vec1.z(), r, g, b, 0, 0, normal1.x(), normal1.y(), normal1.z()});
+            //mVertices.push_back(Vertex{vec1, QVector3D(r, g, b), QVector2D(0, 0), normal1} );
+
+            hoyreBein = vec3 - vec2;
+            venstreBein = vec1 - vec2;
+            normal2 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec2.x() + 1.0f, vec2.y(), vec2.z(), r, g, b, 1, 0, normal2.x(), normal2.y(), normal2.z()});
+            //mVertices.push_back(Vertex{vec2, QVector3D(r, g, b), QVector2D(0, 0), normal2} );
+
+            hoyreBein = vec1 - vec3;
+            venstreBein = vec2 - vec3;
+            normal3 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec3.x(), vec3.y(), vec3.z() + 1.0f, r, g, b, 1, 1, normal3.x(), normal3.y(), normal3.z()});
+            //mVertices.push_back(Vertex{vec3, QVector3D(r, g, b), QVector2D(0, 0), normal3} );
+
+            /*
+            hoyreBein = vec6 - vec4;
+            venstreBein = vec5 - vec4;
+            normal4 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec4.x(), vec4.y(), vec4.z() + 1.0f, r, g, b, 1, 1, normal4.x(), normal4.y(), normal4.z()});
+            //mVertices.push_back(Vertex{vec4, QVector3D(r, g, b), QVector2D(0, 0), normal4} );
+
+            hoyreBein = vec4 - vec5;
+            venstreBein = vec6 - vec5;
+            normal5 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec5.x() + 1.0f, vec5.y(), vec5.z(), r, g, b, 0, 1, normal5.x(), normal5.y(), normal5.z()});
+           // mVertices.push_back(Vertex{vec5, QVector3D(r, g, b), QVector2D(0, 0), normal5} );
+
+            hoyreBein = vec5 - vec6;
+            venstreBein = vec4 - vec6;
+            normal6 = getNormal(hoyreBein, venstreBein);
+            mVertices.push_back(Vertex{vec6.x() + 1.0f, vec6.y(), vec6.z() + 1.0f, r, g, b, 0, 0, normal6.x(), normal6.y(), normal6.z()});
+            //mVertices.push_back(Vertex{vec6, QVector3D(r, g, b), QVector2D(0, 0), normal6} );
+*/
+            vert++;
+        }
+    }
+
+    stbi_image_free(data);
+}
+
+heightmap::heightmap(const char* imgPath, float r, float g, float b)
+{
+    int width, height, channels;
+    unsigned char* data = stbi_load(imgPath, &width, &height, &channels, 1);
+
+    // Legge til i constructor?
+    float heightMultiplier{-0.2};
+    // endre?
+    int vert{}; // run through image data array
+
+    QVector3D vec1, v1, vec2, v2, vec3, v3;
 
     for (float x = -width / 2; x < (width / 2); x ++)
     {
@@ -181,4 +281,12 @@ QVector3D heightmap::getBary(const QVector2D &a, const QVector2D &b, const QVect
     QVector3D barycentric3D = QVector3D(u, v, w);
 
     return barycentric3D;
+}
+
+QVector3D heightmap::getNormal(QVector3D hb, QVector3D vb)
+{
+    hb.normalize();
+    vb.normalize();
+    return QVector3D::crossProduct(hb, vb);
+
 }
