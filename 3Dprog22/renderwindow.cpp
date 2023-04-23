@@ -64,8 +64,10 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
 
     // Askelad-cube
-   Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5, 1, 1);
+   //Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5, 1, 1);
+    Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5, 1, 1);
    //mObjects.push_back(Comp1Cube);
+   Comp1Cube->setPos(QVector3D{0, 1, 0});
    TexturedObjects.push_back(Comp1Cube);
     // Comp1Cube = new Cube;
     // mObjects.push_back(new Cube(0.5,0.5,0.5,1,0.5,0.5));
@@ -180,6 +182,8 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     LightSourceList.push_back(LightSourceObject);
     //LightSourceList.push_back(new LightSource);
 
+    // Heightmap - to use with normals for each vertex uncomment the line below
+    //Heightmap = new heightmap("../3Dprog22/heightmap.jpg", 0.0, 0.0, 1.0, true);
     Heightmap = new heightmap("../3Dprog22/heightmap.jpg", 0.0, 0.0, 1.0);
     Heightmap->setPos(QVector3D{0, 16, 0});
     mObjects.push_back(Heightmap);
@@ -314,9 +318,6 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
     QVector3D pp = player->GetPos();
     QVector3D op = world_object->GetPos();
     std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
-//    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
-//    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
-//    bool CollidedWith_Z = pp.z()  >= op.z() && op.z() >= pp.z();
 
     bool CollidedWith_X;
     bool CollidedWith_Y;
@@ -384,7 +385,6 @@ void RenderWindow::setUpPhongShader(GLint shaderElement)
 void RenderWindow::render()
 {
     mCamera->init(mPmatrixUniform, mVmatrixUniform);
-   // mCamera->perspective(60, 4.0/3.0, 0.1, 20.0);
 
     mTimeStart.restart(); //restart FPS clock
     mContext->makeCurrent(this); //must be called every frame (every time mContext->swapBuffers is called)
@@ -397,18 +397,14 @@ void RenderWindow::render()
 
     glUseProgram(mShaderProgram[2]->getProgram()); //GLUSEPROGRAM
     // camara information
-//    mCamera->init(mPmatrixUniform, mVmatrixUniform);
     glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
     glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
 
     // Barycentric coordinates movement
-    // Dette fungerer!!!!
     QVector3D pp = Player->GetPos();
     //std::cout << "X: " << pp.x() << " Y: " << pp.y() << " Z: " << pp.z() << std::endl;
     Player->setPos(QVector3D(pp.x(), 20 + Heightmap->getTerrainHeight(QVector2D(pp.x(), pp.z())), pp.z()));
     // Satt 20 + ... for å se kuben bedre og få med meg at den faktisk følger y-koordinatene til heightmap
-
-    //QVector3D op =
 
     {
         // Camera movement
@@ -680,6 +676,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         scene1_Door->checkScene1 = true;
         scene1_PressurePlate->checkScene1 = true;
         Player->checkScene1 = true;
+        //Comp1Cube->checkCube = true;
         Scene1 = true;
         }
         else{
@@ -687,6 +684,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
             scene1_Door->checkScene1 = false;
             scene1_PressurePlate->checkScene1 = false;
             Player->checkScene1 = false;
+            //Comp1Cube->checkCube = false;
             Scene1 = false;
 
 
@@ -727,6 +725,8 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         scene1_PressurePlate->setRotation(45, 0, 1, 0);
 
         ObjectInHouse->setRotation(45, 0, 1, 0);
+
+        Comp1Cube->setPos(QVector3D{0, -1, 1});
 
         // Object in house
     }
