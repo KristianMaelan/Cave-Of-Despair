@@ -311,9 +311,14 @@ void RenderWindow::init()
 
 bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_object)
 {
-    bool CollidedWith_X = player->Coordinate_X + 0.5 >= world_object->Coordinate_X && world_object->Coordinate_X + 0.5 >= player->Coordinate_X;
-    bool CollidedWith_Y = player->Coordinate_Y + 0.5 >= world_object->Coordinate_Y && world_object->Coordinate_Y + 0.5 >= player->Coordinate_Y;
-    return CollidedWith_X && CollidedWith_Y;
+    QVector3D pp = player->GetPos();
+    QVector3D op = world_object->GetPos();
+   std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
+    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
+    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
+    bool CollidedWith_Z = pp.z()  >= op.z() && op.z() >= pp.z();
+
+    return CollidedWith_X && CollidedWith_Z && CollidedWith_Y;
 }
 
 void RenderWindow::setUpPlainShader(GLint shaderElement)
@@ -370,6 +375,7 @@ void RenderWindow::render()
     Player->setPos(QVector3D(pp.x(), 20 + Heightmap->getTerrainHeight(QVector2D(pp.x(), pp.z())), pp.z()));
     // Satt 20 + ... for å se kuben bedre og få med meg at den faktisk følger y-koordinatene til heightmap
 
+
     {
         // Camera movement
         if (Scene1){
@@ -379,6 +385,7 @@ void RenderWindow::render()
             glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
             glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
             mCamera->update();
+            setObjectPositionInScene();
         }
         if(Scene2){
             mCamera->perspective(90, 4.0/3.0, 0.1, 200.0);
@@ -387,6 +394,7 @@ void RenderWindow::render()
             glUniformMatrix4fv(mPmatrixUniform, 1, GL_TRUE, mCamera->mPmatrix.constData());
             mCamera->update();
         }
+
 
         glUseProgram(mShaderProgram[0]->getProgram());
 
@@ -445,7 +453,7 @@ void RenderWindow::render()
                     //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
                     glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
                     (*trophy_nr)->draw();
-                    (*trophy_nr)->DidItemGetPickedUp = true;
+                    //(*trophy_nr)->DidItemGetPickedUp = true;
                 }
                 else if (CollectionDetection)
                 {
@@ -453,12 +461,12 @@ void RenderWindow::render()
                     glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
 
 
-//                    glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
-//                    glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
+                    //  glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+                    //  glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
                     glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
                     glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
                     (*trophy_nr)->draw();
-                    //(*trophy_nr)->DidItemGetPickedUp = true;
+                    (*trophy_nr)->DidItemGetPickedUp = true;
                 }
             }
             else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
@@ -483,6 +491,18 @@ void RenderWindow::render()
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
     mContext->swapBuffers(this);
+}
+
+void RenderWindow::setObjectPositionInScene()
+{
+    // we will set objects positon according to the scenes currently being rendered
+    if (Scene1)
+    {
+        for (auto list = trophyList.begin(); list <= trophyList.end(); ++list)
+        {
+           // (*list)->setPos(QVector3D((*list)->GetPos().x(), 20 + Heightmap->getTerrainHeight(QVector2D((*list)->GetPos().x(), (*list)->GetPos().z())), (*list)->GetPos().z()));
+        }
+    }
 }
 
 //This function is called from Qt when window is exposed (shown)

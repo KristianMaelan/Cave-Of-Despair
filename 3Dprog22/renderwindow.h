@@ -77,6 +77,8 @@ private:
     Trophy* trophyCube6;
     std::vector<Trophy*> trophyList;
 
+    void     setObjectPositionInScene(); // This is to help us set positions after the constructor, see trophies
+
     // NPC
     NPC_grapher* Walker;
     NPC_grapher* graph_1_Walker;
