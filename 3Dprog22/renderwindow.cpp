@@ -395,7 +395,7 @@ void RenderWindow::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-    glUseProgram(mShaderProgram[2]->getProgram());
+    glUseProgram(mShaderProgram[2]->getProgram()); //GLUSEPROGRAM
     // camara information
 //    mCamera->init(mPmatrixUniform, mVmatrixUniform);
     glUniformMatrix4fv(mVmatrixUniform, 1, GL_TRUE, mCamera->mVmatrix.constData());
@@ -430,7 +430,7 @@ void RenderWindow::render()
         }
 
 
-        glUseProgram(mShaderProgram[0]->getProgram());
+        //glUseProgram(mShaderProgram[0]->getProgram()); //GLUSEPROGRAM
 
         //LIGHTSOURCE
         for (auto LS_nr = LightSourceList.begin(); LS_nr != LightSourceList.end(); ++LS_nr)
@@ -440,16 +440,13 @@ void RenderWindow::render()
             (*LS_nr)->draw();
         }
 
-        glUseProgram( mShaderProgram[2]->getProgram());
-        //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+        //glUseProgram( mShaderProgram[2]->getProgram()); //GLUSEPROGRAM
+
         // mOBJECTS VECTOR STUFF
        for (auto it=mObjects.begin(); it != mObjects.end(); it++)
        {
            glUniform3f(mObjectColour, (*it)->GetColour().x(), (*it)->GetColour().y(), (*it)->GetColour().z());
-
            glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
-
-            //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
             glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*it)->mMatrix.constData());
             (*it)->draw();
        }
@@ -458,11 +455,7 @@ void RenderWindow::render()
        for (auto it = npclist.begin(); it != npclist.end(); it++)
         {
             glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
-
             glUniform3f(mObjectColour, (*it)->GetColour().x(), (*it)->GetColour().y(), (*it)->GetColour().z());
-
-            //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
-            //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
             glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*it)->mMatrix.constData());
            (*it)->draw();
         }
@@ -470,44 +463,29 @@ void RenderWindow::render()
        // TROPHIES
         for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
         {
-            //(*trophy_nr)->draw();
-            if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == false )
+            if ((*trophy_nr)->DidItemGetPickedUp == false)
             {
-                bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
-
-                if (!CollectionDetection)
+                if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == false )
                 {
-                    //std::cout << "collectiondetection is true, we picked up a trophy\n";
-                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+                    bool CollectionDetection = CollisionDetection(Player, (*trophy_nr));
 
-                    glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
-
-
-                    //glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
-                    //glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
-                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
-                    (*trophy_nr)->draw();
-                    //(*trophy_nr)->DidItemGetPickedUp = true;
+                    if (!CollectionDetection)
+                    {
+                        glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
+                        glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
+                        glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
+                        (*trophy_nr)->draw();
+                    }
+                    else if (CollectionDetection)
+                    {
+                        (*trophy_nr)->DidItemGetPickedUp = true;
+                    }
                 }
-                else if (CollectionDetection)
+                else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
                 {
-                    //std::cout << "collectiondetection is false, we didn't pick up anything\n";
-                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, LightSourceObject->mMatrix.constData());
-
-
-                    //  glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
-                    //  glUniform3f(mLightColour, LightSourceObject->LightColour.x(), LightSourceObject->LightColour.y(), LightSourceObject->LightColour.z());
-                    glUniform3f(mObjectColour,  (*trophy_nr)->GetColour().x(),  (*trophy_nr)->GetColour().y(),  (*trophy_nr)->GetColour().z());
-                    glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*trophy_nr)->mMatrix.constData());
-                    (*trophy_nr)->draw();
-                    (*trophy_nr)->DidItemGetPickedUp = true;
+                    // trophy is already picked up
                 }
             }
-            else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
-            {
-                // trophy is already picked up
-            }
-
         }
     }
 

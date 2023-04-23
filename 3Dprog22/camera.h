@@ -20,8 +20,8 @@ public:
     void getRotated(float a, float x, float y, float z);
     QMatrix4x4 mPmatrix{ };
     QMatrix4x4 mVmatrix{ };
-    GLint  mPmatrixUniform;             // Leksjon 3
-    GLint  mVmatrixUniform;             // Leksjon 3
+    GLint  mPmatrixUniform{-1};             // Leksjon 3
+    GLint  mVmatrixUniform{-1};             // Leksjon 3
 private:
     QVector3D mEye;
     //QMatrix4x4 *mPmatrix{nullptr};         // Leksjon 3

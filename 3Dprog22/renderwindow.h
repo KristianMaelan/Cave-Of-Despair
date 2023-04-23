@@ -118,9 +118,6 @@ private:
     GLint  mMmatrixUniform{-1};
 
     void setUpPlainShader(GLint shaderElement);
-//    GLint mPmatrixUniform0{-1};
-//    GLint mVmatrixUniform0{-1};
-//    GLint mMmatrixUniform0{-1};
 
     void setUpTextureShader(GLint shaderElement);
     GLint mPmatrixUniform1{-1};
@@ -129,12 +126,6 @@ private:
     GLint mSampler2Dtexture{-1};
 
     void setUpPhongShader(GLint shaderElement);
-    // uniform keyword - information for shaders
-
-    // phong specific
-//    GLint mPmatrixUniform2{-1};
-//    GLint mVmatrixUniform2{-1};
-//    GLint mMmatrixUniform2{-1};
 
     GLint mAmbientStrength{-1};
     GLint mLightPosition{-1};

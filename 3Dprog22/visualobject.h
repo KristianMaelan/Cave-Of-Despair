@@ -47,7 +47,7 @@ public:
    GLuint mEAB{0};
 
    QMatrix4x4 mMatrix;
-   GLint mMatrixUniform{0};
+   GLint mMatrixUniform{-1};
 
 //protected:
    std::vector<Vertex> mVertices;
