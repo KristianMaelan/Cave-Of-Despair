@@ -61,6 +61,6 @@ void Trophy::draw()
     }
     else
     {
-        std::cout << "This trophy has already been collected!\n";
+        //std::cout << "This trophy has already been collected!\n";
     }
 }

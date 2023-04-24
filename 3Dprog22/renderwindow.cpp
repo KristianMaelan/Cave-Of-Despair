@@ -45,7 +45,7 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
         qDebug() << "Context could not be made - quitting this application";
     }
 
-        std::cout << "we reached 'mContext";
+        //std::cout << "we reached 'mContext";
     //Camera setup
     mCamera = new Camera;
 
@@ -250,7 +250,7 @@ void RenderWindow::init()
     //Qt makes a build-folder besides the project folder. That is why we go down one directory
     // (out of the build-folder) and then up into the project folder.
     //
-        std::cout << "we reached 'renderwindow.cpp";
+      //  std::cout << "we reached 'renderwindow.cpp";
     mShaderProgram[0] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/plainshader.frag");
     mShaderProgram[1] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/textureshader.frag");
     mShaderProgram[2] = new Shader( "../3Dprog22/phongshader.vert" , "../3Dprog22/phongshader.frag");
@@ -318,6 +318,10 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
     QVector3D pp = player->GetPos();
     QVector3D op = world_object->GetPos();
     std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
+ //   std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
+//    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
+//    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
+//    bool CollidedWith_Z = pp.z()  >= op.z() && op.z() >= pp.z();
 
     bool CollidedWith_X;
     bool CollidedWith_Y;
@@ -350,7 +354,7 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
         CollidedWith_Z = false;
     }
 
-    std::cout << "Collided X = " << CollidedWith_X << "\nCollided Y = " << CollidedWith_Y << "\nCollided Z = " << CollidedWith_Z << std::endl;
+    //std::cout << "Collided X = " << CollidedWith_X << "\nCollided Y = " << CollidedWith_Y << "\nCollided Z = " << CollidedWith_Z << std::endl;
 
     return CollidedWith_X && CollidedWith_Z && CollidedWith_Y;
 }

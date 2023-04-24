@@ -54,7 +54,7 @@ void Camera::move(float x, float y, float z)
 */
    mPmatrix.rotate(moveX, moveY, moveZ);
 
-   std::cout << "Ran camera::move" << std::endl;
+   //std::cout << "Ran camera::move" << std::endl;
     mPmatrix.translate(x, y, z);
 }
 

@@ -27,7 +27,7 @@ void LightSource::init(GLint matrixUniform)
 {
     mMatrixUniform = matrixUniform;
 
-    std::cout << '\n' << mMatrixUniform << std::endl;
+    //std::cout << '\n' << mMatrixUniform << std::endl;
 
     initializeOpenGLFunctions();
 
