@@ -75,7 +75,11 @@ private:
     Trophy* trophyCube4;
     Trophy* trophyCube5;
     Trophy* trophyCube6;
+
+    Trophy* LightSwitch;
+
     std::vector<Trophy*> trophyList;
+
 
     void     setObjectPositionInScene(); // This is to help us set positions after the constructor, see trophies
 

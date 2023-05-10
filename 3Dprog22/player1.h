@@ -20,6 +20,9 @@ public:
 
     bool checkScene1{false};
     bool checkScene2{false};
+    bool bRunTexture{true};
+
+    int Score = 0;
 
    // GetLocation();
    void SetLocation(float x, float y, float z);

@@ -49,6 +49,7 @@ void Trophy::init(GLint matrixUniform)
     // mMatrixUniform = glGetUniformLocation( matrixUniform, "matrix" );
 
     glBindVertexArray(0);
+
 }
 
 void Trophy::draw()

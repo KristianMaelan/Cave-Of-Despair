@@ -15,6 +15,8 @@ public:
 
     VisualObject* trophyCube1;
     bool DidItemGetPickedUp = false;
+
+    int NotTrophy = 0;
 };
 
 #endif // TROPHY_H

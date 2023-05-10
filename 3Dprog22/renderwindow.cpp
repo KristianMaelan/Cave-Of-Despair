@@ -52,16 +52,10 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     //Make the gameloop timer:
     mRenderTimer = new QTimer(this);
 
-    // mObjects.push_back(new XYZ());
-    // mObjects.push_back(new TriangleSurface());
-
     // interaction with object
     // mObjects.push_back(new Interaction());
     // InteractiveObject = new Interaction;
-    // mObjects.push_back(InteractiveObject);
-
-    //// CAMERA
-
+    // mObjects.push_back(InteractiveObject)
 
     // Askelad-cube
    //Comp1Cube = new Cube(0.5,0.5,0.5,1,0.5,0.5, 1, 1);
@@ -86,39 +80,9 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
 
     //mObjects.push_back(scene1_House);
 
-    // Oblig2 - Scene1_PressurePlate dimensions
-    scene1_PressurePlate = new PressurePlate(1, 1, 1, 1, 0, 0);
-    scene1_PressurePlate->setPos(QVector3D{3, 0.00001, -2});
-    scene1_PressurePlate->setRotation(135, 0, 1, 0);
-    mObjects.push_back(scene1_PressurePlate);
-
     // Oblig2 - Scene1_Plan
     scene1_Plan = new Scene1_plan(5, -1, 5, 0.58, 0.30, 0);
     //mObjects.push_back(scene1_Plan);
-
-    // programming 2 - (1) IS IT POSSIBLE TO PUT IN A FOR LOOP TO MAKE SEVERAL CUBES? YES, BUT NEED CAMERA TO SEE WHAT IT REALLY LOOKS LIKE, BECAUSE THE SCREEN IS YELLOW
-    //float trophyX = 0.1;
-    //float trophyY = 0.1;
-    //float trophyZ = 0.1;
-
-    // (2) UNCOMMENT WHEN YOU WANT ALL YOUR TROPHIES
-    //for (int i = 0; i < 7; ++i)
-    //{
-      //  trophyCube = new Trophy(trophyX, trophyY, trophyZ);
-        //trophyList.push_back(trophyCube);
-     // mObjects.push_back(trophyCube);
-     // trophyX += 2.0f;
-     // trophyZ += 0.5f;
-        //for (float x = 0; x < 7; ++x)
-        //{
-        //  trophyList[i]->setPos(QVector3D{trophyX, trophyY, 0.1});
-        //}
-      // std::cout << "we have new trophies" << i << "\n";
-    //}
-
-    trophyCube1 = new Trophy(0.1, -0.5, 0.1);
-    trophyCube1->setPos(QVector3D{0, 0, 0});
-    trophyList.push_back(trophyCube1);
 
     trophyCube2 = new Trophy(0.1, -0.5, 0.1);
     trophyCube2->setPos(QVector3D{1.7, 0, 0});
@@ -140,42 +104,28 @@ RenderWindow::RenderWindow(const QSurfaceFormat &format, MainWindow *mainWindow)
     trophyCube6->setPos(QVector3D{5.5, 0, 0});
     trophyList.push_back(trophyCube6);
 
-    /*float npc_x = 0.4f;
-    float npc_y = 0.6f;
-    float npc_z = 0.0f;
 
-    NPC = new NPC_grapher(npc_x, npc_y, npc_z);
-    mObjects.push_back(NPC);*/
+    LightSwitch = new Trophy(0.1, -0.5, 0.1);
+    LightSwitch->setPos(QVector3D{-2, 0, 0});
+    trophyList.push_back(LightSwitch);
+    LightSwitch->NotTrophy = 1;
 
-//    float npc_x = 0.4f;
-//    float npc_y = 0.6f;
-//    float npc_z = 0.0f;
-
-//    NPC = new NPC_grapher(npc_x, npc_y, npc_z);
-//    mObjects.push_back(NPC);
-
-    // Oblig 2 - Scene1_Door
+//    // Oblig 2 - Scene1_Door
     scene1_Door = new Door(1, 1, 1, 0, 0, 1);
     scene1_Door->setPos(QVector3D{3, 0, -2});
     scene1_Door->setRotation(135, 0, 1, 0);
     mObjects.push_back(scene1_Door);
 
-    // Object in house test - Joakim
-    ObjectInHouse = new house(0.2, 0.2, 0.2, 1, 0, 0);
-    ObjectInHouse->setPos(QVector3D{0, -1, 1});
-    ObjectInHouse->setRotation(180, 0, 1, 0);
-    mObjects.push_back(ObjectInHouse);
+//    // Object in house test - Joakim
+//    ObjectInHouse = new house(0.2, 0.2, 0.2, 1, 0, 0);
+//    ObjectInHouse->setPos(QVector3D{0, -1, 1});
+//    ObjectInHouse->setRotation(180, 0, 1, 0);
+//    mObjects.push_back(ObjectInHouse);
 
-    {
-        Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
-        mObjects.push_back(Player);
-    }
 
-    // NPC Walker
-    Walker = new NPC_grapher(0.5,0.5,0.5);
-    mObjects.push_back(Walker);
-    //npclist.push_back(Walker);
-    Walker->functionMove();
+    Player = new Player1(0.5,0.5,0.5,0.4,0.2,0.6);
+    //TexturedObjects.push_back(Player);
+    mObjects.push_back(Player);
 
     // this is our lightsource, should look like a pyramid
     LightSourceObject = new LightSource();
@@ -296,7 +246,6 @@ void RenderWindow::init()
     }
     for (auto npc_nr = npclist.begin(); npc_nr < npclist.end(); ++npc_nr)
     {
-        //(*npc_nr)->init(mMmatrixUniform);
         (*npc_nr)->init(mMmatrixUniform);
     }
     for (auto player_nr = PlayerList.begin(); player_nr < PlayerList.end(); ++player_nr)
@@ -317,7 +266,7 @@ bool RenderWindow::CollisionDetection(VisualObject *player, VisualObject *world_
 {
     QVector3D pp = player->GetPos();
     QVector3D op = world_object->GetPos();
-    std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
+    //std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
  //   std::cout <<  "pp (x, y, z) = " << "( "  << pp.x() << ", " << pp.y() << ", "  << pp.z() << ") "  << "\n op (x, y, z) = " << "( "  <<   op.x() << ", "  << op.y() << ", "  << op.z() << ") "  << std::endl;
 //    bool CollidedWith_X = pp.x()  >= op.x() && op.x() >= pp.x();
 //    bool CollidedWith_Y = pp.y()  >= op.y() && op.y() >= pp.y();
@@ -435,6 +384,10 @@ void RenderWindow::render()
         //LIGHTSOURCE
         for (auto LS_nr = LightSourceList.begin(); LS_nr != LightSourceList.end(); ++LS_nr)
         {
+            glUniform1f(mLightPower, LightSourceObject->LightStrenght);
+            glUniform1f(mAmbientStrength, LightSourceObject->AmbientLightStrength);
+            glUniform1f(mSpecularStrenght, LightSourceObject->SpecularStrenght);
+
             glUniform3f(mLightPosition, LightSourceObject->Coordinate_X, LightSourceObject->Coordinate_Y, LightSourceObject->Coordinate_Z);
             glUniformMatrix4fv(mMmatrixUniform, 1, GL_TRUE, (*LS_nr)->mMatrix.constData());
             (*LS_nr)->draw();
@@ -460,6 +413,8 @@ void RenderWindow::render()
            (*it)->draw();
         }
 
+
+
        // TROPHIES
         for (auto trophy_nr = trophyList.begin(); trophy_nr < trophyList.end(); ++trophy_nr)
         {
@@ -478,7 +433,28 @@ void RenderWindow::render()
                     }
                     else if (CollectionDetection)
                     {
+                       if((*trophy_nr)->NotTrophy == 0){ //NotTrophy ID 0 gives it the properties of a normal trophy. in this case, increase score and disappear
                         (*trophy_nr)->DidItemGetPickedUp = true;
+                        Player->Score ++;
+                        std::string tmpString = "Your score is: ";
+                        tmpString = tmpString + std::to_string(Player->Score);
+                        Logger::getInstance()->logText(tmpString);
+                       }
+                       else if ((*trophy_nr)->NotTrophy == 1){ //is the "trophy" a light switch? NotTrophy ID 1 enables this code, turning it into one.
+
+                            if (LightSourceObject->LightsOn == true){
+                                LightSourceObject->LightsOn = false;
+                                LightSourceObject->AmbientLightStrength = 0;
+                                LightSourceObject->SpecularStrenght = 0;
+                                Logger::getInstance()->logText("Lights turned off");
+                            }
+                            else{
+                                LightSourceObject->LightsOn = true;
+                                LightSourceObject->AmbientLightStrength = 0.8;
+                                LightSourceObject->SpecularStrenght = 1;
+                                Logger::getInstance()->logText("Lights turned on");
+                            }
+                        }
                     }
                 }
                 else if (Player->checkPlayerPresence == true && Scene1 == true && (*trophy_nr)->DidItemGetPickedUp == true)
@@ -497,12 +473,16 @@ void RenderWindow::render()
     glUniformMatrix4fv( mVmatrixUniform1, 1, GL_TRUE, mCamera->mVmatrix.constData() );
     glUniformMatrix4fv( mPmatrixUniform1, 1, GL_TRUE, mCamera->mPmatrix.constData() );
     glUniform1i(mSampler2Dtexture, 1);
+
+
     Comp1Cube->checkCube = true;
     Comp1Cube->draw();
 
     calculateFramerate();
     checkForGLerrors(); //using our expanded OpenGL debugger to check if everything is OK.
     mContext->swapBuffers(this);
+
+
 }
 
 void RenderWindow::setObjectPositionInScene()
@@ -678,61 +658,11 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         scene1_House->checkScene1 = true;
         scene1_House->checkScene2 = false;
         scene1_Door->checkScene1 = true;
-        scene1_PressurePlate->checkScene1 = true;
+
         Player->checkScene1 = true;
         //Comp1Cube->checkCube = true;
         Scene1 = true;
         }
-        else{
-            scene1_House->checkScene1 = false;
-            scene1_Door->checkScene1 = false;
-            scene1_PressurePlate->checkScene1 = false;
-            Player->checkScene1 = false;
-            //Comp1Cube->checkCube = false;
-            Scene1 = false;
-
-
-        }
-    }
-
-    // Opening the door
-    if (event->key() == Qt::Key_O)
-    {
-
-        if(!doorOpen){
-        scene1_Door->setRotation(80, 0, 1, 0);
-        scene1_Door->setPos(QVector3D{1.6, 0, -1.4});
-        doorOpen = true;
-        }
-    }
-
-    // Scene2
-    if (event->key() == Qt::Key_2)
-    {
-        scene1_House->checkScene2 = true;
-        scene1_Door->checkScene2 = true;
-        ObjectInHouse->checkScene2 = true; // Test
-        scene1_Door->checkScene1 = false;
-        scene1_PressurePlate->checkScene1 = false;
-        Player->checkScene1 = false;
-
-        Scene1 = false;
-        Scene2 = true;
-
-        scene1_House->setPos(QVector3D{0, 0, 1});
-        scene1_House->setRotation(45, 0, 1, 0);
-
-        scene1_Door->setRotation(45, 0, 1, 0);
-        scene1_Door->setPos(QVector3D{-0.6, 0, 2});
-
-        scene1_PressurePlate->setPos(QVector3D{0, 0, 1});
-        scene1_PressurePlate->setRotation(45, 0, 1, 0);
-
-        ObjectInHouse->setRotation(45, 0, 1, 0);
-
-        Comp1Cube->setPos(QVector3D{0, -1, 1});
-
-        // Object in house
     }
 
     if (event->key() == Qt::Key_3)
